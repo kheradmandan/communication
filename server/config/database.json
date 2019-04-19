@@ -1,0 +1,12 @@
+{
+  "development": {
+    "use_env_variable": "_COMMUNICATION_CON_DEV"
+  },
+  "test": {
+    "use_env_variable": "_COMMUNICATION_CON_TEST"
+  },
+  "production": {
+
+    "use_env_variable": "_COMMUNICATION_CON"
+  }
+}
