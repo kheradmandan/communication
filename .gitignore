@@ -1,0 +1,13 @@
+
+#JetBrains
+.idea
+
+#node
+node_modules
+
+#build
+dist/*
+
+
+#yarn or npm or everythings else
+*.lock
