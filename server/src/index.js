@@ -1,7 +1,8 @@
 import express from 'express'
-import bodyParser from 'body-parser'
+import logger from 'morgan'
 import authorization from './middlewares/authorization'
 import db from './models'
+import api from './api'
 
 // Sync database
 db.sequelize
@@ -12,11 +13,18 @@ db.sequelize
 const PORT = process.env['_COMMUNICATION_PORT'] || 8080;
 const app = express();
 
+// Register logger
+app.use(logger("combined"));
+
 // Parse json body
-app.use(bodyParser);
+app.use(express.urlencoded({extended: true}));
+app.use(express.json());
 
 // Parse JWT token
 app.use(authorization);
+
+// Navigate to api
+app.use('/api/v1', api);
 
 // Running
 app.listen(PORT, function (err) {
