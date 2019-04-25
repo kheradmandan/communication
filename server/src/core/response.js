@@ -47,7 +47,10 @@ export default function response(req, res, options) {
         }
 
         // merge extended data
-        const mergedPayload = {...payload, ...options.extend};
+        let mergedPayload = payload;
+        if (!(payload instanceof Array)) {
+            mergedPayload = {...payload, ...options.extend};
+        }
 
         // provide response
         const wrappedPayload = wrapper(mergedPayload);

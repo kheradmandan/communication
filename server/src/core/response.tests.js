@@ -36,6 +36,22 @@ describe('Response', () => {
         expect(payloadThatSent.data).to.deep.equals(payloadToSend);
     });
 
+    it('Should send array', () => {
+        let payloadThatSent = {};
+        const payloadToSend = [
+            {my: 'name', is: 'morteza'},
+            {my: 'name', is: 'morteza'}
+        ];
+        res.json = (payload) => payloadThatSent = payload;
+
+        response(req, res)(payloadToSend);
+        expect(payloadThatSent.data).to.deep.equals(payloadToSend);
+
+        //and also should ignore extend data
+        response(req, res, {extend: {data: 'data'}})(payloadToSend);
+        expect(payloadThatSent.data).to.deep.equals(payloadToSend);
+    });
+
     it('Should send error', () => {
         let errorThatSent = {};
         const errorToSend = {message: 'My Spacial Situation Error'};
