@@ -1,9 +1,10 @@
 import models from '../../models'
 import response from '../../core/response';
+import protection from "../../middlewares/protection";
 import OperationError from "../../errors/OperationError";
 
 export default function (router) {
-    router.use('/statics', controller);
+    router.get('/statics', protection, controller);
 }
 
 function controller(req, res, next) {
