@@ -17,8 +17,6 @@ describe('Response', () => {
     it('Should do defaults', () => {
         const sender = response(req, res);
         expect(sender).to.be.instanceOf(Function);
-        expect(sender.extend).to.be.instanceOf(Function);
-        expect(sender.addLink).to.be.instanceOf(Function);
     });
 
     it('Should send data', () => {
@@ -36,11 +34,6 @@ describe('Response', () => {
         //and also
         response(req, res)(payloadToSend, {type: 'data'});
         expect(payloadThatSent.data).to.deep.equals(payloadToSend);
-
-        //and also
-        response(req, res, {type: 'error'})(payloadToSend, {type: 'data'});
-        expect(payloadThatSent.data).to.deep.equals(payloadToSend);
-
     });
 
     it('Should send error', () => {
@@ -49,10 +42,6 @@ describe('Response', () => {
         res.json = (payload) => errorThatSent = payload;
 
         response(req, res, {type: 'error'})(errorToSend);
-        expect(errorThatSent.error).to.deep.equals(errorToSend);
-
-        // and also this way
-        response(req, res, {type: 'data'})(errorToSend, {type: 'error'});
         expect(errorThatSent.error).to.deep.equals(errorToSend);
     });
 
@@ -95,7 +84,7 @@ describe('Response', () => {
         const payloadToExtend = {my: 'family', is: 'raeisi', and: 'vanani'};
         res.json = (payload) => payloadThatSent = payload;
 
-        response(req, res).extend(payloadToExtend)(payloadToSend);
+        response(req, res, {extend: payloadToExtend})(payloadToSend);
         expect(payloadThatSent.data).to.deep.equals({...payloadToSend, ...payloadToExtend});
     });
 
@@ -105,10 +94,8 @@ describe('Response', () => {
             {link2: 'http://localhost/to/link/2'},
         ];
 
-        response(req, res)
-            .addLink(linksToAdd[0])
-            .addLink(linksToAdd[1])
-            ('Some random data');
+        response(req, res, {link: linksToAdd})
+        ('Some random data');
         expect(res.link).to.deep.equals(linksToAdd.reduce((state, x) => ({...state, ...x}), {}));
     });
 
