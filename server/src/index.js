@@ -1,8 +1,9 @@
 import express from 'express'
 import logger from 'morgan'
-import authorization from './middlewares/authorization'
 import db from './models'
 import api from './api'
+import authorization from './middlewares/authorization'
+import sterilization from "./middlewares/sterilization";
 
 // Sync database
 db.sequelize
@@ -25,6 +26,9 @@ app.use(authorization);
 
 // Navigate to api
 app.use('/api/v1', api);
+
+// Error Handlers
+app.use(sterilization);
 
 // Running
 app.listen(PORT, function (err) {
