@@ -1,15 +1,16 @@
 import {describe} from 'mocha'
 import {expect} from 'chai'
 import CommunicationBaseError from './CommunicationBaseError'
-import OperationError from "./OperationError";
 import FieldMissingError from "./FieldMissingError";
+import OperationError from "./OperationError";
+import ForbiddenError from "./ForbiddenError";
 
 describe('My Errors', () => {
-
     [
         CommunicationBaseError,
         FieldMissingError,
-        OperationError
+        OperationError,
+        ForbiddenError
     ]
         .forEach(testMyError);
 });
