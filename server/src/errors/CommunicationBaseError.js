@@ -18,8 +18,8 @@ export default class CommunicationBaseError extends Error {
      * @param message
      */
     appendMessage(message) {
-        this.appendies = (this.appendies || []);
-        this.appendies.push(message);
+        this.appendices = (this.appendices || []);
+        this.appendices.push(message);
         return this;
     }
 }

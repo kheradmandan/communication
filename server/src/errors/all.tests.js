@@ -51,7 +51,7 @@ function testMyError(ErrorType) {
                 .appendMessage(additionalMessage2)
                 .appendMessage(additionalMessage3)
             ;
-            expect(operationError.appendies).to.be.eqls([
+            expect(operationError.appendices).to.be.eqls([
                 additionalMessage1,
                 additionalMessage2,
                 additionalMessage3]);
