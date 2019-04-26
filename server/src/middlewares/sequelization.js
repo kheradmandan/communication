@@ -22,5 +22,5 @@ export default function (err, req, res, next) {
         }
         throw error;
     }
-    next();
+    next(err);
 }

@@ -18,5 +18,5 @@ export default function (err, req, res, next) {
         };
         return response(req, res, {type: 'error', status: err.code})(payload);
     }
-    next();
+    next(err);
 }
