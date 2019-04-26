@@ -1,5 +1,6 @@
 import express from 'express'
 import logger from 'morgan'
+import cors from 'cors';
 import {sequelize} from './models'
 import api from './api'
 import authorization from "./middlewares/authorization";
@@ -15,6 +16,9 @@ sequelize
 
 const PORT = process.env['_COMMUNICATION_PORT'] || 8080;
 const app = express();
+
+// cross origin
+app.use(cors);
 
 // Register logger
 app.use(logger("combined"));
