@@ -16,6 +16,12 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false,
             unique: 'era_IX_originId_and_title',
         },
+        current: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            defaultValue: 0,
+            unique: 'era_IX_originId_and_title',
+        },
         initialize: {
             type: DataTypes.INTEGER,
             allowNull: false,

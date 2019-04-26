@@ -19,6 +19,12 @@ module.exports = {
                 allowNull: false,
                 unique: 'era_IX_originId_and_title',
             },
+            current: {
+                type: Sequelize.INTEGER,
+                allowNull: false,
+                defaultValue: 0,
+                unique: 'era_IX_originId_and_title',
+            },
             initialize: {
                 type: Sequelize.INTEGER,
                 allowNull: false,
