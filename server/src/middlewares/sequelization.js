@@ -13,14 +13,19 @@ export default function (err, req, res, next) {
         const productionMode = process.env['NODE_ENV'] === 'production';
         const error = new OperationError();
         if (productionMode) {
-            error
-                .appendMessage('Something goes wrong with database or does not meet validations');
+            error.appendMessage('Something goes wrong with database or does not meet validations');
         } else {
-            error
-                .appendMessage(`[${err.name}] raised up`)
-                .appendMessage('origin: ' + err.message)
+            error.appendMessage(`[${err.name}] raised up`)
         }
+        error.appendMessage('origin: ' + getAppropriateMessage(err));
         throw error;
     }
     next(err);
+}
+
+function getAppropriateMessage(err) {
+    if (/SequelizeEmptyResultError/i.test(err.name)) {
+        return 'Requested record does not exist. It maybe removed or disabled.'
+    }
+    return err.message;
 }

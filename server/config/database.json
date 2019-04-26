@@ -1,7 +1,7 @@
 {
   "development": {
     "use_env_variable": "_COMMUNICATION_CON",
-    "logging": false
+    "logging": true
   },
   "test": {
     "use_env_variable": "_COMMUNICATION_CON"
