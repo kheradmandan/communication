@@ -3,7 +3,9 @@ module.exports = (sequelize, DataTypes) => {
     const Issue = sequelize.define('Issue', {
         uuid: {
             type: DataTypes.UUID,
+            allowNull: false,
             primaryKey: true,
+            defaultValue: sequelize.fn('uuid_generate_v4')
         },
         intentionTo: {
             type: DataTypes.UUID,
