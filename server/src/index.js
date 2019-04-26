@@ -1,12 +1,14 @@
 import express from 'express'
 import logger from 'morgan'
-import db from './models'
+import {sequelize} from './models'
 import api from './api'
-import authorization from './middlewares/authorization'
+import authorization from "./middlewares/authorization";
+import sequelization from "./middlewares/sequelization";
 import sterilization from "./middlewares/sterilization";
+import systemization from "./middlewares/systemization";
 
 // Sync database
-db.sequelize
+sequelize
     .sync()
     .then(() => console.log('Sequelize sync was success.'))
     .catch(err => console.log('Sequelize sync was failed because of: %o', err));
@@ -28,7 +30,9 @@ app.use(authorization);
 app.use('/api/v1', api);
 
 // Error Handlers
+app.use(sequelization);
 app.use(sterilization);
+app.use(systemization);
 
 // Running
 app.listen(PORT, function (err) {
