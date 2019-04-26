@@ -8,7 +8,7 @@ export default function signIn(req, res, next) {
 
     const {email, password} = req.body;
     if (!email || !password) {
-        throw new FieldMissingError({email, password});
+        throw new FieldMissingError().appendMessage(['email', 'password']);
     }
 
     sequelize.query(
