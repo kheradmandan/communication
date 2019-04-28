@@ -14,6 +14,8 @@ export default function (err, req, res, next) {
             title: 'Unhandled error raised up',
             message: err.message
         };
+        console.error(payload);
+        console.error(err);
         response(req, res, {type: 'error'})(payload);
     } catch (e) {
         console.log('!!! Dead Error Message: %o', e);
