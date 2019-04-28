@@ -20,7 +20,7 @@ export function authFailure(cause) {
 
 export const auth = ({email, password}) => (dispatch, getState) => {
     const requestType = requestTypes.AUTH;
-    const requestProgress = getState().request.get(requestType);
+    const requestProgress = getState().requests.get(requestType);
     if (requestProgress) {
         return;
     }
@@ -29,11 +29,15 @@ export const auth = ({email, password}) => (dispatch, getState) => {
     dispatch(setRequestStatus(requestType, true));
 
     fetch(url)
-        .then(({data}) => {
-            dispatch(authSuccess(data));
+        .then(x => x.json())
+        .then((response) => {
+            if (response.status < 300) {
+                return dispatch(authSuccess(response.data));
+            }
+            throw response.error || new Error('Undefined response');
         })
         .catch(error => {
-            dispatch(authFailure(error))
+            dispatch(authFailure(error.message))
         })
         .finally(() => {
             dispatch(unsetRequestStatus(requestType));
