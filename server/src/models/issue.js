@@ -7,10 +7,6 @@ module.exports = (sequelize, DataTypes) => {
             primaryKey: true,
             defaultValue: sequelize.fn('uuid_generate_v4')
         },
-        intentionTo: {
-            type: DataTypes.UUID,
-            allowNull: true,
-        },
         createdBy: {
             type: DataTypes.UUID,
             allowNull: false,
@@ -59,6 +55,8 @@ module.exports = (sequelize, DataTypes) => {
         Issue.belongsTo(models['Era'], {foreignKey: 'eraUuid'});
         Issue.hasMany(models['Comment'], {foreignKey: 'issueUuid'});
         Issue.hasMany(models['Attachment'], {foreignKey: 'issueUuid'});
+        Issue.hasMany(models['Assignee'], {foreignKey: 'issueUuid'});
+        Issue.hasMany(models['IssueStateHistory'], {foreignKey: 'issueUuid'});
     };
     return Issue;
 };

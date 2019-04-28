@@ -32,12 +32,13 @@ module.exports = (sequelize, DataTypes) => {
     User.associate = function (models) {
         User.hasMany(models['Issue'], {foreignKey: 'createdBy', as: 'Issues'});
         User.hasMany(models['Issue'], {foreignKey: 'deletedBy', as: 'RemovedIssues'});
-        User.hasMany(models['Issue'], {foreignKey: 'intentionTo', as: 'Intentions'});
         User.hasMany(models['Comment'], {foreignKey: 'createdBy', as: 'Comments'});
         User.hasMany(models['Comment'], {foreignKey: 'deletedBy', as: 'RemovedComments'});
         User.hasMany(models['Attachment'], {foreignKey: 'createdBy', as: 'Attachments'});
         User.hasMany(models['Attachment'], {foreignKey: 'deletedBy', as: 'RemovedAttachments'});
-
+        User.hasMany(models['Assignee'], {foreignKey: 'userUuid', as: 'Assignees'});
+        User.hasMany(models['Assignee'], {foreignKey: 'createdBy', as: 'CreatedAssignees'});
+        User.hasMany(models['IssueStateHistory'], {foreignKey: 'createdBy'});
     };
     return User;
 };

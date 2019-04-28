@@ -17,6 +17,7 @@ module.exports = (sequelize, DataTypes) => {
     });
     Status.associate = function (models) {
         Status.hasMany(models['Issue'], {foreignKey: 'statusId'});
+        Status.hasMany(models['IssueStateHistory'], {foreignKey: 'value', scope: {source: 'status'}})
     };
     return Status;
 };

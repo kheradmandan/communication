@@ -18,7 +18,7 @@ const PORT = process.env['_COMMUNICATION_PORT'] || 8080;
 const app = express();
 
 // cross origin
-app.use(cors);
+app.use(cors());
 
 // Register logger
 app.use(logger("combined"));

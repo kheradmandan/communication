@@ -17,6 +17,7 @@ module.exports = (sequelize, DataTypes) => {
     });
     Priority.associate = function (models) {
         Priority.hasMany(models['Issue'], {foreignKey: 'priorityId'});
+        Priority.hasMany(models['IssueStateHistory'], {foreignKey: 'value', scope: {source: 'priority'}})
     };
     return Priority;
 };

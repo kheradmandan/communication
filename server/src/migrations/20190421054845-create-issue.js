@@ -8,11 +8,6 @@ module.exports = {
                 primaryKey: true,
                 defaultValue: Sequelize.fn('uuid_generate_v4'),
             },
-            intentionTo: {
-                type: Sequelize.UUID,
-                allowNull: true,
-                references: {model: 'Users', key: 'uuid'}
-            },
             createdBy: {
                 type: Sequelize.UUID,
                 allowNull: false,
