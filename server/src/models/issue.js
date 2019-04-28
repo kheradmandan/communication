@@ -48,7 +48,6 @@ module.exports = (sequelize, DataTypes) => {
     Issue.associate = function (models) {
         Issue.belongsTo(models['User'], {foreignKey: 'createdBy', as: 'Creator'});
         Issue.belongsTo(models['User'], {foreignKey: 'deletedBy', as: 'Deleter'});
-        Issue.belongsTo(models['User'], {foreignKey: 'intentionTo', as: 'IntentionTo'});
         Issue.belongsTo(models['Priority'], {foreignKey: 'priorityId'});
         Issue.belongsTo(models['Realm'], {foreignKey: 'realmId'});
         Issue.belongsTo(models['Status'], {foreignKey: 'statusId'});
