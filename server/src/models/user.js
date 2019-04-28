@@ -16,9 +16,6 @@ module.exports = (sequelize, DataTypes) => {
         password: {
             type: DataTypes.TEXT,
             allowNull: false,
-            set(value) {
-                this.setDataValue('password', sequelize.fn('crypt', value, "gen_salt('bf', 8)"))
-            }
         },
         nickname: {
             type: DataTypes.STRING(64),
