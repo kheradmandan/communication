@@ -10,7 +10,7 @@ module.exports = {
             },
             parent: {
                 type: Sequelize.UUID,
-                allowNull: false,
+                allowNull: true,
                 references: {model: 'Assignees', key: 'uuid'}
             },
             issueUuid: {

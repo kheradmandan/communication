@@ -9,7 +9,7 @@ module.exports = (sequelize, DataTypes) => {
         },
         parent: {
             type: DataTypes.UUID,
-            allowNull: false,
+            allowNull: true,
         },
         issueUuid: {
             type: DataTypes.UUID,
@@ -28,7 +28,7 @@ module.exports = (sequelize, DataTypes) => {
         timestamps: true,
     });
     Assignee.associate = function (models) {
-        Assignee.belongsTo(models['Assignee'], {foreignKey: 'parent'});
+        Assignee.belongsTo(models['Assignee'], {foreignKey: 'parent', as: 'Parent'});
         Assignee.belongsTo(models['Issue'], {foreignKey: 'issueUuid'});
         Assignee.belongsTo(models['User'], {foreignKey: 'userUuid'});
         Assignee.belongsTo(models['User'], {foreignKey: 'createdBy'});
