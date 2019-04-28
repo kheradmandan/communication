@@ -25,6 +25,9 @@ module.exports = (sequelize, DataTypes) => {
     }, {
         paranoid: true,
         timestamps: true,
+        defaultScope: {
+            attributes: ['uuid', 'email', 'nickname']
+        }
     });
     User.associate = function (models) {
         User.hasMany(models['Issue'], {foreignKey: 'createdBy', as: 'Issues'});
