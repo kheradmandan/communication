@@ -5,6 +5,7 @@ module.exports = {
         return queryInterface.bulkInsert('Users', [
             {
                 uuid: 'ce0d1090-396f-4d2b-9f51-ee6ef2051a3f',
+                userTypeId: 10,
                 email: 'raeisi@zoho.com',
                 password: Sequelize.fn('crypt', '123', "gen_salt('bf', 8)"),
                 fullName: 'مرتضی رییسی',
@@ -13,6 +14,7 @@ module.exports = {
             },
             {
                 uuid: '95b36189-d2d4-480d-9881-0eadc96f617f',
+                userTypeId: 12,
                 email: 'd.mohammadi.a@gmail.com',
                 password: Sequelize.fn('crypt', '123', "gen_salt('bf', 8)"),
                 fullName: 'داود محمدی',

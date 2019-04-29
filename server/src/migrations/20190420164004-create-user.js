@@ -11,6 +11,11 @@ module.exports = {
                     primaryKey: true,
                     defaultValue: Sequelize.fn('uuid_generate_v4'),
                 },
+                userTypeId: {
+                    type: Sequelize.INTEGER,
+                    allowNull: false,
+                    references: {model: 'UserTypes', key: 'id'}
+                },
                 email: {
                     type: Sequelize.STRING(355),
                     allowNull: false,

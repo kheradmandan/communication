@@ -22,6 +22,7 @@ module.exports = (sequelize, DataTypes) => {
     Origin.associate = function (models) {
         Origin.belongsTo(models['Origin'], {foreignKey: 'parentId', as: 'Parent'});
         Origin.hasMany(models['Era'], {foreignKey: 'originId'});
+        Origin.hasMany(models['UsersOrigins'], {foreignKey: 'originId'});
     };
     return Origin;
 };
