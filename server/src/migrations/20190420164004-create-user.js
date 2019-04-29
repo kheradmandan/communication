@@ -20,7 +20,7 @@ module.exports = {
                     type: Sequelize.TEXT,
                     allowNull: false,
                 },
-                nickname: {
+                fullName: {
                     type: Sequelize.STRING(64),
                     allowNull: false,
                     unique: true,

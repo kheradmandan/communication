@@ -17,7 +17,7 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.TEXT,
             allowNull: false,
         },
-        nickname: {
+        fullName: {
             type: DataTypes.STRING(64),
             allowNull: false,
             unique: true,
@@ -26,7 +26,7 @@ module.exports = (sequelize, DataTypes) => {
         paranoid: true,
         timestamps: true,
         defaultScope: {
-            attributes: ['uuid', 'email', 'nickname']
+            attributes: ['uuid', 'email', 'fullName']
         }
     });
     User.associate = function (models) {
