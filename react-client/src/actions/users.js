@@ -1,3 +1,4 @@
+import API from '../utils/API';
 import {remoteUrl} from "../utils/remote-utils";
 import {setRequestStatus, unsetRequestStatus} from "./requests";
 import * as requestTypes from '../constants/request.types'
@@ -18,7 +19,7 @@ export function authFailure(cause) {
     }
 }
 
-export const auth = ({email, password}) => (dispatch, getState) => {
+export const auth = (email, password) => (dispatch, getState) => {
     const requestType = requestTypes.AUTH;
     const requestProgress = getState().requests.get(requestType);
     if (requestProgress) {
@@ -28,18 +29,20 @@ export const auth = ({email, password}) => (dispatch, getState) => {
     const url = remoteUrl('/users/auth');
     dispatch(setRequestStatus(requestType, true));
 
-    fetch(url)
-        .then(x => x.json())
-        .then((response) => {
-            if (response.status < 300) {
-                return dispatch(authSuccess(response.data));
-            }
-            throw response.error || new Error('Undefined response');
+    API
+        .request({
+            url,
+            method: 'POST',
+            data: {email, password}
         })
-        .catch(error => {
+        .then(function ({data: {data}}) {
+            API.defaults.headers['authorization'] = data.type + ' ' + data.token;
+            return dispatch(authSuccess(data));
+        })
+        .catch(function (error) {
             dispatch(authFailure(error.message))
         })
-        .finally(() => {
+        .finally(function () {
             dispatch(unsetRequestStatus(requestType));
         });
 };
