@@ -4,6 +4,7 @@ import {connect} from "react-redux";
 import * as userActions from '../../actions/users';
 
 import {Form, Button, Input, Icon, Label} from "semantic-ui-react";
+import {Redirect} from "react-router";
 
 class SignIn extends React.Component {
     state = {email: '', password: ''};
@@ -20,13 +21,15 @@ class SignIn extends React.Component {
 
     render() {
         const {session, isLoading} = this.props;
-
+        if (session && session.user && session.user.uuid) {
+            return <Redirect to='/'/>
+        }
         return <div>
             <p>cause: {session.cause}</p>
-            <Form isLoading={isLoading}>
+            <Form>
                 <Input name="email" placeholder="Email" onChange={this.inputChangeHandler}/>
                 <Input name="password" type="password" onChange={this.inputChangeHandler}/>
-                <Button onClick={this.onSignInClick}>
+                <Button isLoading={isLoading} onClick={this.onSignInClick}>
                     Sign in
                 </Button>
             </Form>
