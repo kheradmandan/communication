@@ -1,6 +1,6 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
-    const UsersOrigins = sequelize.define('UsersOrigins', {
+    const UsersOrigins = sequelize.define('xref_UsersOrigins', {
             userUuid: {
                 type: DataTypes.UUID,
                 primaryKey: true,

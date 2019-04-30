@@ -22,6 +22,7 @@ module.exports = (sequelize, DataTypes) => {
     Realm.associate = function (models) {
         Realm.belongsTo(models['Realm'], {foreignKey: 'parentId', as: 'Parent'});
         Realm.hasMany(models['Issue'], {foreignKey: 'realmId'});
+        Realm.hasMany(models['xref_OriginsRealms'], {foreignKey: 'realmId', as: 'PermitOrigins'});
     };
     return Realm;
 };

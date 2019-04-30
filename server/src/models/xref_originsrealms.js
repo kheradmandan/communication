@@ -1,6 +1,6 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
-    const OriginsRealms = sequelize.define('OriginsRealms', {
+    const OriginsRealms = sequelize.define('xref_OriginsRealms', {
             originId: {
                 type: DataTypes.INTEGER,
                 allowNull: false,

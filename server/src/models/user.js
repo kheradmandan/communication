@@ -45,7 +45,7 @@ module.exports = (sequelize, DataTypes) => {
         User.hasMany(models['Assignee'], {foreignKey: 'userUuid', as: 'Assignees'});
         User.hasMany(models['Assignee'], {foreignKey: 'createdBy', as: 'CreatedAssignees'});
         User.hasMany(models['IssueStateHistory'], {foreignKey: 'createdBy'});
-        User.hasMany(models['UsersOrigins'], {foreignKey: 'userUuid'});
+        User.hasMany(models['xref_UsersOrigins'], {foreignKey: 'userUuid', as: 'PermitOrigins'});
     };
     return User;
 };

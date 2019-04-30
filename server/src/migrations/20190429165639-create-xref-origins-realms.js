@@ -1,7 +1,7 @@
 'use strict';
 module.exports = {
     up: (queryInterface, Sequelize) => {
-        return queryInterface.createTable('OriginsRealms', {
+        return queryInterface.createTable('xref_OriginsRealms', {
             originId: {
                 type: Sequelize.INTEGER,
                 allowNull: false,
@@ -17,6 +17,6 @@ module.exports = {
         });
     },
     down: (queryInterface, Sequelize) => {
-        return queryInterface.dropTable('OriginsRealms');
+        return queryInterface.dropTable('xref_OriginsRealms');
     }
 };
