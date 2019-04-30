@@ -37,6 +37,7 @@ export const auth = (email, password) => (dispatch, getState) => {
         })
         .then(function ({data: {data}}) {
             API.defaults.headers['authorization'] = data.type + ' ' + data.token;
+            localStorage.setItem('auth', JSON.stringify(data));
             return dispatch(authSuccess(data));
         })
         .catch(function (error) {
