@@ -3,21 +3,15 @@ import {Redirect, Route, Switch} from "react-router-dom";
 import {connect} from "react-redux";
 import propTypes from 'prop-types';
 import Dashboard from './components/Dashboard';
-import './App.css';
 import SignIn from "./components/SignIn";
-import {authSuccess} from "./actions/users";
-import * as permissionActions from './actions/permissions';
-import API from './utils/API';
+import * as userActions from "./actions/users";
+
+import './App.css';
 
 class App extends React.Component {
 
     componentDidMount() {
-        const data = JSON.parse(localStorage.getItem('auth'));
-        if (data && data.user && data.user.uuid && data.token) {
-            console.log('previous session recovery');
-            this.props.dispatch(authSuccess(data));
-            API.defaults.headers['authorization'] = data.type + ' ' + data.token;
-        }
+        this.props.loadPrevSession();
     }
 
     render() {
@@ -36,18 +30,13 @@ class App extends React.Component {
 
 App.propTypes = {
     session: propTypes.object.isRequired,
-    loadXrefUsersOrigins: propTypes.func.isRequired,
-    loadXrefOriginsRealms: propTypes.func.isRequired,
-    xrefUsersOrigins: propTypes.object,
-    xrefOriginsRealms: propTypes.object,
+    loadPrevSession: propTypes.func.isRequired,
 };
 
 function mapStateToProps(state) {
     return {
-        session: state.users.get('session'),
-        xrefUsersOrigins: state.permissions.get('xref-users-origins'),
-        xrefOriginsRealms: state.permissions.get('xref-origins-realms'),
+        session: state.users.get('session')
     }
 }
 
-export default connect(mapStateToProps)(App);
+export default connect(mapStateToProps, userActions)(App);
