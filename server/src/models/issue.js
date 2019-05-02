@@ -61,7 +61,8 @@ module.exports = (sequelize, DataTypes) => {
                     }
                     ,
                     'Status',
-                    'Priority'
+                    'Priority',
+                    'Realm',
                 ],
                 attributes: ['uuid', 'title', 'sequence','createdAt']
             }

@@ -4,8 +4,9 @@ import {connect} from "react-redux";
 import propTypes from 'prop-types';
 import Dashboard from './components/Dashboard';
 import SignIn from "./components/SignIn";
-import * as userActions from "./actions/users";
+import Issue from "./components/Issue";
 
+import * as userActions from "./actions/users";
 import './App.css';
 
 class App extends React.Component {
@@ -22,6 +23,7 @@ class App extends React.Component {
                 {(!session || !session.user || !session.user.uuid) && <Redirect to='/signIn'/>}
 
                 <Route exact path='/' component={Dashboard}/>
+                <Route exact path='/issue' component={Issue}/>
                 <Redirect to='/'/>
             </Switch>
         );

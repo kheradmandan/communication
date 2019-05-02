@@ -1,12 +1,17 @@
 import React from 'react'
 import {connect} from "react-redux";
-import {Button} from "semantic-ui-react";
-import * as issueActions from '../../actions/issues';
-import {Table} from "semantic-ui-react";
+import {Table, Button} from "semantic-ui-react";
+import {Link} from "react-router-dom";
 import LocaleDate from '../LocaleDate';
+import * as issueActions from '../../actions/issues';
 import * as permissionActions from '../../actions/permissions';
 
 class Dashboard extends React.Component {
+    state = {
+        column: '',
+        direction: null,
+        data: null,
+    };
 
     onLoadXrefUsersOriginsClick = () => {
         const {session, loadXrefUsersOrigins} = this.props;
@@ -14,21 +19,42 @@ class Dashboard extends React.Component {
     };
 
     onLoadXrefOriginsRealmsClick = () => {
-        const {session, loadXrefOriginsRealms} = this.props;
+        const {loadXrefOriginsRealms} = this.props;
         loadXrefOriginsRealms(1);
     };
 
+    handleSortClick = (clickedColumn, cb) => () => {
+        let {column, direction, data} = this.state;
+
+        if (column !== clickedColumn) {
+            data = this.props.issues.sortBy(cb);
+            this.setState({
+                data,
+                column: clickedColumn,
+                direction: 'ascending'
+            });
+            return;
+        }
+
+        this.setState({
+            data: data.reverse(),
+            direction: direction === 'ascending' ? 'descending' : 'ascending'
+        })
+    };
+
     render() {
-        const {session, issues, reloadIssues} = this.props;
+        const {issues, reloadIssues} = this.props;
+        const {column, direction, data} = this.state;
+        const source = data != null ? data : issues;
 
         return (<div>
-            <p> this is dashboard</p>
-            <p> {session.user.fullName}</p>
             <Button onClick={reloadIssues}> Reload issues </Button>
             <Button onClick={this.onLoadXrefUsersOriginsClick}> Reload xref user origin </Button>
             <Button onClick={this.onLoadXrefOriginsRealmsClick}> Reload xref origin realms</Button>
+            <Button as={Link} to='/issue'> Create Issue</Button>
 
-            <IssueMainTable issues={issues}/>
+            <IssueMainTable issues={source} direction={direction} column={column}
+                            onSortClick={this.handleSortClick}/>
         </div>)
     }
 }
@@ -43,32 +69,45 @@ function mapStateToProps(state) {
 export default connect(mapStateToProps, {...issueActions, ...permissionActions})(Dashboard);
 
 
-function IssueMainTable({issues}) {
-    return (<Table compact celled definition selectable textAlign='right'>
+function IssueMainTable({issues, direction, column, onSortClick}) {
+    return (<Table compact celled definition selectable textAlign='right' color='red' sortable>
         <Table.Header>
             <Table.Row>
-                <Table.HeaderCell textAlign='center'>
+                <Table.HeaderCell textAlign='center'
+                                  sorted={column === 'sequence' ? direction : null}
+                                  onClick={onSortClick('sequence', (x) => x.sequence)}>
                     شماره
                 </Table.HeaderCell>
-                <Table.HeaderCell>
+                <Table.HeaderCell sorted={column === 'title' ? direction : null}
+                                  onClick={onSortClick('title', (x) => x.title)}>
                     عنوان
                 </Table.HeaderCell>
-                <Table.HeaderCell>
-                    حوزه
+                <Table.HeaderCell sorted={column === 'Realm.title' ? direction : null}
+                                  onClick={onSortClick('Realm.title', (x) => x.Realm.title)}>
+                    بخش
                 </Table.HeaderCell>
-                <Table.HeaderCell>
+                <Table.HeaderCell sorted={column === 'Era.Origin.title' ? direction : null}
+                                  onClick={onSortClick('Era.Origin.title', (x) => x.Era.Origin.title)}>
+                    محل گزارش
+                </Table.HeaderCell>
+                <Table.HeaderCell sorted={column === 'Era.title' ? direction : null}
+                                  onClick={onSortClick('Era.title', (x) => x.Era.title)}>
                     دوره
                 </Table.HeaderCell>
-                <Table.HeaderCell>
+                <Table.HeaderCell sorted={column === 'Creator.fullName' ? direction : null}
+                                  onClick={onSortClick('Creator.fullName', (x) => x.Creator.fullName)}>
                     ایجاد کننده
                 </Table.HeaderCell>
-                <Table.HeaderCell>
+                <Table.HeaderCell sorted={column === 'createdAt' ? direction : null}
+                                  onClick={onSortClick('createdAt', (x) => x.createdAt)}>
                     زمان
                 </Table.HeaderCell>
-                <Table.HeaderCell>
+                <Table.HeaderCell sorted={column === 'Priority.title' ? direction : null}
+                                  onClick={onSortClick('Priority.title', (x) => x.Priority.title)}>
                     اولویت
                 </Table.HeaderCell>
-                <Table.HeaderCell>
+                <Table.HeaderCell sorted={column === 'Status.title' ? direction : null}
+                                  onClick={onSortClick('Status.Title', (x) => x.Status.title)}>
                     وضعیت
                 </Table.HeaderCell>
             </Table.Row>
@@ -79,6 +118,7 @@ function IssueMainTable({issues}) {
                     <Table.Row key={issue.uuid}>
                         <Table.Cell textAlign='center'>{issue.sequence} </Table.Cell>
                         <Table.Cell>{issue.title} </Table.Cell>
+                        <Table.Cell>{issue.Realm.title} </Table.Cell>
                         <Table.Cell>{issue.Era.Origin.title} </Table.Cell>
                         <Table.Cell>{issue.Era.title} </Table.Cell>
                         <Table.Cell>{issue.Creator.fullName} </Table.Cell>
