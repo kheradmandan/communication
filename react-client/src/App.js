@@ -1,10 +1,12 @@
 import React from 'react';
 import {Redirect, Route, Switch} from "react-router-dom";
 import {connect} from "react-redux";
+import propTypes from 'prop-types';
 import Dashboard from './components/Dashboard';
 import './App.css';
 import SignIn from "./components/SignIn";
 import {authSuccess} from "./actions/users";
+import * as permissionActions from './actions/permissions';
 import API from './utils/API';
 
 class App extends React.Component {
@@ -32,9 +34,19 @@ class App extends React.Component {
     }
 }
 
+App.propTypes = {
+    session: propTypes.object.isRequired,
+    loadXrefUsersOrigins: propTypes.func.isRequired,
+    loadXrefOriginsRealms: propTypes.func.isRequired,
+    xrefUsersOrigins: propTypes.object,
+    xrefOriginsRealms: propTypes.object,
+};
+
 function mapStateToProps(state) {
     return {
-        session: state.users.get('session')
+        session: state.users.get('session'),
+        xrefUsersOrigins: state.permissions.get('xref-users-origins'),
+        xrefOriginsRealms: state.permissions.get('xref-origins-realms'),
     }
 }
 

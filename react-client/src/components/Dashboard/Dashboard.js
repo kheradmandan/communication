@@ -4,8 +4,19 @@ import {Button} from "semantic-ui-react";
 import * as issueActions from '../../actions/issues';
 import {Table} from "semantic-ui-react";
 import LocaleDate from '../LocaleDate';
+import * as permissionActions from '../../actions/permissions';
 
 class Dashboard extends React.Component {
+
+    onLoadXrefUsersOriginsClick = () => {
+        const {session, loadXrefUsersOrigins} = this.props;
+        loadXrefUsersOrigins(session.user.uuid);
+    };
+
+    onLoadXrefOriginsRealmsClick = () => {
+        const {session, loadXrefOriginsRealms} = this.props;
+        loadXrefOriginsRealms(1);
+    };
 
     render() {
         const {session, issues, reloadIssues} = this.props;
@@ -13,9 +24,9 @@ class Dashboard extends React.Component {
         return (<div>
             <p> this is dashboard</p>
             <p> {session.user.fullName}</p>
-            <Button onClick={reloadIssues}>
-                Reload issues
-            </Button>
+            <Button onClick={reloadIssues}> Reload issues </Button>
+            <Button onClick={this.onLoadXrefUsersOriginsClick}> Reload xref user origin </Button>
+            <Button onClick={this.onLoadXrefOriginsRealmsClick}> Reload xref origin realms</Button>
 
             <IssueMainTable issues={issues}/>
         </div>)
@@ -29,7 +40,7 @@ function mapStateToProps(state) {
     }
 }
 
-export default connect(mapStateToProps, issueActions)(Dashboard);
+export default connect(mapStateToProps, {...issueActions, ...permissionActions})(Dashboard);
 
 
 function IssueMainTable({issues}) {

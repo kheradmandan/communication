@@ -1,2 +1,3 @@
-export const AUTH = 'req-auth';
-export const ISSUE = 'req-issue';
+export const AUTH = 'auth-in-progress';
+export const ISSUE = 'issue-in-progress';
+export const PERMISSION = 'permission-in-progress';
