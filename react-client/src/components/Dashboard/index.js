@@ -1,28 +1,39 @@
 import React from 'react'
 import {connect} from "react-redux";
+<<<<<<< HEAD
 import {Button} from "semantic-ui-react";
 import * as issueActions from '../../actions/issues';
 import {Table, Header} from "semantic-ui-react";
+=======
+>>>>>>> origin/master
 
 class Dashboard extends React.Component {
 
     render() {
+<<<<<<< HEAD
         const {session, issues, reloadIssues} = this.props;
+=======
+        const {session} = this.props;
+>>>>>>> origin/master
 
         return (<div>
             <p> this is dashboard</p>
             <p> {session.user.fullName}</p>
+<<<<<<< HEAD
             <Button onClick={reloadIssues}>
                 Reload issues
             </Button>
 
             <IssueMainTable issues={issues}/>
+=======
+>>>>>>> origin/master
         </div>)
     }
 }
 
 function mapStateToProps(state) {
     return {
+<<<<<<< HEAD
         session: state.users.get('session'),
         issues: state.issues.get('list'),
     }
@@ -70,3 +81,10 @@ function IssueMainTable({issues}) {
         </Table.Body>
     </Table>)
 }
+=======
+        session: state.users.get('session')
+    }
+}
+
+export default connect(mapStateToProps)(Dashboard);
+>>>>>>> origin/master

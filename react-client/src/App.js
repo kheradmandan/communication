@@ -1,41 +1,26 @@
 import React from 'react';
-import {Redirect, Route, Switch} from "react-router-dom";
-import {connect} from "react-redux";
-import Dashboard from './components/Dashboard';
+import logo from './logo.svg';
 import './App.css';
-import SignIn from "./components/SignIn";
-import {authSuccess} from "./actions/users";
-import API from './utils/API';
 
-class App extends React.Component {
-
-    componentDidMount() {
-        const data = JSON.parse(localStorage.getItem('auth'));
-        if (data && data.user && data.user.uuid && data.token) {
-            console.log('previous session recovery');
-            this.props.dispatch(authSuccess(data));
-            API.defaults.headers['authorization'] = data.type + ' ' + data.token;
-        }
-    }
-
-    render() {
-        const {session} = this.props;
-        return (
-            <Switch>
-                <Route exact path='/signIn' component={SignIn}/>
-                {(!session || !session.user || !session.user.uuid) && <Redirect to='/signIn'/>}
-
-                <Route exact path='/' component={Dashboard}/>
-                <Redirect to='/'/>
-            </Switch>
-        );
-    }
+function App() {
+  return (
+    <div className="App">
+      <header className="App-header">
+        <img src={logo} className="App-logo" alt="logo" />
+        <p>
+          Edit <code>src/App.js</code> and save to reload.
+        </p>
+        <a
+          className="App-link"
+          href="https://reactjs.org"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Learn React
+        </a>
+      </header>
+    </div>
+  );
 }
 
-function mapStateToProps(state) {
-    return {
-        session: state.users.get('session')
-    }
-}
-
-export default connect(mapStateToProps)(App);
+export default App;
