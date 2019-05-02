@@ -44,6 +44,9 @@ module.exports = (sequelize, DataTypes) => {
     }, {
         paranoid: true,
         timestamps: true,
+        defaultScope: {
+            include: ['Creator', 'Priority', 'Realm', 'Era']
+        }
     });
     Issue.associate = function (models) {
         Issue.belongsTo(models['User'], {foreignKey: 'createdBy', as: 'Creator'});

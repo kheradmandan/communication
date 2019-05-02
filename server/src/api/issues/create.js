@@ -16,18 +16,12 @@ export default function (req, res, next) {
         throw new FieldMissingError().appendMessage(['eraUuid', 'realmId', 'title']);
     }
 
+    const rejectOnEmpty = true;
     Promise.all(
         [
-            Era.findByPk(eraUuid, {
-                include: ['Origin'],
-                rejectOnEmpty: true
-            }),
-            User.findByPk(userUuid, {
-                rejectOnEmpty: true
-            }),
-            User.findByPk(currentUser.uuid, {
-                rejectOnEmpty: true
-            }),
+            Era.findByPk(eraUuid, {rejectOnEmpty}),
+            User.findByPk(userUuid, {rejectOnEmpty}),
+            User.findByPk(currentUser.uuid, {rejectOnEmpty}),
         ])
         .then(([era, assignee, creator]) =>
             sequelize
@@ -65,7 +59,6 @@ export default function (req, res, next) {
                 .findAll({
                     where: {uuid: assignee.issueUuid},
                     include: [
-                        {model: User, as: 'Creator'},
                         {model: Assignee},
                     ]
                 })

@@ -17,12 +17,6 @@ export default function (req, res, next) {
                     statusId: [0, 1, 2]
                 },
                 limit: limit + 1,
-                include: [
-                    {model: User, as: 'Creator'},
-                    {model: Era},
-                    {model: Status},
-                    {model: Priority},
-                ],
                 attributes: ['uuid', 'title', 'eraUuid', 'createdAt', 'updatedAt']
             }
         )
