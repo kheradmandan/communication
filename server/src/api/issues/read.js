@@ -9,6 +9,7 @@ export default function (req, res, next) {
     } = req.query;
 
     Issue
+        .scope('view')
         .findAll(
             {
                 where: {
@@ -17,7 +18,6 @@ export default function (req, res, next) {
                     statusId: [0, 1, 2]
                 },
                 limit: limit + 1,
-                attributes: ['uuid', 'title', 'eraUuid', 'createdAt', 'updatedAt']
             }
         )
         .then(response(req, res))

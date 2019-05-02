@@ -3,6 +3,7 @@ import {connect} from "react-redux";
 import {Button} from "semantic-ui-react";
 import * as issueActions from '../../actions/issues';
 import {Table} from "semantic-ui-react";
+import LocaleDate from '../LocaleDate';
 
 class Dashboard extends React.Component {
 
@@ -32,14 +33,20 @@ export default connect(mapStateToProps, issueActions)(Dashboard);
 
 
 function IssueMainTable({issues}) {
-    return (<Table compact celled definition>
+    return (<Table compact celled definition selectable textAlign='right'>
         <Table.Header>
             <Table.Row>
-                <Table.HeaderCell>
+                <Table.HeaderCell textAlign='center'>
                     شماره
                 </Table.HeaderCell>
                 <Table.HeaderCell>
                     عنوان
+                </Table.HeaderCell>
+                <Table.HeaderCell>
+                    حوزه
+                </Table.HeaderCell>
+                <Table.HeaderCell>
+                    دوره
                 </Table.HeaderCell>
                 <Table.HeaderCell>
                     ایجاد کننده
@@ -59,12 +66,14 @@ function IssueMainTable({issues}) {
             {
                 issues.map(issue => (
                     <Table.Row key={issue.uuid}>
-                        <Table.Cell>{issue.Era.current} </Table.Cell>
+                        <Table.Cell textAlign='center'>{issue.sequence} </Table.Cell>
                         <Table.Cell>{issue.title} </Table.Cell>
+                        <Table.Cell>{issue.Era.Origin.title} </Table.Cell>
+                        <Table.Cell>{issue.Era.title} </Table.Cell>
                         <Table.Cell>{issue.Creator.fullName} </Table.Cell>
-                        <Table.Cell>{issue.createdAt} </Table.Cell>
-                        <Table.Cell>{issue.priorityId} </Table.Cell>
-                        <Table.Cell>{issue.statusId} </Table.Cell>
+                        <Table.Cell> <LocaleDate timestamp={issue.createdAt} relative={true}/></Table.Cell>
+                        <Table.Cell>{issue.Priority.title} </Table.Cell>
+                        <Table.Cell>{issue.Status.title} </Table.Cell>
                     </Table.Row>))
             }
         </Table.Body>

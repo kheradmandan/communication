@@ -46,6 +46,25 @@ module.exports = (sequelize, DataTypes) => {
         timestamps: true,
         defaultScope: {
             include: ['Creator', 'Priority', 'Realm', 'Era']
+        },
+        scopes: {
+            view: {
+                include: [
+                    {
+                        association: 'Era',
+                        attributes: ['uuid', 'title'],
+                        include: ['Origin']
+                    },
+                    {
+                        association: 'Creator',
+                        attributes: ['email', 'fullName']
+                    }
+                    ,
+                    'Status',
+                    'Priority'
+                ],
+                attributes: ['uuid', 'title', 'sequence','createdAt']
+            }
         }
     });
     Issue.associate = function (models) {
