@@ -15,6 +15,18 @@ module.exports = (sequelize, DataTypes) => {
         {
             paranoid: false,
             timestamps: false,
+            scopes: {
+                origins: {
+                    include: ['Origin'],
+                    attributes: [/* none */]
+                },
+                users: {
+                    include: [{
+                        association: 'User',
+                        include: ['fullName']
+                    }]
+                }
+            }
         });
     UsersOrigins.associate = function (models) {
         UsersOrigins.belongsTo(models['User'], {foreignKey: 'userUuid'});

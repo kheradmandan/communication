@@ -15,6 +15,18 @@ module.exports = (sequelize, DataTypes) => {
         {
             paranoid: false,
             timestamps: false,
+            scopes: {
+                realms: {
+                    include: ['Realm'],
+                    attributes: []
+                },
+                users: {
+                    include: [{
+                        association: 'User',
+                        include: ['fullName']
+                    }]
+                }
+            }
         });
     OriginsRealms.associate = function (models) {
         OriginsRealms.belongsTo(models['Origin'], {foreignKey: 'originId'});
