@@ -19,7 +19,7 @@ module.exports = {
                 allowNull: false,
                 unique: 'era_IX_originId_and_title',
             },
-            sequence: {
+            current: {
                 type: Sequelize.INTEGER,
                 allowNull: false,
                 defaultValue: 0,

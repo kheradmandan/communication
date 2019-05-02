@@ -17,7 +17,7 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false,
             unique: 'era_IX_originId_and_title',
         },
-        sequence: {
+        current: {
             type: DataTypes.INTEGER,
             allowNull: false,
             defaultValue: 0,
@@ -49,10 +49,6 @@ module.exports = (sequelize, DataTypes) => {
     }, {
         paranoid: true,
         timestamps: true,
-        defaultScope: {
-            attributes: ['uuid', 'title', 'sequence'],
-            include: ['Origin']
-        }
     });
     Era.associate = function (models) {
         Era.belongsTo(models['Origin'], {foreignKey: 'originId'});

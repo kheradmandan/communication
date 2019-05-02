@@ -5,7 +5,7 @@ module.exports = {
         return queryInterface.bulkInsert('Eras', [
             {
                 uuid: '26608d95-6ace-4a0d-8df3-4923fc6329bf',
-                originId: 6,
+                originId: 13,
                 title: 'سال 1398',
                 createdAt: new Date(),
                 updatedAt: new Date(),
