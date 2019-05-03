@@ -1,5 +1,5 @@
 import React from 'react';
-import {Redirect, Route, Switch} from "react-router-dom";
+import {Route, Switch} from "react-router-dom";
 import {connect} from "react-redux";
 import propTypes from 'prop-types';
 import Dashboard from './components/Dashboard';
@@ -17,16 +17,12 @@ class App extends React.Component {
 
     render() {
         const {session} = this.props;
-        return (
-            <Switch>
-                <Route exact path='/signIn' component={SignIn}/>
-                {(!session || !session.user || !session.user.uuid) && <Redirect to='/signIn'/>}
+        const isRegistered = session && session.getIn(['user', 'uuid']);
 
-                <Route exact path='/' component={Dashboard}/>
-                <Route exact path='/issue' component={Issue}/>
-                <Redirect to='/'/>
-            </Switch>
-        );
+        if (isRegistered) {
+            return <RegisteredUserRoutes/>
+        }
+        return <UnregisteredUserRoutes/>
     }
 }
 
@@ -42,3 +38,16 @@ function mapStateToProps(state) {
 }
 
 export default connect(mapStateToProps, userActions)(App);
+
+function UnregisteredUserRoutes() {
+    return <Switch>
+        <Route exact path='*' component={SignIn}/>
+    </Switch>
+}
+
+function RegisteredUserRoutes() {
+    return <Switch>
+        <Route exact path='/issue/:uuid?' component={Issue}/>
+        <Route exact path='/' component={Dashboard}/>
+    </Switch>
+}

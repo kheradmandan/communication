@@ -117,7 +117,7 @@ function IssueMainTable({issues, direction, column, onSortClick}) {
                 issues.map(issue => (
                     <Table.Row key={issue.uuid}>
                         <Table.Cell textAlign='center'>{issue.sequence} </Table.Cell>
-                        <Table.Cell>{issue.title} </Table.Cell>
+                        <Table.Cell><Link to={`/issue/${issue.uuid}`}> {issue.title} </Link></Table.Cell>
                         <Table.Cell>{issue.Realm.title} </Table.Cell>
                         <Table.Cell>{issue.Era.Origin.title} </Table.Cell>
                         <Table.Cell>{issue.Era.title} </Table.Cell>
