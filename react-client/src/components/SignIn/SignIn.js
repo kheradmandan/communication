@@ -1,7 +1,7 @@
 import React from 'react';
 import propTypes from 'prop-types';
 import {connect} from "react-redux";
-import * as userActions from '../../actions/users';
+import * as userActions from '../../services/users';
 
 import {Form, Button, Input} from "semantic-ui-react";
 import {Redirect} from "react-router";
