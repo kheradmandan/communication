@@ -13,7 +13,7 @@ describe('User Reducer', () => {
         };
 
         const state = reducer(undefined, authSuccess(data));
-        expect(state.get('session')).to.have.deep.equals({
+        expect(state.get('session').toJS()).to.have.deep.equals({
             token: data.type + ' ' + data.token,
             user: data.user
         });
@@ -21,6 +21,6 @@ describe('User Reducer', () => {
 
     it('Should clear session', () => {
         const state = reducer(undefined, authFailure('some reason'));
-        expect(state.get('session')).to.have.deep.equals({user: {}, cause: 'some reason'});
+        expect(state.get('session').toJS()).to.have.deep.equals({user: {}, cause: 'some reason'});
     });
 });

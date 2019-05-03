@@ -3,7 +3,7 @@ import propTypes from 'prop-types';
 import {connect} from "react-redux";
 import * as userActions from '../../actions/users';
 
-import {Form, Button, Input, Icon, Label} from "semantic-ui-react";
+import {Form, Button, Input} from "semantic-ui-react";
 import {Redirect} from "react-router";
 
 class SignIn extends React.Component {
@@ -21,7 +21,8 @@ class SignIn extends React.Component {
 
     render() {
         const {session, isLoading} = this.props;
-        if (session && session.user && session.user.uuid) {
+        const isRegistered = session && session.getIn(['user', 'uuid']);
+        if (isRegistered) {
             return <Redirect to='/'/>
         }
         return <div>
