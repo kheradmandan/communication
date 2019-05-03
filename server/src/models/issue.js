@@ -64,7 +64,13 @@ module.exports = (sequelize, DataTypes) => {
                     'Priority',
                     'Realm',
                 ],
-                attributes: ['uuid', 'title', 'sequence','createdAt']
+                attributes: ['uuid', 'title', 'sequence', 'createdAt']
+            },
+            details: {
+                include: [{
+                    association: 'Assignees',
+                    include: ['User', 'Parent']
+                }]
             }
         }
     });
