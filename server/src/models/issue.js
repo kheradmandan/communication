@@ -69,7 +69,14 @@ module.exports = (sequelize, DataTypes) => {
             details: {
                 include: [{
                     association: 'Assignees',
-                    include: ['User', 'Parent']
+                    include: [
+                        {
+                            association: 'Parent',
+                            include: ['User'],
+                            attributes: []
+                        },
+                        'User', 'Creator', 'Comments', 'Attachments'
+                    ],
                 }]
             }
         }
