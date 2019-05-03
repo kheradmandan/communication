@@ -4,7 +4,7 @@ import {Table, Button} from "semantic-ui-react";
 import {Link} from "react-router-dom";
 import LocaleDate from '../LocaleDate';
 import * as issueActions from '../../actions/issues';
-import * as permissionActions from '../../actions/permissions';
+import * as permissionActions from '../../services/permissions';
 
 class Dashboard extends React.Component {
     state = {
