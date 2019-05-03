@@ -7,7 +7,7 @@ module.exports = (sequelize, DataTypes) => {
                 primaryKey: true,
                 defaultValue: sequelize.fn('uuid_generate_v4')
             },
-            issueUuid: {
+            assigneeUuid: {
                 type: DataTypes.UUID,
                 allowNull: false,
             },
@@ -33,7 +33,7 @@ module.exports = (sequelize, DataTypes) => {
             timestamps: true,
         });
     Attachment.associate = function (models) {
-        Attachment.belongsTo(models['Issue'], {foreignKey: 'issueUuid'});
+        Attachment.belongsTo(models['Assignee'], {foreignKey: 'assigneeUuid'});
         Attachment.belongsTo(models['User'], {foreignKey: 'createdBy'});
         Attachment.belongsTo(models['User'], {foreignKey: 'deletedBy'});
     };

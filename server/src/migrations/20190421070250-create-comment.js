@@ -8,10 +8,10 @@ module.exports = {
                 primaryKey: true,
                 defaultValue: Sequelize.fn('uuid_generate_v4'),
             },
-            issueUuid: {
+            assigneeUuid: {
                 type: Sequelize.UUID,
                 allowNull: false,
-                references: {model: 'Issues', key: 'uuid'}
+                references: {model: 'Assignees', key: 'uuid'}
             },
             createdBy: {
                 type: Sequelize.UUID,

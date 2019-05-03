@@ -32,6 +32,8 @@ module.exports = (sequelize, DataTypes) => {
         Assignee.belongsTo(models['Issue'], {foreignKey: 'issueUuid'});
         Assignee.belongsTo(models['User'], {foreignKey: 'userUuid'});
         Assignee.belongsTo(models['User'], {foreignKey: 'createdBy'});
+        Assignee.hasMany(models['Comment'], {foreignKey: 'assigneeUuid'});
+        Assignee.hasMany(models['Attachment'], {foreignKey: 'assigneeUuid'});
     };
     return Assignee;
 };

@@ -70,10 +70,7 @@ module.exports = (sequelize, DataTypes) => {
                 include: [{
                     association: 'Assignees',
                     include: ['User', 'Parent']
-                },
-                    'Comments',
-                    'Attachments'
-                ]
+                }]
             }
         }
     });
@@ -84,8 +81,6 @@ module.exports = (sequelize, DataTypes) => {
         Issue.belongsTo(models['Realm'], {foreignKey: 'realmId'});
         Issue.belongsTo(models['Status'], {foreignKey: 'statusId'});
         Issue.belongsTo(models['Era'], {foreignKey: 'eraUuid'});
-        Issue.hasMany(models['Comment'], {foreignKey: 'issueUuid'});
-        Issue.hasMany(models['Attachment'], {foreignKey: 'issueUuid'});
         Issue.hasMany(models['Assignee'], {foreignKey: 'issueUuid'});
         Issue.hasMany(models['IssueStateHistory'], {foreignKey: 'issueUuid'});
     };

@@ -7,7 +7,7 @@ module.exports = (sequelize, DataTypes) => {
             primaryKey: true,
             defaultValue: sequelize.fn('uuid_generate_v4')
         },
-        issueUuid: {
+        assigneeUuid: {
             type: DataTypes.UUID,
             allowNull: false,
         },
@@ -28,7 +28,7 @@ module.exports = (sequelize, DataTypes) => {
         timestamps: true,
     });
     Comment.associate = function (models) {
-        Comment.belongsTo(models['Issue'], {foreignKey: 'issueUuid'});
+        Comment.belongsTo(models['Assignee'], {foreignKey: 'assigneeUuid'});
         Comment.belongsTo(models['User'], {foreignKey: 'createdBy'});
         Comment.belongsTo(models['User'], {foreignKey: 'deletedBy'});
     };
