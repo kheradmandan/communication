@@ -37,4 +37,11 @@ describe('Request Reducer', () => {
         const nextState = reducer(state, issueActions.append(payload));
         expect(nextState.get('list').toJS()).to.deep.equal([payload, payload]);
     });
+
+    it('Should set current issue details', () => {
+        const payload = {uuid: 'some issue uuid', title: 'title', sequence: 10};
+        const state = reducer(undefined, issueActions.setCurrentIssueDetails(payload));
+        expect(state.get('current').toJS()).to.deep.equal(payload);
+    });
+
 });

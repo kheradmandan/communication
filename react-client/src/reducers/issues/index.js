@@ -1,4 +1,4 @@
-import {Map, List} from "immutable";
+import {Map, List, fromJS} from "immutable";
 import * as ISSUES from '../../constants/issues';
 
 const initState = Map({
@@ -11,6 +11,8 @@ export default function (state = initState, action) {
             return state.set('list', List(action.payload));
         case ISSUES.APPEND:
             return state.mergeDeepIn(['list'], action.payload);
+        case ISSUES.GET_CURRENT_ISSUE_DETAILS:
+            return state.set('current', fromJS(action.payload));
         default:
             return state;
     }

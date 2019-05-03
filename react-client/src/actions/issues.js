@@ -2,7 +2,7 @@ import API from '../utils/API';
 import * as ISSUES from '../constants/issues';
 import * as requestTypes from '../constants/request.types';
 import {remoteUrl} from "../utils/remote-utils";
-import {setRequestStatus, unsetRequestStatus} from "./requests";
+import {checkRequestProgress} from "../utils/checkRequestProgress";
 
 const wrapper = (payload) => !(payload instanceof Array) ? [payload] : payload;
 
@@ -20,21 +20,45 @@ export function append(payload) {
     }
 }
 
+export function setCurrentIssueDetails(payload) {
+    return {
+        type: ISSUES.GET_CURRENT_ISSUE_DETAILS,
+        payload: payload
+    }
+}
+
 export const reloadIssues = () => (dispatch, getState) => {
-    const requestType = requestTypes.ISSUE;
-    const requestIsInProgress = getState().requests.get(requestType);
-    if (requestIsInProgress) {
+    const status = checkRequestProgress(requestTypes.ISSUE)(dispatch, getState);
+    if (status.alreadyInProgress) {
         return;
     }
-    dispatch(setRequestStatus(requestType, true));
 
     const url = remoteUrl('/issues');
-    API.get(url)
+    API
+        .get(url)
         .then(({data: {data}}) => {
             dispatch(reload(data));
         })
-        .catch(({data: {data: error}}) => {
-            console.log('error - issue actions', error);
+        .catch((response) => {
+            console.log('error - issue actions', response.data.error);
         })
-        .finally(() => dispatch(unsetRequestStatus(requestType)))
+        .finally(status.unset())
+};
+
+export const getIssueDetails = (uuid) => (dispatch, getState) => {
+    const status = checkRequestProgress(requestTypes.ISSUE)(dispatch, getState);
+    if (status.alreadyInProgress) {
+        return;
+    }
+
+    const url = remoteUrl(`/issues/${uuid}`);
+    API
+        .get(url)
+        .then(({data: {data}}) => {
+            dispatch(setCurrentIssueDetails(data));
+        })
+        .catch((response) => {
+            console.log('error - issue current actions', response);
+        })
+        .finally(status.unset())
 };
