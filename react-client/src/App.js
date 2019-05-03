@@ -6,7 +6,7 @@ import Dashboard from './components/Dashboard';
 import SignIn from "./components/SignIn";
 import Issue from "./components/Issue";
 
-import * as userActions from "./actions/users";
+import * as userActions from "./services/users";
 import './App.css';
 
 class App extends React.Component {

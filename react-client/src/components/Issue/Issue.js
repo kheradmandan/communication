@@ -2,7 +2,7 @@ import React from 'react';
 import {connect} from "react-redux";
 import propTypes from 'prop-types';
 import {Map} from "immutable";
-import * as issueActions from '../../actions/issues';
+import * as issueActions from '../../services/issues';
 import IssueMainData from "../IssueMainData";
 import {Segment, Grid, Divider, Tab, Menu, Label, Icon, Comment, Form, TextArea, Button} from "semantic-ui-react";
 
