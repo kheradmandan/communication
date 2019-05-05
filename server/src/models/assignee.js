@@ -23,6 +23,10 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.UUID,
             allowNull: false,
         },
+        viewpointId: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+        },
     }, {
         paranoid: true,
         timestamps: true,
@@ -32,6 +36,7 @@ module.exports = (sequelize, DataTypes) => {
         Assignee.belongsTo(models['Issue'], {foreignKey: 'issueUuid'});
         Assignee.belongsTo(models['User'], {foreignKey: 'userUuid'});
         Assignee.belongsTo(models['User'], {foreignKey: 'createdBy', as: 'Creator'});
+        Assignee.belongsTo(models['Viewpoint'], {foreignKey: 'viewpointId'});
         Assignee.hasMany(models['Comment'], {foreignKey: 'assigneeUuid'});
         Assignee.hasMany(models['Attachment'], {foreignKey: 'assigneeUuid'});
     };

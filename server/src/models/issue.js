@@ -75,7 +75,7 @@ module.exports = (sequelize, DataTypes) => {
                             include: ['User'],
                             attributes: []
                         },
-                        'User', 'Creator', 'Comments', 'Attachments'
+                        'User', 'Creator', 'Comments', 'Attachments', 'Viewpoint'
                     ],
                 }]
             }

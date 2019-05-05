@@ -28,6 +28,11 @@ module.exports = {
                 allowNull: false,
                 references: {model: 'Users', key: 'uuid'}
             },
+            viewpointId: {
+                type: Sequelize.INTEGER,
+                allowNull: false,
+                references: {model: 'Viewpoints'}
+            },
             createdAt: {
                 allowNull: false,
                 type: Sequelize.DATE
