@@ -3,6 +3,7 @@ import {remoteUrl} from "../utils/remote-utils";
 import {checkRequestProgress} from "../utils/checkRequestProgress";
 import * as requestTypes from "../constants/request.types";
 import * as issueAction from "../actions/issues";
+import {apiErrorHandler} from "./messages";
 
 export const reloadIssues = () => (dispatch, getState) => {
     const status = checkRequestProgress(requestTypes.ISSUE)(dispatch, getState);
@@ -16,9 +17,7 @@ export const reloadIssues = () => (dispatch, getState) => {
         .then(({data: {data}}) => {
             dispatch(issueAction.reload(data));
         })
-        .catch((response) => {
-            console.log('error - issue actions', response.data.error);
-        })
+        .catch(apiErrorHandler(dispatch, getState))
         .finally(status.unset())
 };
 
@@ -34,8 +33,6 @@ export const getIssueDetails = (uuid) => (dispatch, getState) => {
         .then(({data: {data}}) => {
             dispatch(issueAction.setCurrentIssueDetails(data));
         })
-        .catch((response) => {
-            console.log('error - issue current actions', response);
-        })
+        .catch(apiErrorHandler(dispatch, getState))
         .finally(status.unset())
 };
