@@ -5,6 +5,7 @@ import {Link} from "react-router-dom";
 import LocaleDate from '../LocaleDate';
 import * as issueActions from '../../services/issues';
 import * as permissionActions from '../../services/permissions';
+import Messages from '../Message';
 
 class Dashboard extends React.Component {
     state = {
@@ -48,6 +49,7 @@ class Dashboard extends React.Component {
         const source = data != null ? data : issues;
 
         return (<div>
+            <Messages/>
             <Button onClick={reloadIssues}> Reload issues </Button>
             <Button onClick={this.onLoadXrefUsersOriginsClick}> Reload xref user origin </Button>
             <Button onClick={this.onLoadXrefOriginsRealmsClick}> Reload xref origin realms</Button>

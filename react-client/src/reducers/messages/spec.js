@@ -52,7 +52,7 @@ describe('Messages Reducer', () => {
         expect(newState.get(1).get('id')).to.equals(id2);
     });
 
-    it('Should clear all message', () => {
+    it('Should clear all messages', () => {
         let state = someMessages
             .reduce((prevState, predicate) =>
                     reducer(prevState, predicate.actions(predicate.message))
@@ -64,4 +64,22 @@ describe('Messages Reducer', () => {
         const newState = reducer(state, messageActions.clear());
         expect(newState.count()).to.equals(0);
     });
+
+    it('Should clear all messages have same type', () => {
+        let state = someMessages
+            .reduce((prevState, predicate) =>
+                    reducer(prevState, predicate.actions(predicate.message))
+                , state);
+
+        state = someMessages
+            .reduce((prevState, predicate) =>
+                    reducer(prevState, predicate.actions(predicate.message))
+                , state);
+
+        expect(state.count()).to.equals(someMessages.length * 2);
+
+        const newState = reducer(state, messageActions.removeType('info'));
+        expect(newState.count()).to.equals(someMessages.length * 2 - 2);
+    });
+
 });

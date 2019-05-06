@@ -17,6 +17,9 @@ export default function (state = initState, action) {
         case messageConstants.REMOVE:
             return state.filter(x => x.get('id') !== action.id);
 
+        case messageConstants.REMOVE_BY_TYPE:
+            return state.filter(x => x.get('type') !== action.messageType);
+
         case messageConstants.CLEAR:
             return state.clear();
 

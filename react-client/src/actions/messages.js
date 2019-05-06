@@ -33,6 +33,13 @@ export function remove(id) {
     }
 }
 
+export function removeType(messageType) {
+    return {
+        type: messageConstants.REMOVE_BY_TYPE,
+        messageType,
+    }
+}
+
 export function clear() {
     return {
         type: messageConstants.CLEAR

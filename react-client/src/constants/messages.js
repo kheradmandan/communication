@@ -1,3 +1,4 @@
+export const REMOVE_BY_TYPE = 'remove-message-by-type';
 export const ADD_ERROR = 'add-error-message';
 export const ADD_INFO = 'add-info-message';
 export const ADD_WARN = 'add-warn-message';
