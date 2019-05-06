@@ -1,11 +1,8 @@
-import {
-    SET_REQUEST_STATUS,
-    UNSET_REQUEST_STATUS
-} from "../constants/requests";
+import * as requestConstants from "../constants/requests";
 
 export function setRequestStatus(requestType, status) {
     return {
-        type: SET_REQUEST_STATUS,
+        type: requestConstants.SET_REQUEST_STATUS,
         requestType,
         status
     }
@@ -13,7 +10,7 @@ export function setRequestStatus(requestType, status) {
 
 export function unsetRequestStatus(requestType) {
     return {
-        type: UNSET_REQUEST_STATUS,
+        type: requestConstants.UNSET_REQUEST_STATUS,
         requestType
     }
 }
