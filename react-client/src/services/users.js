@@ -3,6 +3,7 @@ import {remoteUrl} from "../utils/remote-utils";
 import {checkRequestProgress} from "../utils/checkRequestProgress";
 import * as requestTypes from "../constants/request.types";
 import * as userActions from "../actions/users";
+import {apiErrorHandler} from "./messages";
 
 export const auth = (email, password) => (dispatch, getState) => {
     const status = checkRequestProgress(requestTypes.AUTH)(dispatch, getState);
@@ -23,7 +24,8 @@ export const auth = (email, password) => (dispatch, getState) => {
             localStorage.setItem('auth', JSON.stringify(data));
         })
         .catch(function (error) {
-            dispatch(userActions.authFailure(error.message))
+            dispatch(userActions.authFailure(error.message));
+            apiErrorHandler(dispatch, getState)(error);
         })
         .finally(status.unset());
 };

@@ -1,6 +1,7 @@
 import API from "../utils/API";
 import {remoteUrl} from "../utils/remote-utils";
 import {checkRequestProgress} from "../utils/checkRequestProgress";
+import {apiErrorHandler} from "./messages";
 import * as requestTypes from "../constants/request.types";
 import * as permissionActions from "../actions/permissions";
 
@@ -18,9 +19,7 @@ export const loadXrefUsersOrigins = (uuid) => (dispatch, getState) => {
         .then(({data: {data}}) => {
             dispatch(permissionActions.setXrefUsersOrigins(data));
         })
-        .catch(({data: {data: error}}) => {
-            console.log('error', url, error);
-        })
+        .catch(apiErrorHandler(dispatch, getState))
         .finally(status.unset())
 };
 
@@ -38,8 +37,6 @@ export const loadXrefOriginsRealms = (originId) => (dispatch, getState) => {
         .then(({data: {data}}) => {
             dispatch(permissionActions.setXrefOriginsRealms(originId, data));
         })
-        .catch(({data: {data: error}}) => {
-            console.log('error', url, error);
-        })
+        .catch(apiErrorHandler(dispatch, getState))
         .finally(status.unset())
 };
