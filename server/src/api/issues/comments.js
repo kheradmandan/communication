@@ -1,4 +1,4 @@
-import {User, Assignee} from '../../models';
+import {User, Assignee, Comment} from '../../models';
 import response from '../../core/response';
 import FieldMissingError from "../../errors/FieldMissingError";
 import ForbiddenError from "../../errors/ForbiddenError";
@@ -27,6 +27,7 @@ export function addComment(req, res, next) {
                     createdBy: user.uuid
                 })
         })
+        .then(comment=>comment.get())
         .then(response(req, res, next))
         .catch(next);
 }
