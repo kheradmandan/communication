@@ -1,6 +1,6 @@
 import React from 'react';
 import {connect} from "react-redux";
-import { Map} from "immutable";
+import {Map} from "immutable";
 import propTypes from 'prop-types';
 import * as issueActions from '../../services/issues';
 import IssueMainData from "../IssueMainData";
@@ -22,7 +22,7 @@ class Issue extends React.Component {
     }
 
     render() {
-        const {current, currentUser} = this.props;
+        const {current, currentUser, addComment} = this.props;
 
         if (!current || !current.get('Assignees')) {
             return <p> loading </p>;
@@ -38,7 +38,11 @@ class Issue extends React.Component {
             <Segment>
                 <Grid columns={2} stackable relaxed='very'>
                     <Grid.Column>
-                        <IssueFeed assignees={current.get('Assignees')} activeAssignee={activeAssignee}/>
+                        <IssueFeed
+                            assignees={current.get('Assignees')}
+                            activeAssignee={activeAssignee}
+                            onAddComment={addComment}
+                        />
                         {/*<CommentPane comments={current.get('Comments')}/>*/}
                     </Grid.Column>
                     <Grid.Column>
@@ -53,6 +57,7 @@ class Issue extends React.Component {
 
 Issue.propTypes = {
     current: propTypes.object,
+    addComment: propTypes.func.isRequired,
     getIssueDetails: propTypes.func.isRequired,
 };
 

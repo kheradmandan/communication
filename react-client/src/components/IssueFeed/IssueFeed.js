@@ -1,8 +1,10 @@
 import React from 'react';
 import {Button, Comment, Feed, Form, TextArea} from "semantic-ui-react";
 import LocaleDate from "../LocaleDate";
+import AssigneeForm from "../AssigneeForm/AssigneeForm";
 
-export default function ({assignees, activeAssignee}) {
+export default function IssueFeed({assignees, activeAssignee, onAddComment}) {
+
     return <Feed>
         {assignees && assignees.map(assignee =>
             <Feed.Event>
@@ -23,12 +25,7 @@ export default function ({assignees, activeAssignee}) {
             </Feed.Event>
         )}
         {
-            activeAssignee && <Form>
-                <TextArea/>
-                <Button>
-                    Submit
-                </Button>
-            </Form>
+            activeAssignee && <AssigneeForm assignee={activeAssignee} onAddComment={onAddComment}/>
         }
     </Feed>;
 }
