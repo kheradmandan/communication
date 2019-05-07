@@ -36,3 +36,19 @@ export const getIssueDetails = (uuid) => (dispatch, getState) => {
         .catch(apiErrorHandler(dispatch, getState))
         .finally(status.unset())
 };
+
+export const addComment = (assigneeUuid, context) => (dispatch, getState) => {
+    const status = checkRequestProgress(requestTypes.ISSUE_STATE_CHANGING)(dispatch, getState);
+    if (status.alreadyInProgress) {
+        return;
+    }
+
+    const url = remoteUrl(`/issues/assignees/${assigneeUuid}/comments`);
+    API
+        .post(url, {context})
+        .then(({data: {data}}) => {
+            dispatch(issueAction.setCurrentIssueDetails({uuid: ''}));
+        })
+        .catch(apiErrorHandler(dispatch, getState))
+        .finally(status.unset())
+};
