@@ -7,7 +7,7 @@ import UserView from "../UserView";
 
 class IssueMainData extends React.Component {
     render() {
-        const {issue, readOnly} = this.props;
+        const {issue} = this.props;
         const creator = issue.get('Creator');
         if (!creator) return <p> Issue loading</p>;
 

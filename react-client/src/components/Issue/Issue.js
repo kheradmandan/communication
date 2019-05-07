@@ -1,10 +1,12 @@
 import React from 'react';
 import {connect} from "react-redux";
+import { Map} from "immutable";
 import propTypes from 'prop-types';
-import {Map} from "immutable";
 import * as issueActions from '../../services/issues';
 import IssueMainData from "../IssueMainData";
-import {Segment, Grid, Divider, Tab, Menu, Label, Icon, Comment, Form, TextArea, Button} from "semantic-ui-react";
+import IssueFeed from '../IssueFeed';
+
+import {Segment, Grid, Divider, Tab, Menu, Label, Icon} from "semantic-ui-react";
 
 class Issue extends React.Component {
     state = {uuid: ''};
@@ -20,14 +22,24 @@ class Issue extends React.Component {
     }
 
     render() {
-        const {current} = this.props;
+        const {current, currentUser} = this.props;
+
+        if (!current || !current.get('Assignees')) {
+            return <p> loading </p>;
+        }
+
+        let activeAssignee = current.get('Assignees').last();
+        if (!activeAssignee || activeAssignee.get('userUuid') !== currentUser.get('uuid')) {
+            activeAssignee = null;
+        }
 
         return <div>
             <IssueMainData issue={current}/>
             <Segment>
                 <Grid columns={2} stackable relaxed='very'>
                     <Grid.Column>
-                        <CommentPane comments={current.get('Comments')}/>
+                        <IssueFeed assignees={current.get('Assignees')} activeAssignee={activeAssignee}/>
+                        {/*<CommentPane comments={current.get('Comments')}/>*/}
                     </Grid.Column>
                     <Grid.Column>
                         <LeftPanel/>
@@ -45,12 +57,14 @@ Issue.propTypes = {
 };
 
 Issue.defaultProps = {
-    current: Map()
+    current: Map(),
+    currentUser: Map(),
 };
 
 function mapStateToProps(state) {
     return {
-        current: state.issues.get('current')
+        current: state.issues.get('current'),
+        currentUser: state.users.get('session').get('user')
     }
 }
 
@@ -71,22 +85,3 @@ const panes = [
     },
 ];
 const LeftPanel = () => <Tab panes={panes}/>;
-
-function CommentPane({comments}) {
-    return (<Comment.Group>
-        {
-            comments && comments.map(comment =>
-                <Comment>
-                    <Comment.Content>
-                        Comment 1
-                    </Comment.Content>
-                </Comment>)
-        }
-        <Form>
-            <TextArea/>
-            <Button>
-                Submit
-            </Button>
-        </Form>
-    </Comment.Group>)
-}
