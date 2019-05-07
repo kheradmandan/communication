@@ -7,6 +7,7 @@ export default function (req, res, next) {
     const {
         userUuid = currentUser.uuid,
         eraUuid,
+        viewpointId = 0,
         priorityId = 0,
         statusId = 0,
         realmId,
@@ -45,7 +46,8 @@ export default function (req, res, next) {
                                 .create({
                                     issueUuid: issue.uuid,
                                     userUuid: assignee.uuid,
-                                    createdBy: creator.uuid
+                                    createdBy: creator.uuid,
+                                    viewpointId
                                 }, {transaction})
                         )
                         .then(assignee =>
