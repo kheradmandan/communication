@@ -1,7 +1,8 @@
 import {sequelize, Issue, User, Era, Assignee} from '../../models';
 import FieldMissingError from "../../errors/FieldMissingError";
+import {safeAsync} from "../../core/safe-async-middleware";
 
-export default async function (req, res, next) {
+export default safeAsync(async function (req, res, next) {
     const currentUser = req.user;
     const {
         userUuid = currentUser.uuid,
@@ -18,7 +19,7 @@ export default async function (req, res, next) {
 
     // insurance
     const rejectOnEmpty = true;
-    const [era, assigneeOrigin, creator] = await Promise.all([
+    let [era, assigneeUserCandidate, creator] = await Promise.all([
         Era.findByPk(eraUuid, {rejectOnEmpty}),
         User.findByPk(userUuid, {rejectOnEmpty}),
         User.findByPk(currentUser.uuid, {rejectOnEmpty}),
@@ -30,7 +31,7 @@ export default async function (req, res, next) {
         transaction = await sequelize.transaction();
 
         // generate new sequence number
-        const era = await era.increment('current', {by: era.getDataValue('increment')}, {transaction});
+        era = await era.increment('current', {by: era.getDataValue('increment')}, {transaction});
 
         // save issue
         const issue = await Issue.create({
@@ -46,10 +47,12 @@ export default async function (req, res, next) {
         // create default assignee
         let assignee = await Assignee.create({
             issueUuid: issue.uuid,
-            userUuid: assigneeOrigin.uuid,
+            userUuid: assigneeUserCandidate.uuid,
             createdBy: creator.uuid,
             viewpointId
         }, {transaction});
+
+        // self reference for head assignee
         assignee = await assignee.setParent(assignee, {transaction});
 
         // fetch created issue
@@ -73,4 +76,4 @@ export default async function (req, res, next) {
         transaction && await transaction.rollback();
         throw e;
     }
-}
+})
