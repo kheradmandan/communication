@@ -1,9 +1,9 @@
 import {User, Assignee, Comment} from '../../models';
-import response from '../../core/response';
 import FieldMissingError from "../../errors/FieldMissingError";
 import ForbiddenError from "../../errors/ForbiddenError";
+import {safeAsync} from "../../core/safe-async-middleware";
 
-export function addComment(req, res, next) {
+export const addComment = safeAsync(async function (req, res, next) {
     const currentUser = req.user;
     const {assigneeUuid} = req.params;
     const {context} = req.body;
@@ -11,23 +11,25 @@ export function addComment(req, res, next) {
         throw new FieldMissingError().appendMessage(['context'])
     }
 
-    Promise.all(
-        [
-            Assignee.findByPk(assigneeUuid, {rejectOnEmpty: true}),
-            User.findByPk(currentUser.uuid, {rejectOnEmpty: true})
-        ])
-        .then(function ([assignee, user]) {
-            if (assignee.userUuid !== user.uuid) {
-                throw new ForbiddenError().appendMessage('Assignee is not belong to you.');
-            }
-            return Comment
-                .create({
-                    assigneeUuid: assignee.uuid,
-                    context,
-                    createdBy: user.uuid
-                })
-        })
-        .then(comment=>comment.get())
-        .then(response(req, res, next))
-        .catch(next);
-}
+    // insurance
+    const [assignee, user] = await Promise.all([
+        Assignee.findByPk(assigneeUuid, {rejectOnEmpty: true}),
+        User.findByPk(currentUser.uuid, {rejectOnEmpty: true})
+    ]);
+
+    // permission
+    if (assignee.userUuid !== user.uuid) {
+        throw new ForbiddenError().appendMessage('Assignee is not belong to you.');
+    }
+
+    // create
+    const createdComment = await Comment.create({
+        assigneeUuid: assignee.uuid,
+        context,
+        createdBy: user.uuid
+    });
+
+    // passed
+    res.locals.payload = await createdComment.get();
+    next();
+});
