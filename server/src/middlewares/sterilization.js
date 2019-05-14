@@ -1,5 +1,4 @@
 import CommunicationBaseError from '../errors/CommunicationBaseError';
-import response from '../core/response';
 
 /**
  * Handle api owned errors
@@ -11,12 +10,14 @@ import response from '../core/response';
 
 export default function (err, req, res, next) {
     if (err instanceof CommunicationBaseError) {
-        const payload = {
-            requestedOrigin: req.url,
+        res.locals.type = 'error';
+        res.locals.status = err.code;
+        res.locals.payload = {
+            url: req.method + ' ' + req.url,
             message: err.message,
             appendices: err.appendices,
         };
-        return response(req, res, {type: 'error', status: err.code})(payload);
+        return next();
     }
     next(err);
 }
