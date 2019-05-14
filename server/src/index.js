@@ -7,6 +7,7 @@ import authorization from "./middlewares/authorization";
 import sequelization from "./middlewares/sequelization";
 import sterilization from "./middlewares/sterilization";
 import systemization from "./middlewares/systemization";
+import transmissions from "./middlewares/transmission";
 
 // Sync database
 sequelize
@@ -37,6 +38,9 @@ app.use('/api/v1', api);
 app.use(sequelization);
 app.use(sterilization);
 app.use(systemization);
+
+// Transmission
+app.all('*', transmissions);
 
 // Running
 app.listen(PORT, function (err) {
