@@ -1,21 +1,16 @@
-import {Sequelize, Issue, User, Era, Status, Priority} from '../../models';
-import response from '../../core/response';
+import {Issue, Sequelize, User} from '../../models';
 import ForbiddenError from "../../errors/ForbiddenError";
+import {safeAsync} from "../../core/safe-async-middleware";
 
-/**
- * Proper list of all created issues
- * @param req
- * @param res
- * @param next
- */
-export function readHeads(req, res, next) {
+export const readHeads = safeAsync(async function (req, res, next) {
     const currentUser = req.user;
     const {
         createdAt = new Date(),
         limit = 10,
     } = req.query;
 
-    Issue
+    // passed
+    res.locals.payload = await Issue
         .scope('view')
         .findAll(
             {
@@ -26,29 +21,33 @@ export function readHeads(req, res, next) {
                 },
                 limit: limit + 1,
             }
-        )
-        .then(response(req, res))
-        .catch(next);
-}
+        );
 
-export function readDetails(req, res, next) {
+    next();
+});
+
+
+export const readDetails = safeAsync(async function (req, res, next) {
     const currentUser = req.user;
     const uuid = req.params.uuid;
 
-    Promise.all(
-        [
-            Issue.findByPk(uuid, {rejectOnEmpty: true}),
-            User.findByPk(currentUser.uuid, {rejectOnEmpty: true})
-        ])
-        .then(([issue, user]) => {
-            if (issue.createdBy === user.uuid) {
-                return Issue
-                    .scope(['view', 'details'])
-                    .findByPk(issue.uuid);
-            }
-            throw new ForbiddenError().appendMessage('You cannot touch this issue!');
-        })
-        .then(details => details.get())
-        .then(response(req, res, next))
-        .catch(next)
-}
+    // insurance
+    const rejectOnEmpty = true;
+    const [issue, user] = await Promise.all([
+        Issue.findByPk(uuid, {rejectOnEmpty}),
+        User.findByPk(currentUser.uuid, {rejectOnEmpty})
+    ]);
+
+    // permission check
+    if (issue.createdBy !== user.uuid) {
+        throw new ForbiddenError().appendMessage('You cannot touch this issue!');
+    }
+
+    // passed
+    res.locals.payload = await Issue
+        .scope(['view', 'details'])
+        .findByPk(issue.uuid)
+        .get();
+
+    next();
+});
