@@ -1,4 +1,3 @@
-import response from '../core/response';
 
 /**
  * Systemization Errors: The last chance to handle errors
@@ -9,17 +8,14 @@ import response from '../core/response';
  */
 
 export default function (err, req, res, next) {
-    try {
-        const payload = {
-            title: 'Unhandled error raised up',
-            message: err.message
-        };
-        console.error(payload);
-        console.error(err);
-        response(req, res, {type: 'error'})(payload);
-    } catch (e) {
-        console.log('!!! Dead Error Message: %o', e);
-        res && res.end && res.end();
-        process.exit((err && err.code) || -101)
-    }
+    res.locals.type = 'error';
+    res.locals.status = err.code;
+    res.locals.payload = {
+        title: 'Unhandled error raised up',
+        message: err.message
+    };
+
+    console.error(res.locals.payload);
+    console.error(err);
+    return next();
 }

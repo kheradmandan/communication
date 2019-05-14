@@ -3,35 +3,21 @@ import {expect} from 'chai'
 import systemization from "./systemization";
 
 describe('Systemization Middleware', () => {
-    let req, res, next, sent, status, end;
+    let req, res, next, nextCalled = false;
     beforeEach(() => {
-        res = {
-            code: 0,
-            end: () => end = true,
-            json: d => sent = d,
-            status: (c) => {
-                status = c;
-                return res;
-            }
-        };
+        res = {locals: {}};
         req = {};
-        next = function () {
-            throw new Error('It should not call')
-        };
+        next = () => nextCalled = true;
     });
 
-    it('Should not pass any errors types', () => {
+    it('Should pass all errors as error response', () => {
         const error = new Error('My message');
 
         systemization(error, req, res, next);
-        expect(sent.error.message).to.equals(error.message);
-    });
-
-    it('Should end res on unhandled', () => {
-        const error = null;
-
-        systemization(error, req, res, next);
-        expect(end).to.be.true;
+        expect(nextCalled).to.be.true;
+        expect(res.locals.type).to.equals('error');
+        expect(res.locals.status).to.equals(error.code);
+        expect(res.locals.payload.message).to.equals(error.message);
     });
 
 });
