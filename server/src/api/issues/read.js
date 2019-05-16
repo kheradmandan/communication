@@ -43,11 +43,10 @@ export const readDetails = safeAsync(async function (req, res, next) {
         throw new ForbiddenError().appendMessage('You cannot touch this issue!');
     }
 
-    // passed
-    res.locals.payload = await Issue
-        .scope(['view', 'details'])
-        .findByPk(issue.uuid)
-        .get();
+    // persist data
+    const details = await Issue.scope(['view', 'details']).findByPk(issue.uuid);
 
+    // passed
+    res.locals.payload = details.get();
     next();
 });
