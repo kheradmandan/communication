@@ -1,7 +1,7 @@
 import {User, Assignee, Comment} from '../../models';
 import FieldMissingError from "../../errors/FieldMissingError";
 import ForbiddenError from "../../errors/ForbiddenError";
-import {safeAsync} from "../../core/safe-async-middleware";
+import {safeAsync} from "../../core/safe-async";
 
 export const addComment = safeAsync(async function (req, res, next) {
     const currentUser = req.user;

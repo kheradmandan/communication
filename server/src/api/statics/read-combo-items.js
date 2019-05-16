@@ -1,6 +1,6 @@
 import models from "../../models";
 import OperationError from "../../errors/OperationError";
-import {safeAsync} from "../../core/safe-async-middleware";
+import {safeAsync} from "../../core/safe-async";
 
 export default safeAsync(async function (req, res, next) {
     const {name = 'all', limit = 500} = req.query;

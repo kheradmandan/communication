@@ -1,6 +1,6 @@
 import {sequelize, Issue, User, Era, Assignee} from '../../models';
 import FieldMissingError from "../../errors/FieldMissingError";
-import {safeAsync} from "../../core/safe-async-middleware";
+import {safeAsync} from "../../core/safe-async";
 
 export default safeAsync(async function (req, res, next) {
     const currentUser = req.user;

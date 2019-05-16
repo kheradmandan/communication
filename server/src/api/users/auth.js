@@ -1,7 +1,7 @@
 import {sequelize, User} from '../../models'
 import FieldMissingError from "../../errors/FieldMissingError";
 import OperationError from "../../errors/OperationError";
-import {safeAsync} from "../../core/safe-async-middleware";
+import {safeAsync} from "../../core/safe-async";
 import {sign} from "../../core/tokenizator";
 
 export default safeAsync(async function (req, res, next) {

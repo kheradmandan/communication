@@ -1,6 +1,6 @@
 import {Issue, Sequelize, User} from '../../models';
 import ForbiddenError from "../../errors/ForbiddenError";
-import {safeAsync} from "../../core/safe-async-middleware";
+import {safeAsync} from "../../core/safe-async";
 
 export const readHeads = safeAsync(async function (req, res, next) {
     const currentUser = req.user;
