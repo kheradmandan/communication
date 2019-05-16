@@ -12,14 +12,22 @@ class Issue extends React.Component {
     state = {uuid: ''};
 
     componentDidMount() {
-        const {match, current} = this.props;
+        this.fetchDetails(this.props);
+    }
+
+    componentWillUpdate(nextProps, nextState, nextContext) {
+        this.fetchDetails(nextProps);
+    }
+
+    fetchDetails = (props) => {
+        const {match, current} = props;
         if (match && match.params && match.params.uuid) {
             const uuid = match.params.uuid;
             if (uuid !== current.get('uuid')) {
                 this.props.getIssueDetails(uuid);
             }
         }
-    }
+    };
 
     render() {
         const {current, currentUser, addComment} = this.props;

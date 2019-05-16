@@ -15,7 +15,7 @@ export default class AssigneeForm extends React.Component {
     handleSubmit = (e) => {
         e.preventDefault();
         const {context} = this.state;
-        const {onAddComment, assignee} = this.props;
+        const {assignee, onAddComment} = this.props;
         const assigneeUuid = assignee.get('uuid');
 
         if (context && context.length > 0 && onAddComment && assigneeUuid) {
