@@ -16,7 +16,7 @@ class Dashboard extends React.Component {
 
     onLoadXrefUsersOriginsClick = () => {
         const {session, loadXrefUsersOrigins} = this.props;
-        loadXrefUsersOrigins(session.user.uuid);
+        loadXrefUsersOrigins(session.get('user').get('uuid'));
     };
 
     onLoadXrefOriginsRealmsClick = () => {
