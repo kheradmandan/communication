@@ -7,13 +7,9 @@ class IssueDialog extends React.Component {
 
     render() {
         const {permissions} = this.props;
-
         return (<Modal trigger={<Button>Add new </Button>} centered={false}>
             <Modal.Header>
                 اعلام مشکل
-
-                <Selection options={permissions.get('xref-users-origins')} modelName='Origin'/>
-
             </Modal.Header>
             <Modal.Content>
                 <Form>
@@ -23,14 +19,22 @@ class IssueDialog extends React.Component {
                         icon="bug"
                     />
                     <TextArea placeholder="exp"/>
-                    <Button primary>
-                        ذخیره
-                    </Button>
-                    <Button secondary>
-                        انصراف
-                    </Button>
+
+                    <Modal.Content>
+                        <Selection options={permissions.get('xref-users-origins')} modelName='Origin'/>
+                    </Modal.Content>
+
+                    <Modal.Actions>
+                        <Button primary>
+                            ذخیره
+                        </Button>
+                        <Button secondary>
+                            انصراف
+                        </Button>
+                    </Modal.Actions>
                 </Form>
             </Modal.Content>
+
         </Modal>)
     }
 }

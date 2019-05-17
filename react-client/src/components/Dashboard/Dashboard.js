@@ -6,6 +6,7 @@ import LocaleDate from '../LocaleDate';
 import * as issueActions from '../../services/issues';
 import * as permissionActions from '../../services/permissions';
 import Messages from '../Message';
+import IssueDialog from "../IssueDialog";
 
 class Dashboard extends React.Component {
     state = {
@@ -50,6 +51,7 @@ class Dashboard extends React.Component {
 
         return (<div>
             <Messages/>
+            <IssueDialog/>
             <Button onClick={reloadIssues}> Reload issues </Button>
             <Button onClick={this.onLoadXrefUsersOriginsClick}> Reload xref user origin </Button>
             <Button onClick={this.onLoadXrefOriginsRealmsClick}> Reload xref origin realms</Button>
@@ -72,7 +74,7 @@ export default connect(mapStateToProps, {...issueActions, ...permissionActions})
 
 
 function IssueMainTable({issues, direction, column, onSortClick}) {
-    return (<Table compact celled definition selectable textAlign='right' color='red' sortable>
+    return (<Table compact celled definition selectable color='red' sortable>
         <Table.Header>
             <Table.Row>
                 <Table.HeaderCell textAlign='center'

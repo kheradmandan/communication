@@ -2,6 +2,7 @@ import React from 'react';
 import {Dropdown} from "semantic-ui-react";
 import {List} from "immutable";
 
+
 export default function ({options, modelName}) {
 
     if (!options) options = [];
