@@ -11,6 +11,10 @@
     "test": "./node_modules/.bin/mocha --require @babel/register ./src/**/*.tests.js"
   },
   "dependencies": {
+    "@hapi/boom": "^7.4.2",
+    "@hapi/glue": "^6.1.0",
+    "@hapi/hapi": "^18.3.1",
+    "@hapi/joi": "^15.0.3",
     "cors": "^2.8.5",
     "dotenv": "^7.0.0",
     "express": "^4.16.4",
