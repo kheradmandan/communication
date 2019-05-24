@@ -1,51 +1,19 @@
-import express from 'express'
-import logger from 'morgan'
-import cors from 'cors';
-import {sequelize} from './models'
-import api from './api'
-import authorization from "./middlewares/authorization";
-import sequelization from "./middlewares/sequelization";
-import sterilization from "./middlewares/sterilization";
-import systemization from "./middlewares/systemization";
-import transmissions from "./middlewares/transmission";
+import Glue from '@hapi/glue';
+import {sequelize} from "./models";
+import manifest from './conf/manifest';
 
-// Sync database
-sequelize
-    .sync()
-    .then(() => console.log('Sequelize sync was success.'))
-    .catch(err => console.log('Sequelize sync was failed because of: %o', err));
+Glue
+    .compose(manifest)
+    .then(async (server) => {
 
-const PORT = process.env['_COMMUNICATION_PORT'] || 8080;
-const app = express();
+        // database
+        await sequelize.sync();
+        console.info('Sequelize connection was success.');
 
-// cross origin
-app.use(cors());
-
-// Register logger
-app.use(logger("combined"));
-
-// Parse json body
-app.use(express.urlencoded({extended: true}));
-app.use(express.json());
-
-// Parse JWT token
-app.use(authorization);
-
-// Navigate to api
-app.use('/api/v1', api);
-
-// Error Handlers
-app.use(sequelization);
-app.use(sterilization);
-app.use(systemization);
-
-// Transmission
-app.all('*', transmissions);
-
-// Running
-app.listen(PORT, function (err) {
-    if (err) {
-        return console.error('Server running failed: %o', err);
-    }
-    console.log('Server is listening on http://127.0.0.1:%d', PORT);
-});
+        // server instance
+        await server.start();
+        console.info('A Hapi server running at:', server.info.uri)
+    })
+    .catch(error => {
+        console.error('error at running a Hapi server...', error);
+    });
