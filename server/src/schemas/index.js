@@ -13,7 +13,7 @@ module.exports = async function startMongo() {
 
 async function seeds() {
     if (!conf.global.isProductionMode) {
-        await User.remove({email: 'raeisi@zoho.com'});
+        // await User.remove({email: 'raeisi@zoho.com'});
         const user = await User.findOne({email: 'raeisi@zoho.com'});
         if (!user) {
             const newUser = new User({
