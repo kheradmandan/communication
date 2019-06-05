@@ -1,26 +1,17 @@
-import fs from 'fs'
-import jsonWebToken from 'jsonwebtoken'
-
-export {
-    sign,
-    verify,
-}
-
-const privateKey = fs.readFileSync('./jwtRS256.key', 'utf8');
-const publicKey = fs.readFileSync('./jwtRS256.key.pub', 'utf8');
+const jsonWebToken = require('jsonwebtoken');
+const conf = require('../../conf');
 
 const signOptions = {
     expiresIn: '7 days',
     issuer: 'Safarayaneh Communication',
     subject: 'Authorization key',
     audience: 'http://www.safarayaneh.com',
-    algorithm: 'RS256'
+    algorithm: conf.auth.algorithm,
 };
-const verifyOptions = {...signOptions, algorithm: ['RS256']};
 
 function sign(payload) {
     return new Promise(function (resolve, reject) {
-        jsonWebToken.sign(payload, privateKey, signOptions, function (err, data) {
+        jsonWebToken.sign(payload, conf.auth.privateKey, signOptions, function (err, data) {
             if (err) {
                 return reject(err);
             }
@@ -29,9 +20,12 @@ function sign(payload) {
     })
 }
 
+// Just for test purposes
+const verifyOptions = {...signOptions, algorithms: conf.auth.verifyOptions.algorithms};
+
 function verify(token) {
     return new Promise(function (resolve, reject) {
-        jsonWebToken.verify(token, publicKey, verifyOptions, function (err, data) {
+        jsonWebToken.verify(token, conf.auth.publicKey, verifyOptions, function (err, data) {
             if (err) {
                 return reject(err);
             }
@@ -39,3 +33,8 @@ function verify(token) {
         });
     });
 }
+
+module.exports = {
+    sign,
+    verify,
+};

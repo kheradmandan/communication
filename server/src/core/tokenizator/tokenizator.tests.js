@@ -1,6 +1,6 @@
-import {describe} from "mocha"
-import {expect} from 'chai'
-import {sign, verify} from './index'
+const {describe} = require('mocha');
+const {expect} = require('chai');
+const {sign, verify} = require('./index');
 
 describe('Tokenizator', () => {
 
@@ -27,5 +27,4 @@ describe('Tokenizator', () => {
             .then((x) => expect(x).to.keys({...payload, ...jwtMeta}))
     );
 
-})
-;
+});
