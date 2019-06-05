@@ -1,16 +1,15 @@
-import {Issue, Sequelize, User} from '../../models';
-import ForbiddenError from "../../errors/ForbiddenError";
-import {safeAsync} from "../../core/safe-async";
+const {Issue, Sequelize, User} = require('../../models');
+const ForbiddenError = require("../../errors/ForbiddenError");
 
-export const readHeads = safeAsync(async function (req, res, next) {
-    const currentUser = req.user;
+module.exports.readHeads = async function (request, h) {
+    const currentUser = {uuid: 'ce0d1090-396f-4d2b-9f51-ee6ef2051a3f'};
     const {
         createdAt = new Date(),
         limit = 10,
-    } = req.query;
+    } = request.query;
 
     // passed
-    res.locals.payload = await Issue
+    return Issue
         .scope('view')
         .findAll(
             {
@@ -22,14 +21,12 @@ export const readHeads = safeAsync(async function (req, res, next) {
                 limit: limit + 1,
             }
         );
-
-    next();
-});
+};
 
 
-export const readDetails = safeAsync(async function (req, res, next) {
-    const currentUser = req.user;
-    const uuid = req.params.uuid;
+module.exports.readDetails = async function (request, h) {
+    const currentUser = {uuid: 'ce0d1090-396f-4d2b-9f51-ee6ef2051a3f'};
+    const uuid = request.params.uuid;
 
     // insurance
     const rejectOnEmpty = true;
@@ -47,6 +44,6 @@ export const readDetails = safeAsync(async function (req, res, next) {
     const details = await Issue.scope(['view', 'details']).findByPk(issue.uuid);
 
     // passed
-    res.locals.payload = details.get();
-    next();
-});
+    return details.get();
+
+};
