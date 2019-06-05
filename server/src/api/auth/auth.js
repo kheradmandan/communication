@@ -1,6 +1,7 @@
 const {sequelize, User} = require('../../models');
 const {sign} = require('../../core/tokenizator');
 const Joi = require('@hapi/joi');
+const Boom = require('@hapi/boom');
 
 module.exports.validate = {
     payload: Joi.object({
@@ -11,9 +12,8 @@ module.exports.validate = {
 
 module.exports.handler = async function (request, h) {
 
-    const {email, password} = request.payload;
-
     // validate
+    const {email, password} = request.payload;
     const users = await sequelize.query(
         `SELECT "uuid", "email", "fullName", "userTypeId"
                      FROM "Users" 
@@ -27,7 +27,7 @@ module.exports.handler = async function (request, h) {
 
     // failed
     if (!users || users.length !== 1) {
-        throw new Error('Provided authentication data is not valid.');
+        throw Boom.unauthorized('Provided authentication data is not valid.');
     }
 
     // get persist
