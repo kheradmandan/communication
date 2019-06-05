@@ -26,13 +26,11 @@ const UserSchema = new mongoose.Schema({
     },
     email: {
         type: String,
-        unique: true,
         required: true,
         minLength: 5,
         maxLength: 355,
-        index: {
-            unique: true
-        }
+        unique: true,
+        dropDups: true,
     },
     password: {
         type: String,
@@ -40,6 +38,7 @@ const UserSchema = new mongoose.Schema({
     }
 });
 
+UserSchema.index({email: 1, name: 1, family: 1});
 
 UserSchema.pre('save', function (next) {
     const user = this;
