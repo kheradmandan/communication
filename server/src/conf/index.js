@@ -1,14 +1,11 @@
-const conf = {};
+const fs = require('fs');
 
-const SECRET_KEY = process.env.SECRET_KEY || 'its-a-secret-key';
-const ENCODING = process.env.ENCODING || 'utf8';
+const publicKey = process.env.PUBLIC_KEY || fs.readFileSync('./jwtRS256.key.pub', 'utf8');
+const privateKey = process.env.PRIVATE_KEY || fs.readFileSync('./jwtRS256.key', 'utf8');
 
-conf.auth = {
-    secret: Buffer.from(SECRET_KEY, ENCODING),
-    tokenType: 'Token',
-    algorithm: 'HS256',
-    verifyOptions: {algorithms: ['HS256']}
+module.exports.auth = {
+    privateKey,
+    publicKey,
+    algorithm: 'RS256',
+    verifyOptions: {algorithms: ['RS256']}
 };
-
-
-module.exports = conf;
