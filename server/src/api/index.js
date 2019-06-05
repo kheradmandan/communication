@@ -1,6 +1,6 @@
-// import express from 'express'
-// import users from "./users";
+const auth = require('./auth');
 const issues = require('./issues');
+//const users = require('./users');
 // import statics from './statics';
 // import permissions from './permissions';
 //
@@ -15,6 +15,7 @@ const issues = require('./issues');
 // export default router;
 async function registerRoutes(server, option) {
 
+    auth(server, option);
     issues(server, option);
 }
 
