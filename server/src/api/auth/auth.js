@@ -1,7 +1,15 @@
 const {sequelize, User} = require('../../models');
 const {sign} = require('../../core/tokenizator');
+const Joi = require('@hapi/joi');
 
-module.exports = async function (request, h) {
+module.exports.validate = {
+    payload: Joi.object({
+        email: Joi.string().email().required(),
+        password: Joi.string().required(),
+    }),
+};
+
+module.exports.handler = async function (request, h) {
 
     const {email, password} = request.payload;
 

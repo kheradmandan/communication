@@ -1,4 +1,4 @@
-const validate = require('./validate');
+const auth = require('./auth');
 
 module.exports = async function (server, options) {
 
@@ -6,7 +6,10 @@ module.exports = async function (server, options) {
     server.route({
         method: 'POST',
         path: 'users/auth',
-        handler: validate,
-        options: {auth: false}
+        handler: auth.handler,
+        options: {
+            auth: false,
+            validate: auth.validate,
+        }
     })
 };
