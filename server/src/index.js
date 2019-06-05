@@ -1,6 +1,6 @@
 const Glue = require('@hapi/glue');
-// const {sequelize} = require("./models");
 const manifest = require('./conf/manifest');
+const startMongoDb = require('./schemas');
 
 const options = {
     relativeTo: __dirname
@@ -10,9 +10,9 @@ Glue
     .compose(manifest, options)
     .then(async (server) => {
 
-        // // database
-        // await sequelize.sync();
-        // console.info('Sequelize connection was success.');
+        // database
+        await startMongoDb();
+        console.info('Database connection was success.');
 
         // server instance
         await server.start();
