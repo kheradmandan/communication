@@ -5,7 +5,10 @@ const conf = require('../conf');
 module.exports = async function startMongo() {
 
     // Drive mongoDb Driver
-    await mongoose.connect(conf.mongo.url, {useNewUrlParser: true});
+    await mongoose.connect(conf.mongo.url, {
+        useCreateIndex: true,
+        useNewUrlParser: true,
+    });
 
     // Run seeds
     await seeds();
