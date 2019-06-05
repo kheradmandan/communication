@@ -13,3 +13,7 @@ module.exports.auth = {
 module.exports.mongo = {
     url: process.env.MONGO_URL || 'mongodb://127.0.0.1:27017/communication_dev'
 };
+
+module.exports.global = {
+    isProductionMode: process.env.NODE_ENV === 'production'
+};
