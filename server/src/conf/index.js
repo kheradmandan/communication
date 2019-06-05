@@ -9,3 +9,7 @@ module.exports.auth = {
     algorithm: 'RS256',
     verifyOptions: {algorithms: ['RS256']}
 };
+
+module.exports.mongo = {
+    url: process.env.MONGO_URL || 'mongodb://127.0.0.1:27017/communication_dev'
+};
