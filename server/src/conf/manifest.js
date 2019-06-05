@@ -3,7 +3,10 @@ const manifest = {
         host: (process.env.PORT) ? '0.0.0.0' : 'localhost',
         port: (process.env.PORT || 8081),
         routes: {
-            cors: true
+            cors: true,
+            validate: {
+                failAction: require('../core/fail-action')
+            }
         }
     },
     register: {
