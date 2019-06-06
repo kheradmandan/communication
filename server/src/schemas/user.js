@@ -2,27 +2,39 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const SALT_WORK_FACTOR = 10;
 const AttachmentSchema = require('./defs/attachment');
+const CONSTANTS = require('../core/constants').mongo.user;
 
 const UserSchema = new mongoose.Schema({
     name: {
-        type: String,
-        required: true,
-        minLength: 3,
-        maxLength: 32,
-    },
-    family: {
-        type: String,
-        required: true,
-        minLength: 3,
-        maxLength: 32,
+        gender: {
+            type: String,
+            required: true,
+            enum: CONSTANTS.name.genders,
+        },
+        first: {
+            type: String,
+            required: true,
+            minLength: CONSTANTS.name.first.minLength,
+            maxLength: CONSTANTS.name.first.maxLength,
+        },
+        last: {
+            type: String,
+            required: true,
+            minLength: CONSTANTS.name.last.minLength,
+            maxLength: CONSTANTS.name.last.maxLength,
+        }
     },
     group: {
-        id: {type: Number, required: true, default: 0},
+        id: {
+            type: Number,
+            required: true,
+            default: 0
+        },
         title: {
             type: String,
             required: true,
-            minLength: 3,
-            maxLength: 32,
+            minLength: CONSTANTS.group.title.minLength,
+            maxLength: CONSTANTS.group.title.maxLength,
         }
     },
     email: {

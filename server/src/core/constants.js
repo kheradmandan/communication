@@ -18,6 +18,25 @@ module.exports.mongo = {
         },
         statuses: ['draft', 'open', 'closed', 'removed', 'waiting'],
         priorities: ['low', 'normal', 'high', 'panic'],
+    },
+    user: {
+        name: {
+            genders: ['آقای', 'خانم'],
+            first: {
+                minLength: 3,
+                maxLength: 32,
+            },
+            last: {
+                minLength: 3,
+                maxLength: 32,
+            }
+        },
+        group: {
+            title: {
+                minLength: 3,
+                maxLength: 32,
+            }
+        }
     }
 };
 
