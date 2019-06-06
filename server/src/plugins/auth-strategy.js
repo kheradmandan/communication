@@ -3,8 +3,8 @@ const conf = require('../conf');
 function strategy(server) {
 
     server.auth.strategy('jwt', 'jwt', {
-        key: conf.auth.privateKey,
-        verifyOptions: conf.auth.verifyOptions,
+        key: conf.auth.keys.publicKey,
+        verifyOptions: conf.auth.verifyOptions.algorithms,
         validate,
     });
 

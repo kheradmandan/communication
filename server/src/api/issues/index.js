@@ -1,4 +1,5 @@
 const {readHeads, readDetails} = require("./read");
+const createIssue = require('./create');
 
 module.exports = function (server, options) {
 
@@ -12,6 +13,15 @@ module.exports = function (server, options) {
         method: 'GET',
         path: 'issues',
         handler: readHeads,
+    });
+
+    server.route({
+        method: 'POST',
+        path: 'issues',
+        handler: createIssue.handler,
+        options: {
+            validate: createIssue.validate
+        }
     });
 
     // router.post('/issues', protection, create);
