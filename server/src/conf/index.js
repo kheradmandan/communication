@@ -6,10 +6,20 @@ const publicKey = process.env.PUBLIC_KEY || fs.readFileSync('./jwtRS256.key.pub'
 const privateKey = process.env.PRIVATE_KEY || fs.readFileSync('./jwtRS256.key', 'utf8');
 
 module.exports.auth = {
-    privateKey,
-    publicKey,
-    algorithm: 'RS256',
-    verifyOptions: {algorithms: ['RS256']}
+    keys: {
+        privateKey,
+        publicKey,
+    },
+    signOptions: {
+        expiresIn: '7 days',
+        issuer: 'Safarayaneh Communication',
+        subject: 'Authorization key',
+        audience: 'http://www.safarayaneh.com',
+        algorithm: 'RS256',
+    },
+    verifyOptions: {
+        algorithms: ['RS256']
+    },
 };
 
 module.exports.mongo = {

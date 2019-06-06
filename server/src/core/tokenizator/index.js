@@ -1,17 +1,15 @@
 const jsonWebToken = require('jsonwebtoken');
-const conf = require('../../conf');
+const {auth} = require('../../conf');
 
-const signOptions = {
-    expiresIn: '7 days',
-    issuer: 'Safarayaneh Communication',
-    subject: 'Authorization key',
-    audience: 'http://www.safarayaneh.com',
-    algorithm: conf.auth.algorithm,
-};
+/**
+ * Sign payload and generate jwt token
+ * @param payload
+ * @returns {Promise<any>}
+ */
 
 function sign(payload) {
     return new Promise(function (resolve, reject) {
-        jsonWebToken.sign(payload, conf.auth.privateKey, signOptions, function (err, data) {
+        jsonWebToken.sign(payload, auth.keys.privateKey, auth.signOptions, function (err, data) {
             if (err) {
                 return reject(err);
             }
@@ -20,12 +18,14 @@ function sign(payload) {
     })
 }
 
-// Just for test purposes
-const verifyOptions = {...signOptions, algorithms: conf.auth.verifyOptions.algorithms};
-
+/**
+ * Verify token
+ * @param token
+ * @returns {Promise<any>}
+ */
 function verify(token) {
     return new Promise(function (resolve, reject) {
-        jsonWebToken.verify(token, conf.auth.publicKey, verifyOptions, function (err, data) {
+        jsonWebToken.verify(token, auth.keys.publicKey, auth.verifyOptions, function (err, data) {
             if (err) {
                 return reject(err);
             }
