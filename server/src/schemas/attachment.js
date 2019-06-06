@@ -14,11 +14,6 @@ const AttachmentSchema = new mongoose.Schema({
         type: Buffer,
         required: true,
     },
-    on: {
-        type: mongoose.Schema.ObjectId,
-        required: true,
-        enum: ['Issue', 'User']
-    },
     created: UserStampSchema,
 });
 
