@@ -10,6 +10,12 @@ module.exports.mongo = {
                 maxLength: 16,
             }
         },
+        comment: {
+            context: {
+                minLength: 1,
+                maxLength: 2048,
+            }
+        },
         statuses: ['draft', 'open', 'closed', 'removed', 'waiting'],
         priorities: ['low', 'normal', 'high', 'panic'],
     }
