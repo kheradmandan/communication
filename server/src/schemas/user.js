@@ -36,7 +36,11 @@ const UserSchema = new mongoose.Schema({
     password: {
         type: String,
         required: true
-    }
+    },
+    profileImage: {
+        type: mongoose.Schema.ObjectId,
+        ref: 'Attachment'
+    },
 });
 
 UserSchema.index({email: 1, name: 1, family: 1});
