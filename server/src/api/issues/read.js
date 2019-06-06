@@ -1,3 +1,4 @@
+const Boom = require('@hapi/boom');
 const {Issue, Sequelize, User} = require('../../models');
 
 module.exports.readHeads = async function (request, h) {
@@ -36,7 +37,7 @@ module.exports.readDetails = async function (request, h) {
 
     // permission check
     if (issue.createdBy !== user.uuid) {
-        throw new ForbiddenError().appendMessage('You cannot touch this issue!');
+        throw Boom.forbidden('You cannot touch this issue!');
     }
 
     // persist data
