@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const SALT_WORK_FACTOR = 10;
+const AttachmentSchema = require('./defs/attachment');
 
 const UserSchema = new mongoose.Schema({
     name: {
@@ -37,10 +38,7 @@ const UserSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    profileImage: {
-        type: mongoose.Schema.ObjectId,
-        ref: 'Attachment'
-    },
+    profileImage: AttachmentSchema,
 });
 
 UserSchema.index({email: 1, name: 1, family: 1});
