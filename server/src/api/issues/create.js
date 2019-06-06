@@ -46,11 +46,14 @@ module.exports.handler = async function (request, h) {
     const currentDate = new Date();
     const created = (id = userInstance._id) => ({by: id, at: currentDate});
 
+    const sequence = await eraInstance.getNextSequence();
+
+    // create
     const issue = new Issue({
         title,
         realm,
         era,
-        sequence: eraInstance.getNextSequence(),
+        sequence,
         statuses: [{id: status, created: created()}],
         priorities: [{id: priority, created: created()}],
         assignees: [{user: userInstance._id, created: created()}],
