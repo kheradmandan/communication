@@ -16,4 +16,4 @@ const CommentSchema = new mongoose.Schema({
     created: UserStampSchema,
 });
 
-module.exports = mongoose.model('Comment', CommentSchema);
+module.exports = CommentSchema;
