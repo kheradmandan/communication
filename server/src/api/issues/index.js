@@ -1,3 +1,4 @@
+const addComment = require('./add-comment');
 const createIssue = require('./create');
 const getIssueList = require('./get-issue-list');
 const getIssueDetails = require('./get-issue-details');
@@ -31,5 +32,12 @@ module.exports = function (server, options) {
         }
     });
 
-    // router.post('/issues/assignees/:assigneeUuid/comments', protection, addComment);
+    server.route({
+        method: 'POST',
+        path: 'issues/{id}/comments',
+        handler: addComment.handler,
+        options: {
+            validate: addComment.validate
+        }
+    });
 };
