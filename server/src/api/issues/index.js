@@ -2,6 +2,7 @@ const addComment = require('./add-comment');
 const createIssue = require('./create');
 const getIssueList = require('./get-issue-list');
 const getIssueDetails = require('./get-issue-details');
+const changeStatue = require('./change-status');
 const changeAssignee = require('./change-assignee');
 
 module.exports = function (server, options) {
@@ -48,6 +49,15 @@ module.exports = function (server, options) {
         handler: changeAssignee.handler,
         options: {
             validate: changeAssignee.validate
+        }
+    });
+
+    server.route({
+        method: 'POST',
+        path: 'issues/{id}/statuses',
+        handler: changeStatue.handler,
+        options: {
+            validate: changeStatue.validate
         }
     });
 
