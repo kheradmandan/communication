@@ -3,7 +3,9 @@ const UserStampSchema = require('./defs/user-stamp');
 
 const EraSchema = new mongoose.Schema({
     origin: {
-        type: Number, ref: 'Origin'
+        type: Number,
+        required: true,
+        ref: 'Origin'
     },
     title: {
         type: String,
