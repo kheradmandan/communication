@@ -3,7 +3,7 @@ const UserStampSchema = require('./user-stamp');
 const CONSTANTS = require('../../core/constants').mongo.issue.comment;
 
 const CommentSchema = new mongoose.Schema({
-    body: {
+    context: {
         type: String,
         required: true,
         minLength: CONSTANTS.context.minLength,
