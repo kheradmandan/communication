@@ -57,7 +57,7 @@ const IssueSchema = new mongoose.Schema({
         created: UserStampSchema
     }],
     comments: [CommentSchema],
-    attachment: [AttachmentSchema],
+    attachments: [AttachmentSchema],
     created: UserStampSchema,
 });
 
