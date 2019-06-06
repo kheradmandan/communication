@@ -1,18 +1,25 @@
-const {readHeads, readDetails} = require("./read");
 const createIssue = require('./create');
+const getIssueList = require('./get-issue-list');
+const getIssueDetails = require('./get-issue-details');
 
 module.exports = function (server, options) {
 
     server.route({
         method: 'GET',
-        path: 'issues/{id}',
-        handler: readDetails,
+        path: 'issues',
+        handler: getIssueList.handler,
+        options: {
+            validate: getIssueList.validate
+        }
     });
 
     server.route({
         method: 'GET',
-        path: 'issues',
-        handler: readHeads,
+        path: 'issues/{id}',
+        handler: getIssueDetails.handler,
+        options: {
+            validate: getIssueDetails.validate
+        }
     });
 
     server.route({
@@ -24,10 +31,5 @@ module.exports = function (server, options) {
         }
     });
 
-    // router.post('/issues', protection, create);
-    //
-    // router.get('/issues', protection, readHeads);
-    // router.get('/issues/:uuid', protection, readDetails);
-    //
     // router.post('/issues/assignees/:assigneeUuid/comments', protection, addComment);
 };
