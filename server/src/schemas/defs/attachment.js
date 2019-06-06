@@ -17,4 +17,4 @@ const AttachmentSchema = new mongoose.Schema({
     created: UserStampSchema,
 });
 
-module.exports = mongoose.model('Attachment', AttachmentSchema);
+module.exports = AttachmentSchema;
