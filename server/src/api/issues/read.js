@@ -1,49 +1,29 @@
 const Boom = require('@hapi/boom');
-const {Issue, Sequelize, User} = require('../../models');
+const Issue = require('../../schemas/issue');
 
-module.exports.readHeads = async function (request, h) {
-    const currentUser = {uuid: 'ce0d1090-396f-4d2b-9f51-ee6ef2051a3f'};
+module.exports.readHeads = async function (request) {
+    const currentUser = request.auth.credentials;
     const {
-        createdAt = new Date(),
         limit = 10,
     } = request.query;
 
-    // passed
     return Issue
-        .scope('view')
-        .findAll(
-            {
-                where: {
-                    createdBy: currentUser.uuid,
-                    createdAt: {[Sequelize.Op.lte]: createdAt},
-                    statusId: [0, 1, 2]
-                },
-                limit: limit + 1,
-            }
-        );
+        .find({"assignees.0.user": currentUser._id})
+        .limit(limit);
 };
 
 
-module.exports.readDetails = async function (request, h) {
-    const currentUser = {uuid: 'ce0d1090-396f-4d2b-9f51-ee6ef2051a3f'};
-    const uuid = request.params.uuid;
+module.exports.readDetails = async function (request) {
+    const currentUser = request.auth.credentials;
+    const issueId = request.params.id;
 
-    // insurance
-    const rejectOnEmpty = true;
-    const [issue, user] = await Promise.all([
-        Issue.findByPk(uuid, {rejectOnEmpty}),
-        User.findByPk(currentUser.uuid, {rejectOnEmpty})
-    ]);
-
-    // permission check
-    if (issue.createdBy !== user.uuid) {
-        throw Boom.forbidden('You cannot touch this issue!');
+    const issue = await Issue
+        .findOne({_id: issueId, "created.by": currentUser._id})
+        .populate('created.by', 'name family')
+    ;
+    if (!issue) {
+        throw Boom.badData('Specified issue not found. Maybe you have not enough permission.');
     }
 
-    // persist data
-    const details = await Issue.scope(['view', 'details']).findByPk(issue.uuid);
-
-    // passed
-    return details.get();
-
+    return issue;
 };

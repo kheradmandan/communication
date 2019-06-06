@@ -5,7 +5,7 @@ module.exports = function (server, options) {
 
     server.route({
         method: 'GET',
-        path: 'issues/{uuid}',
+        path: 'issues/{id}',
         handler: readDetails,
     });
 
