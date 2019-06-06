@@ -3,15 +3,14 @@ const UserStampSchema = require('./defs/user-stamp');
 
 const AttachmentSchema = new mongoose.Schema({
     owner: {
-        id: {
-            type: mongoose.Schema.ObjectId,
-            required: true,
-        },
-        name: {
-            type: String,
-            required: true,
-            enum: ['Issue', 'User']
-        }
+        type: mongoose.Schema.ObjectId,
+        required: true,
+        refPath: 'ownerModel'
+    },
+    ownerModel: {
+        type: String,
+        required: true,
+        enum: ['Issue', 'User']
     },
     title: {
         type: String,
@@ -22,6 +21,10 @@ const AttachmentSchema = new mongoose.Schema({
         type: String,
         required:
             true,
+    },
+    size: {
+        type: Number,
+        required: true,
     },
     data: {
         type: Buffer,
