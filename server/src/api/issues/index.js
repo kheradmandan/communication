@@ -1,10 +1,11 @@
 const addComment = require('./add-comment');
 const createIssue = require('./create');
 const getIssueList = require('./get-issue-list');
-const getIssueDetails = require('./get-issue-details');
 const changeStatue = require('./change-status');
+const addAttachment = require('./add-attachment');
 const changePriority = require('./change-priority');
 const changeAssignee = require('./change-assignee');
+const getIssueDetails = require('./get-issue-details');
 
 module.exports = function (server, options) {
 
@@ -68,6 +69,21 @@ module.exports = function (server, options) {
         handler: changePriority.handler,
         options: {
             validate: changePriority.validate
+        }
+    });
+
+    server.route({
+        method: 'POST',
+        path: 'issues/{id}/attachments',
+        handler: addAttachment.handler,
+        options: {
+            payload: {
+                maxBytes: 349525, // [1MB(1048576)/ 3]
+                output: 'stream',
+                parse: true,
+                allow: 'multipart/form-data'
+            },
+            validate: addAttachment.validate
         }
     });
 
