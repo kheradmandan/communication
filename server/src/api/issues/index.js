@@ -1,7 +1,3 @@
-import protection from "../../middlewares/protection";
-import create from "./create";
-import {addComment} from "./comments";
-
 const {readHeads, readDetails} = require("./read");
 
 module.exports = function (server, options) {
