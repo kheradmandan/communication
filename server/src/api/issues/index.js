@@ -6,6 +6,7 @@ const addAttachment = require('./add-attachment');
 const changePriority = require('./change-priority');
 const changeAssignee = require('./change-assignee');
 const getIssueDetails = require('./get-issue-details');
+const getAttachmentList = require('./get-attachment-list');
 
 module.exports = function (server, options) {
 
@@ -84,6 +85,15 @@ module.exports = function (server, options) {
                 allow: 'multipart/form-data'
             },
             validate: addAttachment.validate
+        }
+    });
+
+    server.route({
+        method: 'GET',
+        path: 'issues/{id}/attachments',
+        handler: getAttachmentList.handler,
+        options: {
+            validate: getAttachmentList.validate
         }
     });
 
