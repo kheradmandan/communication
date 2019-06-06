@@ -7,6 +7,7 @@ const changePriority = require('./change-priority');
 const changeAssignee = require('./change-assignee');
 const getIssueDetails = require('./get-issue-details');
 const getAttachmentList = require('./get-attachment-list');
+const getAttachmentDetails = require('./get-attachment-details');
 
 module.exports = function (server, options) {
 
@@ -94,6 +95,15 @@ module.exports = function (server, options) {
         handler: getAttachmentList.handler,
         options: {
             validate: getAttachmentList.validate
+        }
+    });
+
+    server.route({
+        method: 'GET',
+        path: 'issues/{issueId}/attachments/{attachmentId}',
+        handler: getAttachmentDetails.handler,
+        options: {
+            validate: getAttachmentDetails.validate
         }
     });
 
