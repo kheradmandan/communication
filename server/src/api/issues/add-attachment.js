@@ -14,14 +14,14 @@ module.exports.handler = async function (request) {
         throw Boom.badData('Specified issue not found. Maybe you have not enough permission.');
     }
 
+    const data = new Buffer(File._data);
     const newAttachment = new Attachment({
-        owner: {
-            id: issue._id,
-            name: 'Issue'
-        },
+        owner: issue._id,
+        ownerModel: 'Issue',
         title,
         filename: File.hapi.filename,
-        data: new Buffer(File._data),
+        data,
+        size: data.length,
         created: {
             by: currentUser._id,
             at: new Date()
@@ -35,6 +35,7 @@ module.exports.handler = async function (request) {
         owner: newAttachment.owner,
         title: newAttachment.title,
         filename: newAttachment.filename,
+        size: newAttachment.size,
         data: 'accepted'
     }
 };
