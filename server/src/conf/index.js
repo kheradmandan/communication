@@ -28,6 +28,7 @@ module.exports.mongo = {
         useCreateIndex: true,
         useNewUrlParser: true,
         autoIndex: !isProductionMode,
+        useFindAndModify: false,
     }
 };
 
