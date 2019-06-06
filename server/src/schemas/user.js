@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const SALT_WORK_FACTOR = 10;
-const AttachmentSchema = require('./defs/attachment');
 const CONSTANTS = require('../core/constants').mongo.user;
 
 const UserSchema = new mongoose.Schema({
@@ -50,7 +49,6 @@ const UserSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    profileImage: AttachmentSchema,
 });
 
 UserSchema.index({email: 1, name: 1, family: 1});
