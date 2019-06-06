@@ -8,8 +8,8 @@ const IssueSchema = new mongoose.Schema({
     title: {
         type: String,
         required: true,
-        minLength: 2,
-        maxLength: 128,
+        minLength: CONSTANTS.title.minLength,
+        maxLength: CONSTANTS.title.maxLength,
     },
     realm: {
         type: Number,
@@ -41,7 +41,21 @@ const IssueSchema = new mongoose.Schema({
         },
         created: UserStampSchema
     }],
-    assignees: [UserStampSchema],
+    assignees: [{
+        user: {
+            type: mongoose.Schema.ObjectId,
+            required: true,
+            ref: 'User'
+        },
+        title: {
+            type: String,
+            default: null,
+            required: false,
+            minLength: CONSTANTS.assignee.title.minLength,
+            maxLength: CONSTANTS.assignee.title.maxLength,
+        },
+        created: UserStampSchema
+    }],
     comments: [CommentSchema],
     attachment: [AttachmentSchema],
     created: UserStampSchema,

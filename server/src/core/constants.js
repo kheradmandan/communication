@@ -4,6 +4,12 @@ module.exports.mongo = {
             minLength: 2,
             maxLength: 128,
         },
+        assignee: {
+            title: {
+                minLength: 0,
+                maxLength: 16,
+            }
+        },
         statuses: ['draft', 'open', 'closed', 'removed', 'waiting'],
         priorities: ['low', 'normal', 'high', 'panic'],
     }
