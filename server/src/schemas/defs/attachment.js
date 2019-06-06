@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const UserStampSchema = require('./defs/user-stamp');
+const UserStampSchema = require('./user-stamp');
 
 const AttachmentSchema = new mongoose.Schema({
     title: {
