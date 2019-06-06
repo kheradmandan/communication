@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const EraSchema = new mongoose.Schema({
-    origin: {type: Number},
+    origin: {type: Number, ref: 'Origin'},
     title: {
         type: String,
         required: true,
@@ -17,7 +17,7 @@ EraSchema.index({origin: 1, title: 1}, {unique: true});
 
 EraSchema.method.getNextSequence = async function getNextSequence() {
     // Race condition!!!
-    let threshold = 100;
+    let threshold = 10;
     while (--threshold) {
         const current = await EraSchema.findOne({_id: this._id});
         const {nModified} = await EraSchema.updateOne({
