@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const CommentSchema = require('./defs/comment');
 const UserStampSchema = require('./defs/user-stamp');
 const AttachmentSchema = require('./defs/attachment');
+const CONSTANTS = require('../core/constants').mongo.issue;
 
 const IssueSchema = new mongoose.Schema({
     title: {
@@ -28,7 +29,7 @@ const IssueSchema = new mongoose.Schema({
         id: {
             type: String,
             required: true,
-            enum: ['draft', 'open', 'closed', 'removed', 'waiting']
+            enum: CONSTANTS.statuses
         },
         created: UserStampSchema
     }],
@@ -36,7 +37,7 @@ const IssueSchema = new mongoose.Schema({
         id: {
             type: String,
             required: true,
-            enum: ['low', 'normal', 'high', 'panic']
+            enum: CONSTANTS.priorities
         },
         created: UserStampSchema
     }],
