@@ -2,7 +2,7 @@ const Origin = require('../origin');
 
 module.exports = async function originSeed(mongoose) {
     await mongoose.connection.db.dropCollection('origins');
-    Origin.insertMany([
+    await Origin.insertMany([
         {_id: 1, title: 'تهران'},
         {_id: 2, title: 'اندیشه', parent: 1},
         {_id: 3, title: 'ملارد', parent: 1},
