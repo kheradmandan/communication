@@ -8,11 +8,6 @@ const CommentSchema = new mongoose.Schema({
         minLength: 1,
         maxLength: 2048,
     },
-    on: {
-        type: mongoose.Schema.ObjectId,
-        required: true,
-        enum: ['Issue']
-    },
     created: UserStampSchema,
 });
 

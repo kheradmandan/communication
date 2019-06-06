@@ -11,7 +11,7 @@ const EraSchema = new mongoose.Schema({
         minLength: 2,
         maxLength: 32,
     },
-    init: {type: Number, default: 0},
+    start: {type: Number, default: 0},
     seq: {type: Number, default: 0},
     inc: {type: Number, default: 1},
     created: UserStampSchema,
