@@ -1,5 +1,4 @@
 const {Issue, Sequelize, User} = require('../../models');
-const ForbiddenError = require("../../errors/ForbiddenError");
 
 module.exports.readHeads = async function (request, h) {
     const currentUser = {uuid: 'ce0d1090-396f-4d2b-9f51-ee6ef2051a3f'};
