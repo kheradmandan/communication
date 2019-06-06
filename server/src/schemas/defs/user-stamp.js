@@ -11,6 +11,6 @@ const UserStampSchema = new mongoose.Schema({
         required: true,
         default: new Date(),
     }
-});
+}, {_id: false});
 
 module.exports = UserStampSchema;
