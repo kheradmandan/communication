@@ -1,6 +1,9 @@
 const mongoose = require('mongoose');
 
 const OriginSchema = new mongoose.Schema({
+    _id: {
+        type: Number,
+    },
     title: {
         type: String,
         unique: true,
