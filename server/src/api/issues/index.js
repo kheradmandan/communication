@@ -3,6 +3,7 @@ const createIssue = require('./create');
 const getIssueList = require('./get-issue-list');
 const getIssueDetails = require('./get-issue-details');
 const changeStatue = require('./change-status');
+const changePriority = require('./change-priority');
 const changeAssignee = require('./change-assignee');
 
 module.exports = function (server, options) {
@@ -58,6 +59,15 @@ module.exports = function (server, options) {
         handler: changeStatue.handler,
         options: {
             validate: changeStatue.validate
+        }
+    });
+
+    server.route({
+        method: 'POST',
+        path: 'issues/{id}/priorities',
+        handler: changePriority.handler,
+        options: {
+            validate: changePriority.validate
         }
     });
 
