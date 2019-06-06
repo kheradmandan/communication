@@ -19,6 +19,7 @@ module.exports.handler = async function (request) {
         owner: issue._id,
         ownerModel: 'Issue',
         title,
+        type: File.hapi.headers['content-type'],
         filename: File.hapi.filename,
         data,
         size: data.length,
@@ -34,6 +35,7 @@ module.exports.handler = async function (request) {
         _id: newAttachment._id,
         owner: newAttachment.owner,
         title: newAttachment.title,
+        type: newAttachment.type,
         filename: newAttachment.filename,
         size: newAttachment.size,
         data: 'accepted'

@@ -14,13 +14,15 @@ const AttachmentSchema = new mongoose.Schema({
     },
     title: {
         type: String,
-        required:
-            false,
+        required: false,
+    },
+    type: {
+        type: String,
+        required: true,
     },
     filename: {
         type: String,
-        required:
-            true,
+        required: true,
     },
     size: {
         type: Number,
@@ -28,12 +30,11 @@ const AttachmentSchema = new mongoose.Schema({
     },
     data: {
         type: Buffer,
-        required:
-            true,
+        required: true,
     },
     created: UserStampSchema,
 });
 
-AttachmentSchema.index({'owner.id': 1, 'owner.name': 1});
+AttachmentSchema.index({'owner': 1});
 
 module.exports = mongoose.model('Attachment', AttachmentSchema);
