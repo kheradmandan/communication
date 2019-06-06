@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const User = require('../schemas/user');
+const seed = require('../schemas/seeds');
 const conf = require('../conf');
 
 module.exports = async function startMongo() {
@@ -8,23 +8,5 @@ module.exports = async function startMongo() {
     await mongoose.connect(conf.mongo.url, conf.mongo.options);
 
     // Run seeds
-    await seeds();
+    await seed(mongoose);
 };
-
-async function seeds() {
-    if (!conf.global.isProductionMode) {
-        // await User.remove({email: 'raeisi@zoho.com'});
-        const user = await User.findOne({email: 'raeisi@zoho.com'});
-        if (!user) {
-            const newUser = new User({
-                name: 'مرتضی',
-                family: 'رییسی',
-                email: 'raeisi@zoho.com',
-                group: {id: 8, title: 'برنامه نویس محاسب'},
-                password: '123',
-            });
-            await newUser.save();
-            console.log('root user created.');
-        }
-    }
-}
