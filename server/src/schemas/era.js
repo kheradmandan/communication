@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const UserStampSchema = require('./defs/user-stamp');
 
 const EraSchema = new mongoose.Schema({
     origin: {type: Number, ref: 'Origin'},
@@ -11,6 +12,7 @@ const EraSchema = new mongoose.Schema({
     init: {type: Number, default: 0},
     seq: {type: Number, default: 0},
     inc: {type: Number, default: 1},
+    created: UserStampSchema,
 });
 
 EraSchema.index({origin: 1, title: 1}, {unique: true});
