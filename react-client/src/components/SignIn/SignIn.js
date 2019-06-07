@@ -2,8 +2,9 @@ import React from 'react';
 import propTypes from 'prop-types';
 import {connect} from "react-redux";
 import * as userActions from '../../services/users';
+import * as requestTypes from "../../constants/request.types";
 
-import {Form, Button, Input} from "semantic-ui-react";
+import {Form, Button, Input, Segment} from "semantic-ui-react";
 import {Redirect} from "react-router";
 
 class SignIn extends React.Component {
@@ -20,34 +21,35 @@ class SignIn extends React.Component {
     };
 
     render() {
-        const {session, isLoading} = this.props;
-        const isRegistered = session && session.getIn(['user', 'uuid']);
-        if (isRegistered) {
+        const {cause, isSignedIn, isLoading} = this.props;
+        if (isSignedIn) {
             return <Redirect to='/'/>
         }
-        return <div>
-            <p>cause: {session.cause}</p>
+        return <Segment loading={isLoading}>
+            <p>cause: {cause}</p>
             <Form>
-                <Input name="email" placeholder="Email" onChange={this.inputChangeHandler}/>
-                <Input name="password" type="password" onChange={this.inputChangeHandler}/>
-                <Button isLoading={isLoading} onClick={this.onSignInClick}>
+                <Input name="email" placeholder="Email" required onChange={this.inputChangeHandler}/>
+                <Input name="password" type="password" required onChange={this.inputChangeHandler}/>
+                <Button onClick={this.onSignInClick}>
                     Sign in
                 </Button>
             </Form>
-        </div>
+        </Segment>
     }
 }
 
 SignIn.propTypes = {
     auth: propTypes.func.isRequired,
-    session: propTypes.object,
+    cause: propTypes.string,
     isLoading: propTypes.bool,
+    isSignedIn: propTypes.bool,
 };
-
 
 function mapStateToProps(state) {
     return {
-        session: state.users.get('session')
+        cause: state.users.get('session').get('cause'),
+        isLoading: state.requests.get(requestTypes.AUTH),
+        isSignedIn: state.users.get('session').get('isSignedIn'),
     }
 }
 

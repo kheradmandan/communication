@@ -1,9 +1,9 @@
 import * as userConstants from "../constants/users";
 
-export function authSuccess({type, token, user}) {
+export function authSuccess({token, user}) {
     return {
         type: userConstants.AUTH_REQUEST_SUCCESS,
-        token: type + ' ' + token,
+        token,
         user
     }
 }

@@ -10,6 +10,7 @@ export const auth = (email, password) => (dispatch, getState) => {
     if (status.alreadyInProgress) {
         return;
     }
+    setTimeout(() => {
 
     const url = remoteUrl('/users/auth');
     API
@@ -18,16 +19,18 @@ export const auth = (email, password) => (dispatch, getState) => {
             method: 'POST',
             data: {email, password}
         })
-        .then(function ({data: {data}}) {
+        .then(function ({data}) {
             dispatch(userActions.authSuccess(data));
-            API.defaults.headers['authorization'] = data.type + ' ' + data.token;
+            API.defaults.headers['authorization'] = data.token;
             localStorage.setItem('auth', JSON.stringify(data));
         })
         .catch(function (error) {
-            dispatch(userActions.authFailure(error.message));
-            apiErrorHandler(dispatch, getState)(error);
+            dispatch(userActions.authFailure(error.response.data.message));
+            apiErrorHandler(dispatch, getState)(error.response.data);
         })
         .finally(status.unset());
+    }, 3000);
+
 };
 
 export const loadPrevSession = () => (dispatch, getState) => {
