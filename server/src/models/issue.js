@@ -62,6 +62,17 @@ const IssueSchema = new mongoose.Schema({
 IssueSchema.index({era: 1, sequence: 1}, {unique: true});
 IssueSchema.index({"assignees.by": 1});
 
+IssueSchema.methods.changeStatus = function (statusId, userId) {
+    const newStatus = {
+        id: statusId,
+        created: {
+            by: userId,
+            at: new Date()
+        }
+    };
+    this.statuses.unshift(newStatus);
+};
+
 IssueSchema.statics.getRole = async function (issueId, userId) {
     const issue = await this.findById(issueId).select('created assignees').exec();
     if (!issue) {

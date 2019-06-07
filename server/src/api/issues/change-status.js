@@ -13,17 +13,9 @@ module.exports.validate = {
 };
 
 module.exports.handler = async function (request) {
-    const currentUser = request.auth.credentials;
+    const userId = request.auth.credentials._id;
     const issueId = request.params.id;
     const {id: statusId} = request.payload;
-
-    const newStatus = {
-        id: statusId,
-        created: {
-            by: currentUser._id,
-            at: new Date()
-        }
-    };
 
     // check issue
     const issue = await Issue.findById(issueId).exec();
@@ -33,17 +25,17 @@ module.exports.handler = async function (request) {
 
     // do not change
     const lastStatus = issue.statuses[0];
-    if (lastStatus.id === newStatus.id) {
+    if (lastStatus.id === statusId) {
         return lastStatus;
     }
 
     // change to draft is not possible
-    if (newStatus.id === CONSTANTS.mongo.issue.statuses[0]) {
-        throw Boom.badData(`Change status to ${newStatus.id} is not possible.`);
+    if (statusId === CONSTANTS.mongo.issue.statuses[0]) {
+        throw Boom.badData(`Change status to ${statusId} is not possible.`);
     }
 
     // save at first position
-    issue.statuses.unshift(newStatus);
+    issue.changeStatus(statusId, userId);
     await issue.save();
 
     return issue.statuses[0];
