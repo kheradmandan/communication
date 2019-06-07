@@ -32,8 +32,8 @@ export const auth = (email, password) => (dispatch, getState) => {
 
 export const loadPrevSession = () => (dispatch, getState) => {
 
-    const session = getState().users.session;
-    if (session && session.user && session.user.uuid) {
+    const isSignedIn = getState().users.get('session').get('isSignedIn');
+    if (isSignedIn) {
         return; // sign in already
     }
 
@@ -42,9 +42,9 @@ export const loadPrevSession = () => (dispatch, getState) => {
         return;
     }
     const data = JSON.parse(localStorage.getItem('auth'));
-    if (data && data.user && data.user.uuid && data.token) {
+    if (data && data.user && data.user._id && data.token) {
         dispatch(userActions.authSuccess(data));
-        API.defaults.headers['authorization'] = data.type + ' ' + data.token;
+        API.defaults.headers['authorization'] = data.token;
     }
     status.unset()();
 };
