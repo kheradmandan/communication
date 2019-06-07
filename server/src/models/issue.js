@@ -63,6 +63,13 @@ IssueSchema.index({era: 1, sequence: 1}, {unique: true});
 IssueSchema.index({"assignees.by": 1});
 
 IssueSchema.methods.changeStatus = function (statusId, userId) {
+
+    // do not changed
+    const lastStatus = this.statuses[0];
+    if (lastStatus.id === statusId) {
+        return;
+    }
+
     const newStatus = {
         id: statusId,
         created: {
