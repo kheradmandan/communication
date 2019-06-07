@@ -8,6 +8,7 @@ import * as issueActions from '../../services/issues';
 import * as permissionActions from '../../services/permissions';
 import Messages from '../Message';
 import IssueDialog from "../IssueDialog";
+import User from "../User";
 
 class Dashboard extends React.Component {
     state = {
@@ -20,7 +21,7 @@ class Dashboard extends React.Component {
         let {column, direction, data} = this.state;
 
         if (column !== clickedColumn) {
-            data = this.props.issues.sortBy(cb);
+            data = this.props.issues.sort(cb);
             this.setState({
                 data,
                 column: clickedColumn,
@@ -58,7 +59,7 @@ Dashboard.propTypes = {
 
 function mapStateToProps(state) {
     return {
-        issues: state.issues.get('list'),
+        issues: state.issues.get('list').toJS(),
         signedUser: state.users.get('session').get('user'),
     }
 }
@@ -79,49 +80,51 @@ function IssueMainTable({issues, direction, column, onSortClick}) {
                                   onClick={onSortClick('title', (x) => x.title)}>
                     عنوان
                 </Table.HeaderCell>
-                <Table.HeaderCell sorted={column === 'Realm.title' ? direction : null}
-                                  onClick={onSortClick('Realm.title', (x) => x.Realm.title)}>
+                <Table.HeaderCell sorted={column === 'realm.title' ? direction : null}
+                                  onClick={onSortClick('realm.title', (x) => x.realm.title)}>
                     بخش
                 </Table.HeaderCell>
-                <Table.HeaderCell sorted={column === 'Era.Origin.title' ? direction : null}
-                                  onClick={onSortClick('Era.Origin.title', (x) => x.Era.Origin.title)}>
+                <Table.HeaderCell sorted={column === 'era.origin.title' ? direction : null}
+                                  onClick={onSortClick('era.origin.title', (x) => x.era.origin.title)}>
                     محل گزارش
                 </Table.HeaderCell>
-                <Table.HeaderCell sorted={column === 'Era.title' ? direction : null}
-                                  onClick={onSortClick('Era.title', (x) => x.Era.title)}>
+                <Table.HeaderCell sorted={column === 'era.title' ? direction : null}
+                                  onClick={onSortClick('era.title', (x) => x.era.title)}>
                     دوره
                 </Table.HeaderCell>
-                <Table.HeaderCell sorted={column === 'Creator.fullName' ? direction : null}
-                                  onClick={onSortClick('Creator.fullName', (x) => x.Creator.fullName)}>
+                <Table.HeaderCell sorted={column === 'created.by' ? direction : null}
+                                  onClick={onSortClick('creatored.by',
+                                      (x) => x.created.by.name.first + x.created.by.name.last)}>
                     ایجاد کننده
                 </Table.HeaderCell>
-                <Table.HeaderCell sorted={column === 'createdAt' ? direction : null}
-                                  onClick={onSortClick('createdAt', (x) => x.createdAt)}>
+                <Table.HeaderCell sorted={column === 'created.at' ? direction : null}
+                                  onClick={onSortClick('created.at', (x) => x.created.at)}>
                     زمان
                 </Table.HeaderCell>
-                <Table.HeaderCell sorted={column === 'Priority.title' ? direction : null}
-                                  onClick={onSortClick('Priority.title', (x) => x.Priority.title)}>
+                <Table.HeaderCell sorted={column === 'priority.id' ? direction : null}
+                                  onClick={onSortClick('priority.id', (x) => x.priority.id)}>
                     اولویت
                 </Table.HeaderCell>
-                <Table.HeaderCell sorted={column === 'Status.title' ? direction : null}
-                                  onClick={onSortClick('Status.Title', (x) => x.Status.title)}>
+                <Table.HeaderCell sorted={column === 'status.id' ? direction : null}
+                                  onClick={onSortClick('status.id', (x) => x.status.id)}>
                     وضعیت
                 </Table.HeaderCell>
             </Table.Row>
         </Table.Header>
         <Table.Body>
             {
-                issues.map(issue => (
-                    <Table.Row key={issue.uuid}>
+                issues .map(issue => (
+                    <Table.Row key={issue._id}>
                         <Table.Cell textAlign='center'>{issue.sequence} </Table.Cell>
-                        <Table.Cell><Link to={`/issue/${issue.uuid}`}> {issue.title} </Link></Table.Cell>
-                        <Table.Cell>{issue.Realm.title} </Table.Cell>
-                        <Table.Cell>{issue.Era.Origin.title} </Table.Cell>
-                        <Table.Cell>{issue.Era.title} </Table.Cell>
-                        <Table.Cell>{issue.Creator.fullName} </Table.Cell>
-                        <Table.Cell> <LocaleDate timestamp={issue.createdAt} relative={true}/></Table.Cell>
-                        <Table.Cell>{issue.Priority.title} </Table.Cell>
-                        <Table.Cell>{issue.Status.title} </Table.Cell>
+                        <Table.Cell><Link to={`/issue/${issue._id}`}> {issue.title} </Link></Table.Cell>
+                        <Table.Cell>{issue.realm.title} </Table.Cell>
+                        <Table.Cell>{issue.era.origin.title} </Table.Cell>
+                        <Table.Cell>{issue.era.title} </Table.Cell>
+                        <Table.Cell><User source={issue.created.by}/> </Table.Cell>
+                        <Table.Cell><LocaleDate timestamp={issue.created.at}
+                                                relative={true}/></Table.Cell>
+                        <Table.Cell>{issue.priorities[0].id} </Table.Cell>
+                        <Table.Cell>{issue.statuses[0].id} </Table.Cell>
                     </Table.Row>))
             }
         </Table.Body>
