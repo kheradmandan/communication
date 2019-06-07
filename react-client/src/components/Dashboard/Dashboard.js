@@ -2,6 +2,7 @@ import React from 'react'
 import {connect} from "react-redux";
 import {Table, Button} from "semantic-ui-react";
 import {Link} from "react-router-dom";
+import propTypes from 'prop-types'
 import LocaleDate from '../LocaleDate';
 import * as issueActions from '../../services/issues';
 import * as permissionActions from '../../services/permissions';
@@ -13,16 +14,6 @@ class Dashboard extends React.Component {
         column: '',
         direction: null,
         data: null,
-    };
-
-    onLoadXrefUsersOriginsClick = () => {
-        const {session, loadXrefUsersOrigins} = this.props;
-        loadXrefUsersOrigins(session.get('user').get('uuid'));
-    };
-
-    onLoadXrefOriginsRealmsClick = () => {
-        const {loadXrefOriginsRealms} = this.props;
-        loadXrefOriginsRealms(1);
     };
 
     handleSortClick = (clickedColumn, cb) => () => {
@@ -53,8 +44,6 @@ class Dashboard extends React.Component {
             <Messages/>
             <IssueDialog/>
             <Button onClick={reloadIssues}> Reload issues </Button>
-            <Button onClick={this.onLoadXrefUsersOriginsClick}> Reload xref user origin </Button>
-            <Button onClick={this.onLoadXrefOriginsRealmsClick}> Reload xref origin realms</Button>
             <Button as={Link} to='/issue'> Create Issue</Button>
 
             <IssueMainTable issues={source} direction={direction} column={column}
@@ -63,10 +52,14 @@ class Dashboard extends React.Component {
     }
 }
 
+Dashboard.propTypes = {
+    signedUser: propTypes.bool,
+};
+
 function mapStateToProps(state) {
     return {
-        session: state.users.get('session'),
         issues: state.issues.get('list'),
+        signedUser: state.users.get('session').get('user'),
     }
 }
 

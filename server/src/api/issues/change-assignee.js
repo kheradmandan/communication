@@ -9,7 +9,8 @@ module.exports.validate = {
         user: CONSTANTS.joi.objectId(Joi).required(),
         title: Joi.string().default(null)
             .min(CONSTANTS.mongo.issue.assignee.title.minLength)
-            .max(CONSTANTS.mongo.issue.assignee.title.maxLength)
+            .max(CONSTANTS.mongo.issue.assignee.title.maxLength),
+        status: Joi.string().default('open').valid(CONSTANTS.mongo.issue.statuses.filter(x => x !== 'draft'))
     }),
     params: Joi.object({
         id: CONSTANTS.joi.objectId(Joi).required()
@@ -17,15 +18,15 @@ module.exports.validate = {
 };
 
 module.exports.handler = async function (request) {
-    const currentUser = request.auth.credentials;
+    const userId = request.auth.credentials._id;
     const issueId = request.params.id;
-    const {user, title} = request.payload;
+    const {user, title, status: statusId} = request.payload;
 
     const newAssignee = {
         user,
         title,
         created: {
-            by: currentUser._id,
+            by: userId,
             at: new Date()
         }
     };
@@ -46,6 +47,11 @@ module.exports.handler = async function (request) {
     const lastAssignee = issue.assignees[0];
     if (lastAssignee.user.toString() === newAssignee.user && lastAssignee.title === newAssignee.title) {
         return issue.assignees[0];
+    }
+
+    // change status if possible
+    if (issue.statuses[0].id === 'draft') {
+        issue.changeStatus(statusId, userId)
     }
 
     // save at first position
