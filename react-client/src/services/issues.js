@@ -14,7 +14,7 @@ export const reloadIssues = () => (dispatch, getState) => {
     const url = remoteUrl('/issues');
     API
         .get(url)
-        .then(({data: {data}}) => {
+        .then(({data}) => {
             dispatch(issueAction.reload(data));
         })
         .catch(apiErrorHandler(dispatch, getState))
@@ -30,7 +30,7 @@ export const getIssueDetails = (uuid) => (dispatch, getState) => {
     const url = remoteUrl(`/issues/${uuid}`);
     API
         .get(url)
-        .then(({data: {data}}) => {
+        .then(({data}) => {
             dispatch(issueAction.setCurrentIssueDetails(data));
         })
         .catch(apiErrorHandler(dispatch, getState))
@@ -46,7 +46,7 @@ export const addComment = (assigneeUuid, context) => (dispatch, getState) => {
     const url = remoteUrl(`/issues/assignees/${assigneeUuid}/comments`);
     API
         .post(url, {context})
-        .then(({data: {data}}) => {
+        .then(({data}) => {
             dispatch(issueAction.setCurrentIssueDetails({uuid: ''}));
         })
         .catch(apiErrorHandler(dispatch, getState))
