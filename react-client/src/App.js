@@ -10,44 +10,41 @@ import * as userActions from "./services/users";
 import './App.css';
 
 class App extends React.Component {
-
     componentDidMount() {
         this.props.loadPrevSession();
     }
 
     render() {
-        const {session} = this.props;
-        const isRegistered = session && session.getIn(['user', 'uuid']);
-
-        if (isRegistered) {
-            return <RegisteredUserRoutes/>
+        const {isSignedIn} = this.props;
+        if (isSignedIn) {
+            return (
+                <Switch>
+                    <Route exact path='/issue/:id?' component={Issue}/>
+                    <Route exact path='/' component={Dashboard}/>
+                </Switch>)
         }
-        return <UnregisteredUserRoutes/>
+        return (
+            <Switch>
+                <Route exact path='*' component={SignIn}/>
+            </Switch>)
     }
 }
 
 App.propTypes = {
-    session: propTypes.object.isRequired,
+    signInUser: propTypes.bool,
+    isSignedIn: propTypes.bool,
     loadPrevSession: propTypes.func.isRequired,
+};
+
+App.defaultProps = {
+    isSignedIn: false,
 };
 
 function mapStateToProps(state) {
     return {
-        session: state.users.get('session')
+        signInUser: state.users.get('session').get('user'),
+        isSignedIn: state.users.get('session').get('isSignedIn'),
     }
 }
 
 export default connect(mapStateToProps, userActions)(App);
-
-function UnregisteredUserRoutes() {
-    return <Switch>
-        <Route exact path='*' component={SignIn}/>
-    </Switch>
-}
-
-function RegisteredUserRoutes() {
-    return <Switch>
-        <Route exact path='/issue/:uuid?' component={Issue}/>
-        <Route exact path='/' component={Dashboard}/>
-    </Switch>
-}
