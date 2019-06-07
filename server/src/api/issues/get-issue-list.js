@@ -1,5 +1,5 @@
 const Joi = require('@hapi/joi');
-const Issue = require('../../schemas/issue');
+const Issue = require('../../models/issue');
 
 module.exports.validate = {
     query: Joi.object({

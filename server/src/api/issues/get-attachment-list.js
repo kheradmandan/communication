@@ -1,7 +1,7 @@
 const Joi = require('@hapi/joi');
 const Boom = require('@hapi/boom');
-const Issue = require('../../schemas/issue');
-const Attachment = require('../../schemas/attachment');
+const Issue = require('../../models/issue');
+const Attachment = require('../../models/attachment');
 const CONSTANTS = require('../../core/constants');
 
 module.exports.validate = {

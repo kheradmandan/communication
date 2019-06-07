@@ -1,8 +1,8 @@
 const Joi = require('@hapi/joi');
 const Boom = require('@hapi/boom');
-const Era = require('../../schemas/era');
-const User = require('../../schemas/user');
-const Issue = require('../../schemas/issue');
+const Era = require('../../models/era');
+const User = require('../../models/user');
+const Issue = require('../../models/issue');
 const CONSTANTS = require('../../core/constants');
 
 module.exports.validate = {

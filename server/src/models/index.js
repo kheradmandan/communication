@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const seed = require('../schemas/seeds');
+const seed = require('.//seeds');
 const conf = require('../conf');
 
 module.exports = async function startMongo() {

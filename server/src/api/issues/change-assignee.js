@@ -1,7 +1,7 @@
 const Joi = require('@hapi/joi');
 const Boom = require('@hapi/boom');
-const User = require('../../schemas/user');
-const Issue = require('../../schemas/issue');
+const User = require('../../models/user');
+const Issue = require('../../models/issue');
 const CONSTANTS = require('../../core/constants');
 
 module.exports.validate = {

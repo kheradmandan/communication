@@ -1,6 +1,6 @@
 const Joi = require('@hapi/joi');
 const Boom = require('@hapi/boom');
-const User = require('../../schemas/user');
+const User = require('../../models/user');
 const {sign} = require('../../core/tokenizator');
 
 module.exports.validate = {

@@ -1,6 +1,6 @@
 const Glue = require('@hapi/glue');
 const manifest = require('./conf/manifest');
-const startMongoDb = require('./schemas');
+const startMongoDb = require('./models');
 
 const options = {
     relativeTo: __dirname
