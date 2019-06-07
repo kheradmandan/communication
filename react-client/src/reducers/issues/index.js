@@ -8,9 +8,9 @@ const initState = Map({
 export default function (state = initState, action) {
     switch (action.type) {
         case ISSUES.RELOAD:
-            return state.set('list', List(action.payload));
+            return state.set('list', fromJS(action.payload));
         case ISSUES.APPEND:
-            return state.mergeDeepIn(['list'], action.payload);
+            return state.mergeDeepIn(['list'], fromJS(action.payload));
         case ISSUES.GET_CURRENT_ISSUE_DETAILS:
             return state.set('current', fromJS(action.payload));
         default:
