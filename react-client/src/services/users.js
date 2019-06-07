@@ -10,7 +10,6 @@ export const auth = (email, password) => (dispatch, getState) => {
     if (status.alreadyInProgress) {
         return;
     }
-    setTimeout(() => {
 
     const url = remoteUrl('/users/auth');
     API
@@ -29,8 +28,6 @@ export const auth = (email, password) => (dispatch, getState) => {
             apiErrorHandler(dispatch, getState)(error.response.data);
         })
         .finally(status.unset());
-    }, 3000);
-
 };
 
 export const loadPrevSession = () => (dispatch, getState) => {
