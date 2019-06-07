@@ -13,13 +13,13 @@ module.exports.handler = async function (request) {
     const currentUser = request.auth.credentials;
     const issueId = request.params.id;
 
-    const issue = await Issue
-        .findOne({_id: issueId, "created.by": currentUser._id})
-        .populate('created.by', 'name family')
-    ;
-    if (!issue) {
-        throw Boom.badData('Specified issue not found. Maybe you have not enough permission.');
+    const role = await Issue.getRole(issueId, currentUser._id);
+    console.log('your role is ', role);
+    if (!['CREATOR', 'ASSIGNEE', 'ASSIGNED'].some(x => x === role)) {
+        throw Boom.badData('Specified issue not found. Maybe you have not enough permission. ' + role);
     }
 
-    return issue;
+    return Issue
+        .findById(issueId)
+        .populate('created.by', 'name');
 };
