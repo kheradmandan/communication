@@ -62,4 +62,21 @@ const IssueSchema = new mongoose.Schema({
 IssueSchema.index({era: 1, sequence: 1}, {unique: true});
 IssueSchema.index({"assignees.by": 1});
 
+IssueSchema.statics.getRole = async function (issueId, userId) {
+    const issue = await this.findById(issueId).select('created assignees').exec();
+    if (!issue) {
+        return 'INVALID_ISSUE';
+    }
+    if (issue.created.by.toString() === userId) {
+        return 'CREATOR';
+    }
+    if (issue.assignees[0].user.toString() === userId) {
+        return 'ASSIGNEE';
+    }
+    if (issue.assignees.some(x => x.user.toString() === userId)) {
+        return 'ASSIGNED';
+    }
+    return 'STRANGER';
+};
+
 module.exports = mongoose.model('Issue', IssueSchema);
