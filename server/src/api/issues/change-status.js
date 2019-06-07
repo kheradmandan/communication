@@ -5,7 +5,7 @@ const CONSTANTS = require('../../core/constants');
 
 module.exports.validate = {
     payload: Joi.object({
-        id: Joi.string().valid(CONSTANTS.mongo.issue.statuses).required()
+        id: Joi.string().valid(CONSTANTS.mongo.issue.statuses.filter(x => x !== 'draft')).required()
     }),
     params: Joi.object({
         id: CONSTANTS.joi.objectId(Joi).required()
@@ -27,11 +27,6 @@ module.exports.handler = async function (request) {
     const lastStatus = issue.statuses[0];
     if (lastStatus.id === statusId) {
         return lastStatus;
-    }
-
-    // change to draft is not possible
-    if (statusId === CONSTANTS.mongo.issue.statuses[0]) {
-        throw Boom.badData(`Change status to ${statusId} is not possible.`);
     }
 
     // save at first position
