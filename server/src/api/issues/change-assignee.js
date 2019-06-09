@@ -4,7 +4,24 @@ const User = require('../../models/user');
 const Issue = require('../../models/issue');
 const CONSTANTS = require('../../core/constants');
 
-module.exports.validate = {
+/**
+ * Controller and Validator for [POST issues/{id}/assignees] route.
+ * @param server
+ * @param option
+ */
+
+module.exports = async function (server, option) {
+    server.route({
+        method: 'POST',
+        path: 'issues/{id}/assignees',
+        handler,
+        options: {
+            validate
+        }
+    });
+};
+
+const validate = {
     payload: Joi.object({
         user: CONSTANTS.joi.objectId(Joi).required(),
         title: Joi.string().default(null)
@@ -17,7 +34,7 @@ module.exports.validate = {
     }),
 };
 
-module.exports.handler = async function (request) {
+const handler = async function (request) {
     const userId = request.auth.credentials._id;
     const issueId = request.params.id;
     const {user, title, status: statusId} = request.payload;

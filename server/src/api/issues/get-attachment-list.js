@@ -4,13 +4,29 @@ const Issue = require('../../models/issue');
 const Attachment = require('../../models/attachment');
 const CONSTANTS = require('../../core/constants');
 
-module.exports.validate = {
+/**
+ * Controller and Validator for [GET issues/{id}/attachments] route.
+ * @param server
+ * @param option
+ */
+
+module.exports = function (server, option) {
+    server.route({
+        method: 'GET',
+        path: 'issues/{id}/attachments',
+        handler,
+        options: {
+            validate,
+        }
+    });
+};
+const validate = {
     params: Joi.object({
         id: CONSTANTS.joi.objectId(Joi).required()
     })
 };
 
-module.exports.handler = async function (request) {
+const handler = async function (request) {
     const currentUser = request.auth.credentials;
     const issueId = request.params.id;
 

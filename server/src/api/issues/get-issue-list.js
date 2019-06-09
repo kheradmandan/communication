@@ -2,14 +2,31 @@ const Joi = require('@hapi/joi');
 const Boom = require('@hapi/boom');
 const Issue = require('../../models/issue');
 
-module.exports.validate = {
+/**
+ * Controller and Validator for [GET issues] route.
+ * @param server
+ * @param options
+ */
+
+module.exports = function (server, options) {
+    server.route({
+        method: 'GET',
+        path: 'issues',
+        handler,
+        options: {
+            validate
+        }
+    });
+};
+
+const validate = {
     query: Joi.object({
         limit: Joi.number().default(10).max(100),
         type: Joi.string().default('assignee').valid(['draft', 'mine', 'assignee']),
     })
 };
 
-module.exports.handler = async function (request) {
+const handler = async function (request) {
     const currentUser = request.auth.credentials;
     const {limit, type} = request.query;
 

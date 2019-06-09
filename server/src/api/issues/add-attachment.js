@@ -2,9 +2,26 @@ const Boom = require('@hapi/boom');
 const Issue = require('../../models/issue');
 const Attachment = require('../../models/attachment');
 
-module.exports.validate = {};
+/**
+ * Controller and Validator for [POST issues/{id}/attachments] route.
+ * @param server
+ * @param option
+ */
 
-module.exports.handler = async function (request) {
+module.exports = async function (server, option) {
+    server.route({
+        method: 'POST',
+        path: 'issues/{id}/attachments',
+        handler,
+        options: {
+            validate
+        }
+    });
+};
+
+const validate = {};
+
+const handler = async function (request) {
     const currentUser = request.auth.credentials;
     const issueId = request.params.id;
     const {File, title} = request.payload;

@@ -3,14 +3,32 @@ const Boom = require('@hapi/boom');
 const User = require('../../models/user');
 const {sign} = require('../../core/tokenizator');
 
-module.exports.validate = {
+/**
+ * Controller and Validator for [POST users/auth] route.
+ * @param server
+ * @param option
+ */
+
+module.exports = async function (server, option) {
+    server.route({
+        method: 'POST',
+        path: 'users/auth',
+        handler,
+        options: {
+            auth: false,
+            validate
+        }
+    });
+};
+
+const validate = {
     payload: Joi.object({
         email: Joi.string().email().required(),
         password: Joi.string().required(),
     }),
 };
 
-module.exports.handler = async function (request, h) {
+const handler = async function (request) {
 
     // validate
     const {email, password} = request.payload;

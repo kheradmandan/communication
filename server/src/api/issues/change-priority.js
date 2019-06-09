@@ -3,7 +3,24 @@ const Boom = require('@hapi/boom');
 const Issue = require('../../models/issue');
 const CONSTANTS = require('../../core/constants');
 
-module.exports.validate = {
+/**
+ * Controller and Validator for [POST issues/{id}/priorities] route.
+ * @param server
+ * @param option
+ */
+
+module.exports = async function (server, option) {
+    server.route({
+        method: 'POST',
+        path: 'issues/{id}/priorities',
+        handler,
+        options: {
+            validate
+        }
+    });
+};
+
+const validate = {
     payload: Joi.object({
         id: Joi.string().valid(CONSTANTS.mongo.issue.priorities).required()
     }),
@@ -12,7 +29,7 @@ module.exports.validate = {
     }),
 };
 
-module.exports.handler = async function (request) {
+const handler = async function (request) {
     const currentUser = request.auth.credentials;
     const issueId = request.params.id;
     const {id: priorityId} = request.payload;

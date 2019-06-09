@@ -3,7 +3,24 @@ const Boom = require('@hapi/boom');
 const Issue = require('../../models/issue');
 const CONSTANTS = require('../../core/constants');
 
-module.exports.validate = {
+/**
+ * Controller and Validator for [POST issues/{id}/comments] route.
+ * @param server
+ * @param option
+ */
+
+module.exports = async function (server, option) {
+    server.route({
+        method: 'POST',
+        path: 'issues/{id}/comments',
+        handler,
+        options: {
+            validate
+        }
+    });
+};
+
+const validate = {
     payload: Joi.object({
         context: Joi.string()
             .min(CONSTANTS.mongo.issue.comment.context.minLength)
@@ -15,7 +32,7 @@ module.exports.validate = {
     }),
 };
 
-module.exports.handler = async function (request) {
+const handler = async function (request) {
     const currentUser = request.auth.credentials;
     const issueId = request.params.id;
     const {context} = request.payload;
