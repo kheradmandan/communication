@@ -25,6 +25,7 @@ module.exports = function (server, option) {
 const validate = {
     payload: Joi.object({
         era: CONSTANTS.joi.objectId(Joi).required(),
+        user: CONSTANTS.joi.objectId(Joi),
         title: Joi
             .string()
             .min(CONSTANTS.mongo.issue.title.minLength)
@@ -73,7 +74,7 @@ const handler = async function (request, h) {
         sequence,
         statuses: [{id: status, created: created()}],
         priorities: [{id: priority, created: created()}],
-        assignees: [{user: userInstance._id, created: created()}],
+        assignees: [{user, created: created()}],
         created: created(),
     });
     await issue.save();
