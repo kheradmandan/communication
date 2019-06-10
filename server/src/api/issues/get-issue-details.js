@@ -38,5 +38,10 @@ const handler = async function (request) {
 
     return Issue
         .findById(issueId)
+        .populate('statuses.created.by', 'name')
+        .populate('priorities.created.by', 'name')
+        .populate('assignees.user', 'name')
+        .populate('assignees.created.by', 'name')
+        .populate('comments.created.by', 'name')
         .populate('created.by', 'name');
 };
