@@ -21,10 +21,10 @@ class Issue extends React.Component {
 
     fetchDetails = (props) => {
         const {match, current} = props;
-        if (match && match.params && match.params.uuid) {
-            const uuid = match.params.uuid;
-            if (uuid !== current.get('uuid')) {
-                this.props.getIssueDetails(uuid);
+        if (match && match.params && match.params.id) {
+            const id = match.params.id;
+            if (id !== current.get('_id')) {
+                this.props.getIssueDetails(id);
             }
         }
     };
@@ -32,12 +32,12 @@ class Issue extends React.Component {
     render() {
         const {current, currentUser, addComment} = this.props;
 
-        if (!current || !current.get('Assignees')) {
+        if (!current || !current.get('assignees')) {
             return <p> loading </p>;
         }
 
-        let activeAssignee = current.get('Assignees').last();
-        if (!activeAssignee || activeAssignee.get('userUuid') !== currentUser.get('uuid')) {
+        let activeAssignee = current.get('assignees').first();
+        if (!activeAssignee || activeAssignee.getIn(['by', '_id']) !== currentUser.get('_id')) {
             activeAssignee = null;
         }
 
@@ -47,7 +47,7 @@ class Issue extends React.Component {
                 <Grid columns={2} stackable relaxed='very'>
                     <Grid.Column>
                         <IssueFeed
-                            assignees={current.get('Assignees')}
+                            assignees={current.get('assignees')}
                             activeAssignee={activeAssignee}
                             onAddComment={addComment}
                         />
@@ -77,7 +77,7 @@ Issue.defaultProps = {
 function mapStateToProps(state) {
     return {
         current: state.issues.get('current'),
-        currentUser: state.users.get('session').get('user')
+        currentUser: state.users.get('session').get('user'),
     }
 }
 
