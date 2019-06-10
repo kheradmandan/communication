@@ -23,7 +23,7 @@ module.exports.auth = {
 };
 
 module.exports.mongo = {
-    url: process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/communication_dev',
+    url: process.env._COMMUNICATION_CON || 'mongodb://127.0.0.1:27017/communication_dev',
     options: {
         useCreateIndex: true,
         useNewUrlParser: true,
