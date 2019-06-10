@@ -3,13 +3,12 @@ import propTypes from 'prop-types';
 
 import {Segment, Label, Input} from "semantic-ui-react";
 import LocaleDate from "../LocaleDate";
-import UserView from "../UserView";
+import User from "../User";
 
 class IssueMainData extends React.Component {
     render() {
-        const {issue} = this.props;
-        const creator = issue.get('Creator');
-        if (!creator) return <p> Issue loading</p>;
+        const {issue, loading} = this.props;
+        if (loading) return <p> Issue loading</p>;
 
         return (<Segment>
             <Input
@@ -21,19 +20,19 @@ class IssueMainData extends React.Component {
                 label={{tag: true, content: '#' + issue.get('sequence'), as: 'a'}}
             />
             <Label pointing>
-                <UserView user={creator.toJS()}/>
+                <User source={issue.getIn(['created', 'by'])} by='توسط'/>
             </Label>
             <Label pointing>
-                <LocaleDate timestamp={issue.get('createdAt')}/>
+                <LocaleDate timestamp={issue.getIn(['created', 'at'])}/>
             </Label>
             <Label pointing>
-                <p>{issue.getIn(['Era', 'title'])}</p>
+                <p>{issue.getIn(['era', 'title'])}</p>
             </Label>
             <Label pointing>
-                <p>{issue.getIn(['Era', 'Origin', 'title'])}</p>
+                <p>{issue.getIn(['era', 'origin', 'title'])}</p>
             </Label>
             <Label pointing>
-                <p>{issue.getIn(['Realm', 'title'])}</p>
+                <p>{issue.getIn(['realm', 'title'])}</p>
             </Label>
         </Segment>)
     }

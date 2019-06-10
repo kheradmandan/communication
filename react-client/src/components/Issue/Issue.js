@@ -7,6 +7,7 @@ import IssueMainData from "../IssueMainData";
 import IssueFeed from '../IssueFeed';
 
 import {Segment, Grid, Divider, Tab, Menu, Label, Icon} from "semantic-ui-react";
+import * as requestTypes from "../../constants/request.types";
 
 class Issue extends React.Component {
     state = {uuid: ''};
@@ -30,20 +31,20 @@ class Issue extends React.Component {
     };
 
     render() {
-        const {current, currentUser, addComment} = this.props;
+        const {current, currentUser, addComment, isLoading} = this.props;
 
         if (!current || !current.get('assignees')) {
             return <p> loading </p>;
         }
 
         let activeAssignee = current.get('assignees').first();
-        if (!activeAssignee || activeAssignee.getIn(['by', '_id']) !== currentUser.get('_id')) {
+        if (!activeAssignee || activeAssignee.getIn(['user', '_id']) !== currentUser.get('_id')) {
             activeAssignee = null;
         }
 
         return <div>
-            <IssueMainData issue={current}/>
-            <Segment>
+            <IssueMainData issue={current} loading={isLoading}/>
+            <Segment loading={isLoading}>
                 <Grid columns={2} stackable relaxed='very'>
                     <Grid.Column>
                         <IssueFeed
@@ -64,12 +65,14 @@ class Issue extends React.Component {
 }
 
 Issue.propTypes = {
-    current: propTypes.object,
+    isLoading: propTypes.bool,
+    current: propTypes.instanceOf(Map),
     addComment: propTypes.func.isRequired,
     getIssueDetails: propTypes.func.isRequired,
 };
 
 Issue.defaultProps = {
+    isLoading: false,
     current: Map(),
     currentUser: Map(),
 };
@@ -77,7 +80,8 @@ Issue.defaultProps = {
 function mapStateToProps(state) {
     return {
         current: state.issues.get('current'),
-        currentUser: state.users.get('session').get('user'),
+        isLoading: state.requests.get(requestTypes.ISSUE),
+        currentUser: state.users.getIn(['session', 'user']),
     }
 }
 
