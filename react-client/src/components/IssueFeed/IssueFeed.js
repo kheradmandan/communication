@@ -1,21 +1,23 @@
 import React from 'react';
-import {Button, Comment, Feed, Form, TextArea} from "semantic-ui-react";
+import {Feed,} from "semantic-ui-react";
 import LocaleDate from "../LocaleDate";
 import AssigneeForm from "../AssigneeForm/AssigneeForm";
+import User from "../User";
 
-export default function IssueFeed({ assignees, activeAssignee, onAddComment}) {
+export default function IssueFeed({comments = [], activeAssignee, onAddComment}) {
 
     return <Feed>
-        {assignees && assignees.map(assignee =>
+        {comments.map(comment =>
             <Feed.Event>
                 <Feed.Label image='https://react.semantic-ui.com/images/avatar/small/justen.jpg'/>
                 <Feed.Content>
                     <Feed.Summary>
-                        <Feed.User>{assignee.get('User').get('fullName')}</Feed.User>
-                        <Feed.Date><LocaleDate timestamp={assignee.get('createdAt')} relative={true}/></Feed.Date>
+                        <Feed.User><User source={comment.get('user')}/></Feed.User>
+                        <Feed.Date><LocaleDate timestamp={comment.getIn(['created', 'at'])}
+                                               relative={true}/></Feed.Date>
                     </Feed.Summary>
                     {
-                        assignee.get('Comments').map(comment =>
+                        comment.get('comments').map(comment =>
                             <Feed.Extra text>
                                 {comment.get('context')}
                             </Feed.Extra>
@@ -25,7 +27,7 @@ export default function IssueFeed({ assignees, activeAssignee, onAddComment}) {
             </Feed.Event>
         )}
         {
-            activeAssignee && <AssigneeForm  assignee={activeAssignee} onAddComment={onAddComment}/>
+            activeAssignee && <AssigneeForm assignee={activeAssignee} onAddComment={onAddComment}/>
         }
     </Feed>;
 }
