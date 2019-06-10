@@ -21,13 +21,13 @@ export const reloadIssues = () => (dispatch, getState) => {
         .finally(status.unset())
 };
 
-export const getIssueDetails = (uuid) => (dispatch, getState) => {
+export const getIssueDetails = (id) => (dispatch, getState) => {
     const status = checkRequestProgress(requestTypes.ISSUE)(dispatch, getState);
     if (status.alreadyInProgress) {
         return;
     }
 
-    const url = remoteUrl(`/issues/${uuid}`);
+    const url = remoteUrl(`/issues/${id}`);
     API
         .get(url)
         .then(({data}) => {
