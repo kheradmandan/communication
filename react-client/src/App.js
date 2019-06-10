@@ -19,7 +19,7 @@ class App extends React.Component {
         if (isSignedIn) {
             return (
                 <Switch>
-                    <Route exact path='/issue/:id?' component={Issue}/>
+                    <Route path='/issue/:id?' component={Issue}/>
                     <Route exact path='/' component={Dashboard}/>
                 </Switch>)
         }
