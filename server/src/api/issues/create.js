@@ -11,7 +11,7 @@ const CONSTANTS = require('../../core/constants');
  * @param option
  */
 
-module.exports = function (server, option) {
+module.exports = async function (server, option) {
     server.route({
         method: 'POST',
         path: 'issues',

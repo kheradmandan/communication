@@ -8,7 +8,7 @@ const Issue = require('../../models/issue');
  * @param options
  */
 
-module.exports = function (server, options) {
+module.exports = async function (server, options) {
     server.route({
         method: 'GET',
         path: 'issues',

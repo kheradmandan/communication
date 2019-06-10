@@ -24,10 +24,10 @@ async function registerRoutes(server, option) {
                 .filter(filename => filename !== 'index.js')
 
                 // Register one by one
-                .forEach(filename => {
+                .forEach(async filename => {
 
                     const route = require(path.resolve(__dirname, directory, filename));
-                    route(server, option)
+                    await route(server, option)
 
                 });
         });
