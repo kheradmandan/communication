@@ -2,12 +2,21 @@ import React from 'react';
 import {connect} from "react-redux";
 import {Map} from "immutable";
 import propTypes from 'prop-types';
-import * as issueActions from '../../services/issues';
 import IssueMainData from "../IssueMainData";
 import IssueFeed from '../IssueFeed';
-
-import {Segment, Grid, Divider, Tab, Menu, Label, Icon} from "semantic-ui-react";
+import * as issueActions from '../../services/issues';
 import * as requestTypes from "../../constants/request.types";
+
+import {
+    Segment,
+    Grid,
+    Divider,
+    Tab,
+    Menu,
+    Label,
+    Icon,
+    Container
+} from 'semantic-ui-react';
 
 class Issue extends React.Component {
     state = {uuid: ''};
@@ -42,14 +51,13 @@ class Issue extends React.Component {
             activeAssignee = null;
         }
 
-        return <div>
+        return <Container>
             <IssueMainData issue={current} loading={isLoading}/>
             <Segment loading={isLoading}>
                 <Grid columns={2} stackable relaxed='very'>
                     <Grid.Column>
                         <IssueFeed
-                            assignees={current.get('assignees')}
-                            activeAssignee={activeAssignee}
+                            issue={current}
                             onAddComment={addComment}
                         />
                         {/*<CommentPane comments={current.get('Comments')}/>*/}
@@ -60,7 +68,7 @@ class Issue extends React.Component {
                 </Grid>
                 <Divider vertical>*</Divider>
             </Segment>
-        </div>
+        </Container>
     }
 }
 

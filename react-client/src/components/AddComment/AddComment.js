@@ -2,7 +2,7 @@ import React from 'react';
 import propTypes from 'prop-types';
 import {Form, Button, TextArea} from "semantic-ui-react";
 
-export default class AssigneeForm extends React.Component {
+export default class AddComment extends React.Component {
 
     state = {
         context: '',
@@ -15,11 +15,10 @@ export default class AssigneeForm extends React.Component {
     handleSubmit = (e) => {
         e.preventDefault();
         const {context} = this.state;
-        const {assignee, onAddComment} = this.props;
-        const assigneeUuid = assignee.get('uuid');
+        const {issueId, onAddComment} = this.props;
 
-        if (context && context.length > 0 && onAddComment && assigneeUuid) {
-            onAddComment(assigneeUuid, context)
+        if (context && context.length > 0) {
+            onAddComment(issueId, context)
         }
     };
 
@@ -35,7 +34,7 @@ export default class AssigneeForm extends React.Component {
     }
 }
 
-AssigneeForm.propTypes = {
+AddComment.propTypes = {
     onAddComment: propTypes.func.isRequired,
-    assignee: propTypes.object.isRequired,
+    issueId: propTypes.object.isRequired,
 };
