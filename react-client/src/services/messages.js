@@ -27,10 +27,6 @@ export const clearMessages = () => (dispatch) => {
 
 export const apiErrorHandler = (dispatch, getState) => error => {
     const {config} = error;
-
-    if (!error.response) {
-        addMessage(error.message + '\n' + config.baseURL, 'error')(dispatch);
-    } else if (error.response.data) {
-        addMessage(error.response.data.error.message)(dispatch);
-    }
+    console.log(' apiErrorHandler %o', error);
+    addMessage(error.message + '\n' + config.url, 'error')(dispatch);
 };
