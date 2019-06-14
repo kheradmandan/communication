@@ -12,6 +12,7 @@ const manifest = {
     register: {
         plugins: [
             {plugin: 'hapi-auth-jwt2'},
+            {plugin: './plugins/hapi-logger'},
             {plugin: './plugins/auth-strategy'},
             {plugin: './api/', routes: {prefix: '/api/v1/'}}
         ]
