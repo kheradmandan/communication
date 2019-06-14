@@ -8,6 +8,7 @@ import Issue from "./components/Issue";
 
 import * as userActions from "./services/users";
 import './App.css';
+import MenuBar from "./components/MenuBar/MenuBar";
 
 class App extends React.Component {
     componentDidMount() {
@@ -17,11 +18,13 @@ class App extends React.Component {
     render() {
         const {isSignedIn} = this.props;
         if (isSignedIn) {
-            return (
+            return (<div>
+                <MenuBar/>
                 <Switch>
                     <Route path='/issue/:id?' component={Issue}/>
                     <Route exact path='/' component={Dashboard}/>
-                </Switch>)
+                </Switch>
+            </div>)
         }
         return (
             <Switch>
