@@ -5,6 +5,10 @@ const OriginSchema = new mongoose.Schema({
     _id: {
         type: Number,
     },
+    parent: {
+        type: Number,
+        ref: 'Origin'
+    },
     title: {
         type: String,
         required: true,
