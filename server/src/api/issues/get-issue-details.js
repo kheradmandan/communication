@@ -2,6 +2,7 @@ const Joi = require('@hapi/joi');
 const Boom = require('@hapi/boom');
 const Issue = require('../../models/issue');
 const CONSTANTS = require('../../core/constants');
+const permissions = require('../../core/permissions');
 
 /**
  * Controller and Validator for [GET issues/{id}] route.
@@ -27,21 +28,26 @@ const validate = {
 };
 
 const handler = async function (request) {
-    const currentUser = request.auth.credentials;
-    const issueId = request.params.id;
+        const currentUser = request.auth.credentials;
+        const issueId = request.params.id;
 
-    const role = await Issue.getRole(issueId, currentUser._id);
-    console.log('your role is ', role);
-    if (!['CREATOR', 'ASSIGNEE', 'ASSIGNED'].some(x => x === role)) {
-        throw Boom.badData('Specified issue not found. Maybe you have not enough permission. ' + role);
+        // const role = await Issue.getRole(issueId, currentUser._id);
+        const permissions = await permissions.forIssue(currentUser._id, issueId);
+        console.log('your permissions are ', permissions);
+
+        if (permissions.length === 0) {
+            throw Boom.badData('Specified issue not found. Maybe you have not enough permission.');
+        }
+
+        const issue = await Issue
+            .findById(issueId)
+            .populate('statuses.created.by', 'name')
+            .populate('priorities.created.by', 'name')
+            .populate('assignees.user', 'name')
+            .populate('assignees.created.by', 'name')
+            .populate('comments.created.by', 'name')
+            .populate('created.by', 'name');
+
+        return {issue, permissions};
     }
-
-    return Issue
-        .findById(issueId)
-        .populate('statuses.created.by', 'name')
-        .populate('priorities.created.by', 'name')
-        .populate('assignees.user', 'name')
-        .populate('assignees.created.by', 'name')
-        .populate('comments.created.by', 'name')
-        .populate('created.by', 'name');
-};
+;
