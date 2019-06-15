@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const UserStampSchema = require('./defs/user-stamp');
+const PermissionSchema = require('./defs/permission');
 
 const EraSchema = new mongoose.Schema({
     origin: {
@@ -16,6 +17,7 @@ const EraSchema = new mongoose.Schema({
     start: {type: Number, default: 0},
     seq: {type: Number, default: 0},
     inc: {type: Number, default: 1},
+    permissions: [PermissionSchema],
     created: UserStampSchema,
 });
 

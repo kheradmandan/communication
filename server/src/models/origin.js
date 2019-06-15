@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const PermissionSchema = require('./defs/permission');
 
 const OriginSchema = new mongoose.Schema({
     _id: {
@@ -9,7 +10,8 @@ const OriginSchema = new mongoose.Schema({
         required: true,
         minLength: 2,
         maxLength: 32,
-    }
+    },
+    permissions: [PermissionSchema]
 });
 
 OriginSchema.index({title: 1});
