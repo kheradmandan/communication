@@ -8,6 +8,7 @@ const RealmSchema = new mongoose.Schema({
         type: Number,
         ref: 'Realm'
     },
+    ancestors: [{type: Number, ref: 'Realm'}],
     title: {
         type: String,
         required: true,
