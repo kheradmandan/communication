@@ -19,6 +19,7 @@ const EraSchema = new mongoose.Schema({
     inc: {type: Number, default: 1},
     permissions: [PermissionSchema],
     created: UserStampSchema,
+    finished: UserStampSchema,
 });
 
 EraSchema.index({origin: 1, title: 1}, {unique: true});
