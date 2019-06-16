@@ -7,6 +7,6 @@ const PermissionSchema = new mongoose.Schema({
         ref: 'User',
     },
     roles: [String]
-}, {_id: false});
+});
 
 module.exports = PermissionSchema;
