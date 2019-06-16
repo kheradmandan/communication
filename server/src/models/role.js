@@ -4,7 +4,6 @@ const RoleSchema = new mongoose.Schema({
     _id: {
         type: String,
     },
-    category: String,
     level: Number,
     title: {
         type: String,
