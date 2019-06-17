@@ -13,6 +13,7 @@ module.exports.forIssue = async function getIssuePermissions(userId, issueId) {
     const issue = await Issue
         .findById(issueId)
         .populate('era').select('permissions origin')
+        .populate('era.originAncestors').select('permissions origin')
         .exec();
     roles.push(filterRoles(userId, issue.era));
 
