@@ -8,6 +8,11 @@ const EraSchema = new mongoose.Schema({
         required: true,
         ref: 'Origin'
     },
+    originAncestors: [{
+        type: Number,
+        required: true,
+        ref: 'Origin'
+    }],
     title: {
         type: String,
         required: true,
@@ -22,6 +27,7 @@ const EraSchema = new mongoose.Schema({
 });
 
 EraSchema.index({origin: 1, title: 1}, {unique: true});
+EraSchema.index({originAncestors: 1});
 
 EraSchema.methods.getNextSequence = async function getNextSequence() {
     // Race condition!!!
