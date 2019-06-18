@@ -7,10 +7,10 @@ const originSeed = require('./origin-seed');
 
 module.exports = async function seed(mongoose) {
     if (!conf.global.isProductionMode) {
-        // await RoleSeed(mongoose);
-        // await userSeed(mongoose);
-        // await originSeed(mongoose);
-        //  await realmSeed(mongoose);
-        // await eraSeed(mongoose);
+        await RoleSeed(mongoose);
+        await userSeed(mongoose);
+        await originSeed(mongoose);
+         await realmSeed(mongoose);
+        await eraSeed(mongoose);
     }
 };
