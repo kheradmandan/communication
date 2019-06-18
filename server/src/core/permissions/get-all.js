@@ -13,7 +13,9 @@ module.exports = async function getAllPermissions(userId) {
             {"eras.permissions.user": userId}]
     };
 
+    const select = 'title permissions eras';
+
     return await Origin
-        .find(predicate).select('permissions eras')
-        .populate('children', 'permissions eras', predicate);
+        .find(predicate).select(select)
+        .populate('children', select);
 };
