@@ -2,7 +2,7 @@ const Joi = require('@hapi/joi');
 const Boom = require('@hapi/boom');
 const Issue = require('../../models/issue');
 const CONSTANTS = require('../../core/constants');
-const permissions = require('../../core/permissions');
+const {forIssue} = require('../../core/permissions');
 
 /**
  * Controller and Validator for [GET issues/{id}] route.
@@ -32,7 +32,7 @@ const handler = async function (request) {
         const issueId = request.params.id;
 
         // const role = await Issue.getRole(issueId, currentUser._id);
-        const permissions = await permissions.forIssue(currentUser._id, issueId);
+        const permissions = await forIssue(currentUser._id, issueId);
         console.log('your permissions are ', permissions);
 
         if (permissions.length === 0) {
