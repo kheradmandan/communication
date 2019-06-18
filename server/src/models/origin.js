@@ -9,6 +9,10 @@ const OriginSchema = new mongoose.Schema({
         type: Number,
         ref: 'Origin'
     },
+    children: [{
+        type: Number,
+        ref: 'Origin'
+    }],
     ancestors: [{
         type: Number,
         ref: 'Origin'
@@ -24,6 +28,7 @@ const OriginSchema = new mongoose.Schema({
 
 OriginSchema.index({title: 1});
 OriginSchema.index({parent: 1});
+OriginSchema.index({children: 1});
 OriginSchema.index({ancestors: 1});
 
 module.exports = mongoose.model('Origin', OriginSchema);
