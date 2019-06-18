@@ -17,6 +17,10 @@ const OriginSchema = new mongoose.Schema({
         type: Number,
         ref: 'Origin'
     }],
+    eras: [{
+        type: mongoose.ObjectId,
+        ref: 'Era'
+    }],
     title: {
         type: String,
         required: true,
