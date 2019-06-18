@@ -18,7 +18,7 @@ module.exports.forIssue = async function getIssuePermissions(userId, issueId) {
     roles.push(filterRoles(userId, issue.era));
 
     // extend from Origin
-    const originPermissions = await module.exports.forOrigin(userId, issueId.era.origin);
+    const originPermissions = [];//await module.exports.forOrigin(userId, issueId.era.origin);
 
     return [...new Set([...roles, ...originPermissions])]; // distinct
 };
