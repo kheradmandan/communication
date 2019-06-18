@@ -6,7 +6,14 @@ const Origin = require('../../models/origin');
  * @returns {Promise<void>}
  */
 module.exports = async function getAllPermissions(userId) {
+
+    const predicate = {
+        "$or": [
+            {"permissions.user": userId},
+            {"eras.permissions.user": userId}]
+    };
+
     return await Origin
-        .find({"permissions.user": userId}).select('permissions')
-        .populate('children', 'permissions', {"permissions.user": userId});
+        .find(predicate).select('permissions eras')
+        .populate('children', 'permissions eras', predicate);
 };
