@@ -6,7 +6,14 @@ const PermissionSchema = new mongoose.Schema({
         required: true,
         ref: 'User',
     },
-    roles: [String]
+    roles: [String],
+    connections: [{ /* People who can get assignee*/
+        user: {
+            type: mongoose.ObjectId,
+            required: true,
+            ref: 'User'
+        }
+    }]
 });
 
 module.exports = PermissionSchema;
