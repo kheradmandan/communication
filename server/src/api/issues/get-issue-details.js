@@ -2,7 +2,7 @@ const Joi = require('@hapi/joi');
 const Boom = require('@hapi/boom');
 const Issue = require('../../models/issue');
 const CONSTANTS = require('../../core/constants');
-const {forIssue} = require('../../core/permissions');
+const {forIssue} = require('../../services/permissions');
 
 /**
  * Controller and Validator for [GET issues/{id}] route.

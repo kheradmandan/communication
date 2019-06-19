@@ -1,4 +1,4 @@
-const getAllPermissions = require('../../core/permissions/get-all');
+const getAllPermissions = require('../../services/permissions/get-all');
 
 /**
  * Controller for [GET users/permissions] route.

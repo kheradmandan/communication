@@ -1,5 +1,5 @@
 const Joi = require('@hapi/joi');
-const connections = require('../../core/permissions/connections');
+const connections = require('../../services/permissions/connections');
 const CONSTANTS = require('../../core/constants');
 
 /**
