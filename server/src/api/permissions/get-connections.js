@@ -5,7 +5,6 @@ const CONSTANTS = require('../../core/constants');
 /**
  * Controller for [GET permissions/connections/{id}/era] route.
  * @param server
- * @param option
  * @returns {Promise<void>}
  */
 
