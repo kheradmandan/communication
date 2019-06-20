@@ -19,11 +19,11 @@ module.exports = async function (server) {
     });
 };
 
-const validate = Joi.object({
-    params: {
+const validate = {
+    params: Joi.object({
         id: CONSTANTS.joi.objectId(Joi).required(),
-    }
-});
+    })
+};
 
 const handler = async function (request) {
     const currentUser = request.auth.credentials;
