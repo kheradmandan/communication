@@ -25,4 +25,15 @@ module.exports = async function userSeed(mongoose) {
         group: {id: 5, title: 'کارشناس مقیم'},
         password: '123',
     });
+    await User.create({
+        _id: '5cf80118b2b7b13c6dfe9f02',
+        name: {
+            gender: 'خانم',
+            first: 'بهار',
+            last: 'گلدار',
+        },
+        email: 'bahar@gmail.com',
+        group: {id: 10, title: 'کاربر'},
+        password: '123',
+    });
 };
