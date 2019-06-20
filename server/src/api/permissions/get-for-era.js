@@ -28,16 +28,24 @@ const validate = {
 };
 
 const handler = async function (request) {
-    const currentUser = request.auth.credentials;
+    const userId = request.auth.credentials._id;
     const eraId = request.params.id;
     const type = request.params.type;
 
+    const output = {
+        era: eraId,
+        user: userId,
+    };
+
     switch (type) {
         case 'connections':
-            return connections.forEra(currentUser._id, eraId);
+            output.connections = await connections.forEra(userId, eraId);
+            break;
         case 'roles':
-            return roles.forEra(currentUser._id, eraId);
+            output.roles = await roles.forEra(userId, eraId);
+            break;
         default:
             throw new Error('Type not specified in get permissions.')
     }
+    return output;
 };
