@@ -80,18 +80,15 @@ IssueSchema.methods.changeStatus = function (statusId, userId) {
     this.statuses.unshift(newStatus);
 };
 
-IssueSchema.statics.getRole = async function (issueId, userId) {
-    const issue = await this.findById(issueId).select('created assignees').exec();
-    if (!issue) {
-        return 'INVALID_ISSUE';
-    }
-    if (issue.created.by.toString() === userId) {
+IssueSchema.methods.getRole = async function (userId) {
+
+    if (this.created.by.toString() === userId) {
         return 'CREATOR';
     }
-    if (issue.assignees[0].user.toString() === userId) {
+    if (this.assignees[0].user.toString() === userId) {
         return 'ASSIGNEE';
     }
-    if (issue.assignees.some(x => x.user.toString() === userId)) {
+    if (this.assignees.some(x => x.user.toString() === userId)) {
         return 'ASSIGNED';
     }
     return 'STRANGER';
