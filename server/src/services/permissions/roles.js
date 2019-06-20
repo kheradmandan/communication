@@ -5,7 +5,7 @@ const Era = require('../../models/era');
  * Retrieve all available roles in an Era.
  * @param userId
  * @param eraId
- * @returns {Promise<{era: *, roles: Array, user: *}>}
+ * @returns {Promise<Array>}
  */
 module.exports.forEra = async function getRoleForEra(userId, eraId) {
 
@@ -18,15 +18,9 @@ module.exports.forEra = async function getRoleForEra(userId, eraId) {
                 {$group: {_id: '$_id', roles: {$push: '$permissions.roles'}}}
             ]);
 
-    const output = {
-        era: eraId,
-        user: userId,
-        roles: [],
-    };
-
-    // found
-    if (results.length !== 0) {
-        output.roles = results[0].roles;
+    // not found
+    if (results.length === 0) {
+        return [];
     }
-    return output;
+    return results[0].roles;
 };
