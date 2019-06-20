@@ -1,17 +1,30 @@
+const {ObjectId} = require('mongoose').Types;
+const User = require('../../models/user');
 const Era = require('../../models/era');
 
 /**
  * Retrieve all available people that user can assignee for an Era.
  * @param userId
  * @param eraId
- * @returns {Promise<void>}
+ * @returns {Promise<Array>}
  */
 module.exports.forEra = async function getConnectionForEra(userId, eraId) {
 
-    const predicate = {_id: eraId, "permissions.user": userId};
-    const fields = ' permissions.connections';
+    const results =
+        await Era
+            .aggregate([
+                {$match: {_id: ObjectId(eraId)}},
+                {$unwind: '$permissions'},
+                {$match: {'permissions.user': ObjectId(userId)}},
+                {$group: {_id: '$_id', connections: {$push: '$permissions.connections'}}}
+            ]);
 
-    return await Era
-        .find(predicate, fields)
-        .populate('ancestors', fields, predicate);
+    // not found
+    if (results.length === 0 || results[0].connections.length === 0) {
+        return [];
+    }
+
+    // populate
+    const users = results[0].connections[0].map(x => x.user);
+    return await User.find({_id: {$in: users}}, 'name').exec();
 };
