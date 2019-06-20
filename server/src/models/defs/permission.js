@@ -8,6 +8,7 @@ const PermissionSchema = new mongoose.Schema({
     },
     roles: [String],
     connections: [{ /* People who can get assignee*/
+        _id: false,
         user: {
             type: mongoose.ObjectId,
             required: true,
