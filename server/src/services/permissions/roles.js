@@ -22,5 +22,5 @@ module.exports.forEra = async function getRoleForEra(userId, eraId) {
     if (results.length === 0) {
         return [];
     }
-    return results[0].roles;
+    return results[0].roles.flat(1);
 };
