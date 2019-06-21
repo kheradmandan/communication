@@ -2,8 +2,8 @@ import React from 'react';
 import {connect} from "react-redux";
 import {Map} from "immutable";
 import propTypes from 'prop-types';
-import IssueMainData from "../IssueMainData";
-import IssueFeed from '../IssueFeed';
+import Header from "./Header";
+import Feed from './Feed';
 import * as issueActions from '../../services/issues';
 import * as requestTypes from "../../constants/request.types";
 
@@ -51,11 +51,11 @@ class Issue extends React.Component {
         }
 
         return <Container>
-            <IssueMainData issue={current} loading={isLoading}/>
+            <Header issue={current} loading={isLoading}/>
             <Segment loading={isLoading}>
                 <Grid columns={2} stackable relaxed='very'>
                     <Grid.Column>
-                        <IssueFeed
+                        <Feed
                             issue={current}
                             onAddComment={addComment}
                         />

@@ -1,12 +1,12 @@
 import React from 'react';
 import propTypes from 'prop-types';
 import {Map} from 'immutable';
-import {Feed,} from 'semantic-ui-react';
-import LocaleDate from "../LocaleDate";
-import AddComment from "../AddComment/AddComment";
-import User from "../User";
+import {Feed} from 'semantic-ui-react';
+import LocaleDate from '../../LocaleDate';
+import AddComment from '../AddComment';
+import User from '../../User';
 
-export default function IssueFeed({issue, onAddComment}) {
+export default function ({issue, onAddComment}) {
 
     return <Feed>
         < AddComment issueId={issue.get('_id')} onAddComment={onAddComment}/>
@@ -29,10 +29,10 @@ export default function IssueFeed({issue, onAddComment}) {
     </Feed>;
 }
 
-IssueFeed.propTypes = {
+Feed.propTypes = {
     issue: propTypes.instanceOf(Map).isRequired,
 };
 
-IssueFeed.defaultTypes = {
+Feed.defaultTypes = {
     issue: Map({})
 };

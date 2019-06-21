@@ -2,10 +2,10 @@ import React from 'react';
 import propTypes from 'prop-types';
 
 import {Segment, Label, Input} from "semantic-ui-react";
-import LocaleDate from "../LocaleDate";
-import User from "../User";
+import LocaleDate from "../../LocaleDate";
+import User from "../../User";
 
-class IssueMainData extends React.Component {
+class Header extends React.Component {
     render() {
         const {issue, loading} = this.props;
         if (loading) return <p> Issue loading</p>;
@@ -38,13 +38,13 @@ class IssueMainData extends React.Component {
     }
 }
 
-IssueMainData.propTypes = {
+Header.propTypes = {
     readOnly: propTypes.bool,
     issue: propTypes.object.isRequired,
 };
 
-IssueMainData.defaultProps = {
+Header.defaultProps = {
     readOnly: false,
 };
 
-export default IssueMainData;
+export default Header;
