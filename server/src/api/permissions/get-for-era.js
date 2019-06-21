@@ -1,7 +1,6 @@
 const Joi = require('@hapi/joi');
-const roles = require('../../services/permissions/roles');
-const connections = require('../../services/permissions/connections');
 const CONSTANTS = require('../../core/constants');
+const permissionService = require('../../services/permissions');
 
 /**
  * Controller for [GET permissions/connections/{id}/era] route.
@@ -12,7 +11,7 @@ const CONSTANTS = require('../../core/constants');
 module.exports = async function (server) {
     server.route({
         method: 'GET',
-        path: 'permissions/eras/{id}/{type}',
+        path: 'permissions/eras/{id}/{type?}',
         handler,
         options: {
             validate
@@ -23,7 +22,7 @@ module.exports = async function (server) {
 const validate = {
     params: Joi.object({
         id: CONSTANTS.joi.objectId(Joi).required(),
-        type: Joi.string().valid(['connections', 'roles']).required(),
+        type: Joi.string().valid(['connections', 'roles']),
     })
 };
 
@@ -32,20 +31,14 @@ const handler = async function (request) {
     const eraId = request.params.id;
     const type = request.params.type;
 
-    const output = {
-        era: eraId,
-        user: userId,
-    };
-
     switch (type) {
         case 'connections':
-            output.connections = await connections.forEra(userId, eraId);
-            break;
+            return permissionService.getConnections(userId, eraId);
         case 'roles':
-            output.roles = await roles.forEra(userId, eraId);
-            break;
+            return permissionService.getRolesInEra(userId, eraId);
+        case undefined:
+            return permissionService.getPermissionsInEra(userId, eraId);
         default:
             throw new Error('Type not specified in get permissions.')
     }
-    return output;
 };
