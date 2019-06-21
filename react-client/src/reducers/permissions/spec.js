@@ -1,23 +1,16 @@
 import {describe} from 'mocha';
 import {expect} from 'chai';
 import reducer from './index';
-import {setXrefOriginsRealms, setXrefUsersOrigins} from "../../actions/permissions";
+import {setPermissionForEra} from "../../actions/permissions";
 
 describe('Permission Reducer', () => {
 
-    it('Should load XREF_UsersOrigins permissions', () => {
-        const payload = [{origin: {title: 'title1'}}, {origin: {title: 'title2'}}];
+    it('Should set permissions for era', () => {
+        const eraId = 'an-era-id';
+        const payload = {_id: eraId, permission: {}};
 
-        const state = reducer(undefined, setXrefUsersOrigins(payload));
-        expect(state.get('xref-users-origins').toJS()).to.deep.equal(payload);
-    });
-
-    it('Should load XREF_OriginsRealms permissions', () => {
-        const originId = 1;
-        const payload = [{realm: {title: 'title1'}}, {realm: {title: 'title2'}}];
-
-        const state = reducer(undefined, setXrefOriginsRealms(originId, payload));
-        expect(state.get('xref-origins-realms').toJS()).to.deep.equal({[originId]: payload});
+        const state = reducer(undefined, setPermissionForEra(eraId,payload));
+        expect(state.get(eraId).toJS()).to.deep.equal(payload);
     });
 
 });
