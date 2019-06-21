@@ -5,7 +5,6 @@ import {apiErrorHandler} from "./messages";
 import * as requestTypes from "../constants/request.types";
 import * as permissionActions from "../actions/permissions";
 
-// Load xref-users-origins
 export const getPermissionForEra = (eraId) => (dispatch, getState) => {
 
     const status = checkRequestProgress(requestTypes.PERMISSION)(dispatch, getState);
@@ -13,7 +12,7 @@ export const getPermissionForEra = (eraId) => (dispatch, getState) => {
         return;
     }
 
-    const url = remoteUrl(`/permissions/${eraId}`);
+    const url = remoteUrl(`/permissions/eras/${eraId}`);
     API
         .get(url)
         .then(({data}) => {
