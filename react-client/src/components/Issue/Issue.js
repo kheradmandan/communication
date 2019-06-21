@@ -1,22 +1,13 @@
 import React from 'react';
-import {connect} from "react-redux";
-import {Map} from "immutable";
+import {connect} from 'react-redux';
+import {Map} from 'immutable';
 import propTypes from 'prop-types';
-import Header from "./Header";
-import Feed from './Feed';
+import {Segment, Tab, Container} from 'semantic-ui-react';
 import * as issueActions from '../../services/issues';
-import * as requestTypes from "../../constants/request.types";
-
-import {
-    Segment,
-    Grid,
-    Divider,
-    Tab,
-    Menu,
-    Label,
-    Icon,
-    Container
-} from 'semantic-ui-react';
+import * as requestTypes from '../../constants/request.types';
+import History from './History';
+import Header from './Header';
+import Feed from './Feed';
 
 class Issue extends React.Component {
     state = {loadedId: ''};
@@ -42,7 +33,7 @@ class Issue extends React.Component {
         const {current, currentUser, addComment, isLoading} = this.props;
 
         if (!current || !current.get('assignees')) {
-            return <p> loading </p>;
+            return <Segment loading/>
         }
 
         let activeAssignee = current.get('assignees').first();
@@ -53,19 +44,20 @@ class Issue extends React.Component {
         return <Container>
             <Header issue={current} loading={isLoading}/>
             <Segment loading={isLoading}>
-                <Grid columns={2} stackable relaxed='very'>
-                    <Grid.Column>
-                        <Feed
-                            issue={current}
-                            onAddComment={addComment}
-                        />
-                        {/*<CommentPane comments={current.get('Comments')}/>*/}
-                    </Grid.Column>
-                    <Grid.Column>
-                        <LeftPanel/>
-                    </Grid.Column>
-                </Grid>
-                <Divider vertical>*</Divider>
+                <Tab
+                    panes={[
+                        {
+                            menuItem: {key: 'feed', icon: 'feed', content: 'یادداشت ها'},
+                            render: () => <Tab.Pane><Feed issue={current} onAddComment={addComment}/></Tab.Pane>
+                        },{
+                            menuItem: {key: 'attachments', icon: 'attach', content: 'پیوست ها'},
+                            render: () => <Tab.Pane>Attachments goes here </Tab.Pane>
+                        }, {
+                            menuItem: {key: 'histories', icon: 'history', content: 'تاریخچه'},
+                            render: () => <Tab.Pane><History issue={current}/></Tab.Pane>
+                        },
+                    ]}
+                />
             </Segment>
         </Container>
     }
@@ -93,19 +85,3 @@ function mapStateToProps(state) {
 }
 
 export default connect(mapStateToProps, issueActions)(Issue);
-
-const panes = [
-    {
-        menuItem: {key: 'histories', icon: 'history', content: 'تاریخچه'},
-        render: () => <Tab.Pane>histories go here</Tab.Pane>
-    },
-    {
-        menuItem: (<Menu.Item key='attachments'>
-            <Icon name='attach'/>
-            پیوست ها
-            <Label>0</Label>
-        </Menu.Item>),
-        render: () => <Tab.Pane>attach go here</Tab.Pane>
-    },
-];
-const LeftPanel = () => <Tab panes={panes}/>;
