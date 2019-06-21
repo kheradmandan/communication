@@ -80,7 +80,7 @@ IssueSchema.methods.changeStatus = function (statusId, userId) {
     this.statuses.unshift(newStatus);
 };
 
-IssueSchema.methods.getRole = async function (userId) {
+IssueSchema.methods.getRelation = async function (userId) {
 
     if (this.created.by.toString() === userId) {
         return 'CREATOR';
