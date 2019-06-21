@@ -4,12 +4,15 @@ import {Map} from 'immutable';
 import {Feed} from 'semantic-ui-react';
 import LocaleDate from '../../LocaleDate';
 import AddComment from '../AddComment';
+import Ability from '../../Ability';
 import User from '../../User';
 
 export default function ({issue, onAddComment}) {
 
     return <Feed>
-        < AddComment issueId={issue.get('_id')} onAddComment={onAddComment}/>
+        <Ability can='add-comment-to-issue'>
+            < AddComment issueId={issue.get('_id')} onAddComment={onAddComment}/>
+        </Ability>
         {issue.get('comments').map(comment =>
             <Feed.Event>
                 <Feed.Label image='https://react.semantic-ui.com/images/avatar/small/justen.jpg'/>
