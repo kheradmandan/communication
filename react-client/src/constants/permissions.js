@@ -1,2 +1,1 @@
-export const XREF_USERS_ORIGINS = 'xref-users-origins';
-export const XREF_ORIGINS_REALMS = 'xref-origins-realms';
+export const GET_PERMISSION_FOR_ERA = 'get-permission-for-era';

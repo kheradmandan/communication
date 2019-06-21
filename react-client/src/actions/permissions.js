@@ -1,18 +1,8 @@
 import * as permissionConstants from "../constants/permissions";
 
-const wrapper = (payload) => !(payload instanceof Array) ? [payload] : payload;
-
-export function setXrefUsersOrigins(payload) {
+export function setPermissionForEra(eraId, payload) {
     return {
-        type: permissionConstants.XREF_USERS_ORIGINS,
-        payload: wrapper(payload)
-    }
-}
-
-export function setXrefOriginsRealms(originId, payload) {
-    return {
-        type: permissionConstants.XREF_ORIGINS_REALMS,
-        originId,
-        payload: wrapper(payload)
+        type: permissionConstants.GET_PERMISSION_FOR_ERA,
+        payload: {_id: eraId, payload}
     }
 }

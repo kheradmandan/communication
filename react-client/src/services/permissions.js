@@ -6,36 +6,18 @@ import * as requestTypes from "../constants/request.types";
 import * as permissionActions from "../actions/permissions";
 
 // Load xref-users-origins
-export const loadXrefUsersOrigins = (uuid) => (dispatch, getState) => {
+export const getPermissionForEra = (eraId) => (dispatch, getState) => {
 
     const status = checkRequestProgress(requestTypes.PERMISSION)(dispatch, getState);
     if (status.alreadyInProgress) {
         return;
     }
 
-    const url = remoteUrl(`/permissions/xref/users/${uuid}/origins`);
+    const url = remoteUrl(`/permissions/${eraId}`);
     API
         .get(url)
-        .then(({data: {data}}) => {
-            dispatch(permissionActions.setXrefUsersOrigins(data));
-        })
-        .catch(apiErrorHandler(dispatch, getState))
-        .finally(status.unset())
-};
-
-// Load xref-origins-realms
-export const loadXrefOriginsRealms = (originId) => (dispatch, getState) => {
-
-    const status = checkRequestProgress(requestTypes.PERMISSION)(dispatch, getState);
-    if (status.alreadyInProgress) {
-        return;
-    }
-
-    const url = remoteUrl(`/permissions/xref/origins/${originId}/realms`);
-    API
-        .get(url)
-        .then(({data: {data}}) => {
-            dispatch(permissionActions.setXrefOriginsRealms(originId, data));
+        .then(({data}) => {
+            dispatch(permissionActions.setPermissionForEra(eraId, data));
         })
         .catch(apiErrorHandler(dispatch, getState))
         .finally(status.unset())
