@@ -6,13 +6,10 @@ import propTypes from "prop-types";
 class Ability extends React.Component {
 
     render() {
-        let {permissions} = this.props;
-        const {current, can, children} = this.props;
-        if (!permissions) {
-            permissions = current.get('permissions')
-        }
+        const {current, permissions, can, children} = this.props;
+        const roles = permissions || current.get('permissions') || List();
 
-        if (permissions.some(x => x === can)) {
+        if (roles.some(x => x === can)) {
             return children;
         }
         return null;
