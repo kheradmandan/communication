@@ -54,5 +54,5 @@ const handler = async function (request) {
             }
         });
 
-    return {issue, permissions};
+    return {...issue.toJSON(), permissions};
 };
