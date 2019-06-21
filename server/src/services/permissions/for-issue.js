@@ -30,7 +30,7 @@ module.exports = async function getPermissionsForIssue(userId, issueId) {
         settledRoles.push(getDefaultAssignedRoles());
     }
 
-    return [...new Set(settledRoles)]; // unique them
+    return [...new Set(settledRoles.flat(1))]; // unique them
 };
 
 // Just hard code!
