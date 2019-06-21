@@ -1,5 +1,5 @@
 const Issue = require('../../models/issue');
-const roles = require('./roles');
+const permissionService = require('./index');
 
 /**
  * Fetch all available roles in issue for specified user.
@@ -17,7 +17,7 @@ module.exports = async function getPermissionsForIssue(userId, issueId) {
     const relation = issue.getRelation(userId);
 
     // fetch persists
-    const settledRoles = await roles.forEra(userId, issue.era);
+    const settledRoles = await permissionService.getRolesInEra(userId, issue.era);
 
     // set defaults
     if ('CREATOR' === relation) {
