@@ -1,4 +1,4 @@
-const Issue = required('../../models/issue');
+const Issue = require('../../models/issue');
 const roles = require('./roles');
 
 /**
@@ -56,5 +56,7 @@ function getDefaultAssigneeRoles() {
 }
 
 function getDefaultAssignedRoles() {
-    return []
+    return [
+        'view-issue'
+    ]
 }
