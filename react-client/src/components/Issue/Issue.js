@@ -19,7 +19,7 @@ import {
 } from 'semantic-ui-react';
 
 class Issue extends React.Component {
-    state = {uuid: ''};
+    state = {loadedId: ''};
 
     componentDidMount() {
         this.fetchDetails(this.props);
@@ -30,12 +30,11 @@ class Issue extends React.Component {
     }
 
     fetchDetails = (props) => {
-        const {match, current} = props;
-        if (match && match.params && match.params.id) {
-            const id = match.params.id;
-            if (id !== current.get('_id')) {
-                this.props.getIssueDetails(id);
-            }
+        const {loadedId} = this.state;
+        const id = props.match.params.id;
+        if (id !== loadedId) {
+            this.setState({loadedId: id});
+            this.props.getIssueDetails(id);
         }
     };
 
