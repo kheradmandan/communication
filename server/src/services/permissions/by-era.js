@@ -6,7 +6,7 @@ const Era = require('../../models/era');
  * Retrieve permissions for specified user in an era.
  * @param userId
  * @param eraId
- * @returns {Promise<{permissions: Array, _id: *}>}
+ * @returns {Promise<{permission: {}, _id: *}>}
  */
 module.exports = async function (userId, eraId) {
 
@@ -22,7 +22,7 @@ module.exports = async function (userId, eraId) {
     if (results.length === 0) {
         return {
             _id: eraId,
-            permissions: [],
+            permission: {},
         };
     }
 
@@ -32,5 +32,10 @@ module.exports = async function (userId, eraId) {
             path: 'permissions.connections.user',
             select: 'name'
         });
-    return results[0];
+
+    // reformat output
+    const output = results[0];
+    output.permission = output.permissions[0];
+    delete output.permissions;
+    return output;
 };

@@ -3,7 +3,7 @@ const forEra = require('./by-era');
  * Retrieve whole permission
  * @param userId
  * @param eraId
- * @returns {Promise<{permissions: Array, _id: *}>}
+ * @returns {Promise<{permission: {}, _id: *}>}
  */
 module.exports.getPermissionsInEra = async function (userId, eraId) {
     return forEra(userId, eraId);
@@ -17,11 +17,8 @@ module.exports.getPermissionsInEra = async function (userId, eraId) {
  */
 module.exports.getRolesInEra = async function (userId, eraId) {
 
-    const {permissions} = await forEra(userId, eraId);
-    if (permissions.length > 0) {
-        return permissions[0].roles;
-    }
-    return [];
+    const {permission} = await forEra(userId, eraId);
+    return permission.roles || [];
 };
 
 /**
@@ -32,9 +29,6 @@ module.exports.getRolesInEra = async function (userId, eraId) {
  */
 module.exports.getConnections = async function (userId, eraId) {
 
-    const {permissions} = await forEra(userId, eraId);
-    if (permissions.length > 0) {
-        return permissions[0].connections;
-    }
-    return [];
+    const {permission} = await forEra(userId, eraId);
+    return permission.connections || [];
 };
