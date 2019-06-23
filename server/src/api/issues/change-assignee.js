@@ -62,15 +62,12 @@ const handler = async function (request) {
     // do not change
     const lastAssignee = issue.assignees[0];
     if (lastAssignee.user.toString() === newAssignee.user && lastAssignee.title === newAssignee.title) {
-        return {ok: true};
+        return {Ok: true, _id: issue.assignees[0]._id}
     }
 
     // save at first position
     issue.assignees.unshift(newAssignee);
     await issue.save();
 
-    // populate and return new assignee
-    issue.assignees = issue.assignees.slice(0, 1); // just the last one is enough
-    const {assignees} = await Issue.populate(issue, {path: 'assignees.user', select: 'name'});
-    return assignees[0];
+    return {Ok: true, _id: issue.assignees[0]._id}
 };
