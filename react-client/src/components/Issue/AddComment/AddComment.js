@@ -8,32 +8,41 @@ export default class AddComment extends React.Component {
 
     state = {
         context: '',
+        assigneeId: '',
     };
 
     handleTextChange = (e, {value}) => {
         this.setState({context: value});
     };
 
+    handleUserChange = userId => {
+        this.setState({assigneeId: userId});
+    };
+
     handleSubmit = (e) => {
         e.preventDefault();
-        const {context} = this.state;
-        const {issue, onAddComment} = this.props;
+        const {context, assigneeId} = this.state;
+        const {issue, onAddComment, onChangeAssignee} = this.props;
 
         if (context && context.length > 0) {
             onAddComment(issue.get('_id'), context)
         }
+
+        if (assigneeId) {
+            onChangeAssignee(assigneeId);
+        }
     };
 
     render() {
-        const {context} = this.state;
+        const {context, assigneeId} = this.state;
         const {issue} = this.props;
 
         return <Form>
             <TextArea value={context} onChange={this.handleTextChange}/>
             <Ability can='change-issue-assignee' permissions={issue.get('permissions')}>
-                <Selection.User/>
+                <Selection.User onChange={this.handleUserChange}/>
             </Ability>
-            <Button primary icon='save' disabled={!context} onClick={this.handleSubmit}>
+            <Button primary icon='save' disabled={!context && !assigneeId} onClick={this.handleSubmit}>
                 ثبت
             </Button>
         </Form>
@@ -42,5 +51,6 @@ export default class AddComment extends React.Component {
 
 AddComment.propTypes = {
     onAddComment: propTypes.func.isRequired,
+    onChangeAssignee: propTypes.func.isRequired,
     issue: propTypes.object.isRequired,
 };
