@@ -11,7 +11,7 @@ export default function ({issue, onAddComment}) {
 
     return <Feed>
         <Ability can='add-comment-to-issue'>
-            < AddComment issueId={issue.get('_id')} onAddComment={onAddComment}/>
+            < AddComment issue={issue} onAddComment={onAddComment}/>
         </Ability>
         {issue.get('comments').map(comment =>
             <Feed.Event>
