@@ -1,4 +1,5 @@
 import React from 'react';
+import {Map} from 'immutable';
 import propTypes from 'prop-types';
 import {Form, Button, TextArea} from "semantic-ui-react";
 import Ability from "../../Ability";
@@ -50,7 +51,7 @@ export default class AddComment extends React.Component {
 }
 
 AddComment.propTypes = {
+    issue: propTypes.instanceOf(Map).isRequired,
     onAddComment: propTypes.func.isRequired,
     onChangeAssignee: propTypes.func.isRequired,
-    issue: propTypes.object.isRequired,
 };
