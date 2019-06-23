@@ -7,17 +7,16 @@ import * as permissionService from '../../../services/permissions'
 
 class UserSelection extends React.Component {
 
-    componentDidMount() {
-        const {era, permissions, getPermissionForEra} = this.props;
-        const permit = permissions.get(era);
-        if (!permit) {
+    render() {
+        let {era, current, permissions, getPermissionForEra} = this.props;
+        if (!era) {
+            era = current.getIn(['era', '_id'])
+        }
+
+        const permissionInEra = permissions.get(era);
+        if (!permissionInEra && era) {
             getPermissionForEra(era);
         }
-    }
-
-    render() {
-        const {era, permissions} = this.props;
-        const permissionInEra = permissions.get(era);
 
         let connections = List();
         if (permissionInEra) {
@@ -42,16 +41,19 @@ class UserSelection extends React.Component {
 
 UserSelection.propTypes = {
     era: propTypes.string.isRequired,
+    current: propTypes.instanceOf(Map),
     permissions: propTypes.instanceOf(Map),
 };
 
 UserSelection.defaultProps = {
     era: '',
+    current: Map(),
     permissions: Map(),
 };
 
 function mapStateToProps(state) {
     return {
+        current: state.issues.get('current'),
         permissions: state.permissions,
     }
 }
