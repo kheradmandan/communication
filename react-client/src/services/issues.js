@@ -63,7 +63,7 @@ export const changeAssignee = (issueId, userId, title) => (dispatch, getState) =
     API
         .post(url, {user: userId, title})
         .then(({data}) => {
-            //dispatch(issueAction.setCurrentIssueDetails({id: ''}));
+            dispatch(issueAction.assigneeHasChanged(issueId));
         })
         .catch(apiErrorHandler(dispatch, getState))
         .finally(status.unset())
