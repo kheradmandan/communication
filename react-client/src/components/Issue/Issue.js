@@ -30,7 +30,7 @@ class Issue extends React.Component {
     };
 
     render() {
-        const {current, currentUser, addComment, isLoading} = this.props;
+        const {current, currentUser, isLoading, addComment, changeAssignee} = this.props;
 
         if (!current || !current.get('assignees')) {
             return <Segment loading/>
@@ -48,7 +48,9 @@ class Issue extends React.Component {
                     panes={[
                         {
                             menuItem: {key: 'feed', icon: 'feed', content: 'یادداشت ها'},
-                            render: () => <Tab.Pane><Feed issue={current} onAddComment={addComment}/></Tab.Pane>
+                            render: () => <Tab.Pane><Feed issue={current}
+                                                          onAddComment={addComment}
+                                                          onChangeAssignee={changeAssignee}/></Tab.Pane>
                         }, {
                             menuItem: {key: 'attachments', icon: 'attach', content: 'پیوست ها'},
                             render: () => <Tab.Pane>Attachments goes here </Tab.Pane>

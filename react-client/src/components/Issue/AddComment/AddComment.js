@@ -9,6 +9,7 @@ export default class AddComment extends React.Component {
 
     state = {
         context: '',
+        status: '',
         assigneeId: '',
     };
 
@@ -22,7 +23,7 @@ export default class AddComment extends React.Component {
 
     handleSubmit = (e) => {
         e.preventDefault();
-        const {context, assigneeId} = this.state;
+        const {context, assigneeId, title} = this.state;
         const {issue, onAddComment, onChangeAssignee} = this.props;
 
         if (context && context.length > 0) {
@@ -30,7 +31,7 @@ export default class AddComment extends React.Component {
         }
 
         if (assigneeId) {
-            onChangeAssignee(assigneeId);
+            onChangeAssignee(issue.get('_id'), assigneeId, title);
         }
     };
 

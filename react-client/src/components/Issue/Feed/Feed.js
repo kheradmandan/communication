@@ -8,11 +8,11 @@ import Ability from '../../Ability';
 import User from '../../User';
 import {avatarUrl} from "../../../utils/remote-utils";
 
-export default function ({issue, onAddComment}) {
+export default function ({issue, onAddComment, onChangeAssignee}) {
 
     return <Feed>
         <Ability can='add-comment-to-issue'>
-            < AddComment issue={issue} onAddComment={onAddComment}/>
+            < AddComment issue={issue} onAddComment={onAddComment} onChangeAssignee={onChangeAssignee}/>
         </Ability>
         {issue.get('comments').map(comment =>
             <Feed.Event>
