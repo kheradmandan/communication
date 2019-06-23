@@ -1,4 +1,6 @@
 const forEra = require('./by-era');
+const forIssue = require('./for-issue');
+
 /**
  * Retrieve whole permission
  * @param userId
@@ -31,4 +33,15 @@ module.exports.getConnections = async function (userId, eraId) {
 
     const {permission} = await forEra(userId, eraId);
     return permission.connections || [];
+};
+
+/**
+ * Retrieve roles for an issue
+ * @param userId
+ * @param issueId
+ * @returns {Promise<*[]>}
+ */
+module.exports.getRolesForIssue = async function (userId, issueId) {
+
+    return  await forIssue(userId, issueId);
 };
