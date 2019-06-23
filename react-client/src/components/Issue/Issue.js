@@ -8,7 +8,6 @@ import * as requestTypes from '../../constants/request.types';
 import History from './History';
 import Header from './Header';
 import Feed from './Feed';
-import Selection from '../Selection';
 
 class Issue extends React.Component {
     state = {loadedId: ''};
@@ -44,7 +43,6 @@ class Issue extends React.Component {
 
         return <Container>
             <Header issue={current} loading={isLoading}/>
-            <Selection.User era={current.getIn(['era', '_id'])}/>
             <Segment loading={isLoading}>
                 <Tab
                     panes={[
