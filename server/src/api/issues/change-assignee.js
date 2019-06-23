@@ -27,7 +27,6 @@ const validate = {
         title: Joi.string().default(null)
             .min(CONSTANTS.mongo.issue.assignee.title.minLength)
             .max(CONSTANTS.mongo.issue.assignee.title.maxLength),
-        status: Joi.string().default('open').valid(CONSTANTS.mongo.issue.statuses.filter(x => x !== 'draft'))
     }),
     params: Joi.object({
         id: CONSTANTS.joi.objectId(Joi).required()
@@ -37,7 +36,7 @@ const validate = {
 const handler = async function (request) {
     const userId = request.auth.credentials._id;
     const issueId = request.params.id;
-    const {user, title, status: statusId} = request.payload;
+    const {user, title} = request.payload;
 
     const newAssignee = {
         user,
@@ -64,11 +63,6 @@ const handler = async function (request) {
     const lastAssignee = issue.assignees[0];
     if (lastAssignee.user.toString() === newAssignee.user && lastAssignee.title === newAssignee.title) {
         return issue.assignees[0];
-    }
-
-    // change status if possible
-    if (issue.statuses[0].id === 'draft') {
-        issue.changeStatus(statusId, userId)
     }
 
     // save at first position
