@@ -1,4 +1,3 @@
-
 export const remoteBaseUrl = 'http://127.0.0.1:8081/api/v1';
 
 export const remoteUrl = (extendUrl) => {
@@ -6,4 +5,8 @@ export const remoteUrl = (extendUrl) => {
         extendUrl = '/' + extendUrl;
     }
     return remoteBaseUrl + extendUrl;
+};
+
+export const avatarUrl = (userId) => {
+    return remoteUrl(`users/${userId}/avatar`)
 };
