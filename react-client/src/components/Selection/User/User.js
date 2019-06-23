@@ -4,8 +4,16 @@ import propTypes from 'prop-types';
 import {List, Map} from "immutable";
 import {Dropdown} from "semantic-ui-react";
 import * as permissionService from '../../../services/permissions'
+import {avatarUrl} from "../../../utils/remote-utils";
 
 class UserSelection extends React.Component {
+
+    handleChange = (e, {value}) => {
+        const {onChange} = this.props;
+        if (onChange) {
+            onChange(value);
+        }
+    };
 
     render() {
         let {era, current, permissions, getPermissionForEra} = this.props;
@@ -28,13 +36,15 @@ class UserSelection extends React.Component {
             key: x.getIn(['user', '_id']),
             value: x.getIn(['user', '_id']),
             text: x.getIn(['user', 'name', 'first']) + ' ' + x.getIn(['user', 'name', 'last']),
-            image: {avatar: true, src: 'https://react.semantic-ui.com/images/avatar/small/jenny.jpg'},
+            image: {avatar: true, src: avatarUrl(x.getIn(['user', '_id']))},
         }));
 
         return <Dropdown
             openOnFocus
             selection clearable
             options={mappedOptions}
+            onChange={this.handleChange}
+            placeholder='گیرنده'
         />
     }
 }
@@ -43,6 +53,7 @@ UserSelection.propTypes = {
     era: propTypes.string.isRequired,
     current: propTypes.instanceOf(Map),
     permissions: propTypes.instanceOf(Map),
+    onChange: propTypes.func,
 };
 
 UserSelection.defaultProps = {
