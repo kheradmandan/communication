@@ -13,6 +13,8 @@ export default function (state = initState, action) {
             return state.mergeDeepIn(['list'], fromJS(action.payload));
         case ISSUES.GET_CURRENT_ISSUE_DETAILS:
             return state.set('current', fromJS(action.payload));
+        case ISSUES.ASSIGNEE_HAS_CHANGED:
+            return state.set('current', fromJS({_id: action.issueId, reloadRequired: true}));
         default:
             return state;
     }
