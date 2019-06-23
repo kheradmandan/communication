@@ -1,9 +1,10 @@
+const Boom = require('@hapi/boom');
 const permission = require('../services/permissions');
 
 /**
  * How able to do that
  * @param roleProvider
- * @returns {function([string]): boolean}
+ * @returns {function([string],boolean=true): boolean}
  */
 
 module.exports.can = roleProvider => {
@@ -24,11 +25,19 @@ module.exports.can = roleProvider => {
     }
 
     // ability
-    return (able = []) => {
+    return (able = [], throwOnFail = true) => {
+
+        let isAble = false;
         if (Array.isArray(able)) {
-            return availableRoles.some(role => able.some(role))
+            isAble = availableRoles.some(role => able.some(role));
+        } else {
+            isAble = availableRoles.some(role => role === able);
         }
-        return availableRoles.some(role => role === able)
+
+        if (throwOnFail && !isAble) {
+            throw Boom.forbidden('You can not do that', able)
+        }
+        return isAble;
     };
 };
 
@@ -36,22 +45,22 @@ module.exports.can = roleProvider => {
  * How able to do that on specific issue
  * @param userId
  * @param issueId
- * @returns {function([string]): boolean}
+ * @returns {function([string],boolean=true): boolean}
  */
 
-module.exports.canDoOnIssue = (userId, issueId) => able => {
+module.exports.canDoOnIssue = (userId, issueId) => (able, throwOnFail = true) => {
 
-    return module.exports.can(permission.getRolesForIssue(userId, issueId))(able);
+    return module.exports.can(permission.getRolesForIssue(userId, issueId))(able, throwOnFail);
 };
 
 /**
  * * How able to do that in specific era
  * @param userId
  * @param eraId
- * @returns {function([string]): boolean}
+ * @returns {function([string],boolean=true): boolean}
  */
 
-module.exports.canDoInEra = (userId, eraId) => able => {
+module.exports.canDoInEra = (userId, eraId) => (able, throwOnFail = true) => {
 
-    return module.exports.can(permission.getRolesInEra(userId, eraId))(able);
+    return module.exports.can(permission.getRolesInEra(userId, eraId))(able, throwOnFail);
 };
