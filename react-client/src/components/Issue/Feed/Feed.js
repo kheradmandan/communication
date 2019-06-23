@@ -6,6 +6,7 @@ import LocaleDate from '../../LocaleDate';
 import AddComment from '../AddComment';
 import Ability from '../../Ability';
 import User from '../../User';
+import {avatarUrl} from "../../../utils/remote-utils";
 
 export default function ({issue, onAddComment}) {
 
@@ -15,7 +16,7 @@ export default function ({issue, onAddComment}) {
         </Ability>
         {issue.get('comments').map(comment =>
             <Feed.Event>
-                <Feed.Label image='https://react.semantic-ui.com/images/avatar/small/justen.jpg'/>
+                <Feed.Label image={avatarUrl(comment.getIn(['created', 'by', '_id']))}/>
                 <Feed.Content>
                     <Feed.Summary>
                         <Feed.User><User source={comment.getIn(['created', 'by'])}/></Feed.User>
