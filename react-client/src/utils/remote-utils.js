@@ -7,6 +7,4 @@ export const remoteUrl = (extendUrl) => {
     return remoteBaseUrl + extendUrl;
 };
 
-export const avatarUrl = (userId) => {
-    return remoteUrl(`users/${userId}/avatar`)
-};
+export const avatarUrl = userId => remoteUrl(`users/${userId}/avatar`);
