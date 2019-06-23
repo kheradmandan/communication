@@ -22,3 +22,11 @@ export function setCurrentIssueDetails(payload) {
         payload: payload
     }
 }
+
+export function assigneeHasChanged(issueId, assginee) {
+    return {
+        type: issueConstants.ASSIGNEE_HAS_CHANGED,
+        payload: assginee,
+        issueId,
+    }
+}
