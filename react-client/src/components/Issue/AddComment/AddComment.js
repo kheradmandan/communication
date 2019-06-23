@@ -1,6 +1,8 @@
 import React from 'react';
 import propTypes from 'prop-types';
 import {Form, Button, TextArea} from "semantic-ui-react";
+import Ability from "../../Ability";
+import Selection from "../../Selection";
 
 export default class AddComment extends React.Component {
 
@@ -15,18 +17,22 @@ export default class AddComment extends React.Component {
     handleSubmit = (e) => {
         e.preventDefault();
         const {context} = this.state;
-        const {issueId, onAddComment} = this.props;
+        const {issue, onAddComment} = this.props;
 
         if (context && context.length > 0) {
-            onAddComment(issueId, context)
+            onAddComment(issue.get('_id'), context)
         }
     };
 
     render() {
         const {context} = this.state;
+        const {issue} = this.props;
 
         return <Form>
             <TextArea value={context} onChange={this.handleTextChange}/>
+            <Ability can='change-issue-assignee' permissions={issue.get('permissions')}>
+                <Selection.User/>
+            </Ability>
             <Button primary icon='save' disabled={!context} onClick={this.handleSubmit}>
                 ثبت
             </Button>
@@ -36,5 +42,5 @@ export default class AddComment extends React.Component {
 
 AddComment.propTypes = {
     onAddComment: propTypes.func.isRequired,
-    issueId: propTypes.object.isRequired,
+    issue: propTypes.object.isRequired,
 };
