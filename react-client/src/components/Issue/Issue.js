@@ -10,7 +10,7 @@ import Header from './Header';
 import Feed from './Feed';
 
 class Issue extends React.Component {
-    state = {loadedId: ''};
+    state = {loadedId: '', isLoadRequiredTried: false};
 
     componentDidMount() {
         this.fetchDetails(this.props);
@@ -21,10 +21,12 @@ class Issue extends React.Component {
     }
 
     fetchDetails = (props) => {
-        const {loadedId} = this.state;
+        const isLoadRequired = this.props.current.get('reloadRequired');
+        const {loadedId, isLoadRequiredTried} = this.state;
+
         const id = props.match.params.id;
-        if (id !== loadedId) {
-            this.setState({loadedId: id});
+        if (id !== loadedId || (isLoadRequired && !isLoadRequiredTried)) {
+            this.setState({loadedId: id, isLoadRequiredTried: isLoadRequired});
             this.props.getIssueDetails(id);
         }
     };
@@ -33,6 +35,7 @@ class Issue extends React.Component {
         const {current, currentUser, isLoading, addComment, changeAssignee} = this.props;
 
         if (!current || !current.get('assignees')) {
+            this.fetchDetails(this.props);
             return <Segment loading/>
         }
 
