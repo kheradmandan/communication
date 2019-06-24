@@ -1,15 +1,17 @@
 import React from 'react';
 import {Map} from 'immutable';
 import propTypes from 'prop-types';
-import {Form, Button, TextArea} from "semantic-ui-react";
+import {Form, Button, TextArea, Dropdown, Icon} from "semantic-ui-react";
 import Ability from "../../Ability";
 import Selection from "../../Selection";
+import {assigneeTitlesOptions, findKey} from "../../../utils/combo-items";
 
 export default class AddComment extends React.Component {
 
     state = {
         context: '',
         status: '',
+        title: '',
         assigneeId: '',
     };
 
@@ -19,6 +21,10 @@ export default class AddComment extends React.Component {
 
     handleUserChange = userId => {
         this.setState({assigneeId: userId});
+    };
+
+    handleAssigneeTitleChanged = (e, {value}) => {
+        this.setState({title: value});
     };
 
     handleSubmit = (e) => {
@@ -36,17 +42,28 @@ export default class AddComment extends React.Component {
     };
 
     render() {
-        const {context, assigneeId} = this.state;
+        const {context, assigneeId, title} = this.state;
         const {issue} = this.props;
+        const iconName = findKey(assigneeId && title, assigneeTitlesOptions).icon;
 
         return <Form>
             <TextArea value={context} onChange={this.handleTextChange}/>
             <Ability can='change-issue-assignee' permissions={issue.get('permissions')}>
                 <Selection.User onChange={this.handleUserChange}/>
             </Ability>
-            <Button primary icon='save' disabled={!context && !assigneeId} onClick={this.handleSubmit}>
-                ثبت
-            </Button>
+            <Button.Group>
+                <Dropdown
+                    className='button icon'
+                    floating
+                    trigger={<React.Fragment/>}
+                    options={assigneeTitlesOptions}
+                    onChange={this.handleAssigneeTitleChanged}
+                />
+                <Button disabled={!context && !assigneeId} onClick={this.handleSubmit}>
+                    <Icon name={iconName}/>
+                    درج
+                </Button>
+            </Button.Group>
         </Form>
     }
 }
@@ -56,3 +73,4 @@ AddComment.propTypes = {
     onAddComment: propTypes.func.isRequired,
     onChangeAssignee: propTypes.func.isRequired,
 };
+
