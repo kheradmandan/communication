@@ -33,15 +33,15 @@ const validate = {
 const handler = async function (request) {
     const currentUser = request.auth.credentials;
     const userId = currentUser._id;
-    const {File, title} = request.payload;
+    const {file, title} = request.payload;
 
-    const data = new Buffer(File._data);
+    const data = new Buffer(file._data);
     const newAttachment = new Attachment({
         owner: userId,
         ownerModel: 'User',
         title,
-        type: File.hapi.headers['content-type'],
-        filename: File.hapi.filename,
+        type: file.hapi.headers['content-type'],
+        filename: file.hapi.filename,
         data,
         size: data.length,
         created: {
