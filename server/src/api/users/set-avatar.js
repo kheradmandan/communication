@@ -36,7 +36,7 @@ const handler = async function (request) {
     const {file, title} = request.payload;
 
     const data = new Buffer(file._data);
-    const newAttachment = new Attachment({
+    const newAttachment = {
         owner: userId,
         ownerModel: 'User',
         title,
@@ -48,7 +48,7 @@ const handler = async function (request) {
             by: currentUser._id,
             at: new Date()
         }
-    });
+    };
 
     // create or update avatar
     await Attachment.update({owner: userId, ownerModel: 'User'}, newAttachment, {
