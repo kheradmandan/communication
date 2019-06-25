@@ -13,8 +13,8 @@ class Header extends React.Component {
         return (<Segment>
             <Input
                 fluid
-                icon='bug' iconPosition='left'
-                size='huge'
+                icon='bug'
+                size='big'
                 value={issue.get('title')}
                 labelPosition='left'
                 label={{tag: true, content: '#' + issue.get('sequence'), as: 'a'}}
