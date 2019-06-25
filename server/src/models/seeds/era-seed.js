@@ -13,17 +13,47 @@ module.exports = async function originSeed(mongoose) {
                 {
                     user: '5cf80118b2b7b13c6dfe9f00',
                     roles: ['add-issue', 'view-issue', 'add-comment'],
-                    connections: [{user: '5cf80118b2b7b13c6dfe9f01'}, {user: '5cf80118b2b7b13c6dfe9f02'},]
+                    connections: [{user: '5cf80118b2b7b13c6dfe9f01'}, {user: '5cf80118b2b7b13c6dfe9f02'},],
+                    realms: [
+                        {realm: 1}, {realm: 2}, {realm: 3}, {realm: 4}, {realm: 5}, {realm: 6},
+                        {realm: 7}, {realm: 8}, {realm: 9}, {realm: 10}, {realm: 11}
+                    ]
                 }, {
                     user: '5cf80118b2b7b13c6dfe9f01',
                     roles: ['add-issue', 'view-issue', 'add-comment'],
-                    connections: [{user: '5cf80118b2b7b13c6dfe9f00'}]
+                    connections: [{user: '5cf80118b2b7b13c6dfe9f00'}],
+                    realms: [
+                        {realm: 1}, {realm: 2}, {realm: 3}, {realm: 4}, {realm: 5}, {realm: 6},
+                    ]
                 }, {
                     user: '5cf80118b2b7b13c6dfe9f02',
                     roles: ['add-issue', 'view-issue', 'add-comment'],
-                    connections: [{user: '5cf80118b2b7b13c6dfe9f01'}]
+                    connections: [{user: '5cf80118b2b7b13c6dfe9f01'}],
+                    realms: [
+                        {realm: 1}, {realm: 2}, {realm: 3}
+                    ]
                 },]
         },
-        {_id: '5cf8efd21c3dc855e58756cf', origin: 13, originAncestors: [13, 12], title: 'بهار ۱۳۹۸'},
+        {
+            _id: '5cf8efd21c3dc855e58756cf', origin: 13, originAncestors: [13, 12], title: 'بهار ۱۳۹۸',
+            permissions: [
+                {
+                    user: '5cf80118b2b7b13c6dfe9f00',
+                    roles: ['add-issue', 'view-issue', 'add-comment'],
+                    connections: [{user: '5cf80118b2b7b13c6dfe9f01'}, {user: '5cf80118b2b7b13c6dfe9f02'},],
+                    realms: [
+                        {realm: 1}, {realm: 2}, {realm: 3}, {realm: 4}, {realm: 5}, {realm: 6},
+                        {realm: 7}, {realm: 8}, {realm: 9}, {realm: 10}, {realm: 11}
+                    ]
+                }, {
+                    user: '5cf80118b2b7b13c6dfe9f01',
+                    roles: ['view-issue'],
+                    connections: [{user: '5cf80118b2b7b13c6dfe9f00'}],
+                    realms: [
+                        {realm: 1}, {realm: 2}, {realm: 3}, {realm: 4}, {realm: 5}, {realm: 6},
+                    ]
+                },
+            ]
+        },
     ]);
 };

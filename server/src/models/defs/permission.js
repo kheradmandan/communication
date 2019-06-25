@@ -14,7 +14,15 @@ const PermissionSchema = new mongoose.Schema({
             required: true,
             ref: 'User'
         }
-    }]
+    }],
+    realms: [{ /* Realms that can set*/
+        _id: false,
+        realm: {
+            type: Number,
+            required: true,
+            ref: 'Realm'
+        }
+    }],
 });
 
 module.exports = PermissionSchema;
