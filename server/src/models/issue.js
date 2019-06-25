@@ -60,7 +60,7 @@ const IssueSchema = new mongoose.Schema({
 });
 
 IssueSchema.index({era: 1, sequence: 1}, {unique: true});
-IssueSchema.index({"assignees.by": 1});
+IssueSchema.index({"assignees.user": 1});
 
 IssueSchema.methods.changeStatus = function (statusId, userId) {
 
