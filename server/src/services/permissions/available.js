@@ -7,7 +7,7 @@ const Era = require('../../models/era');
  * Retrieve all available permissions for specified user.
  * @param userId
  * @param eraId
- * @returns {Promise<Array>}
+ * @returns {Promise<Array>|Promise<*>}
  */
 module.exports = async function (userId, eraId = null) {
 
