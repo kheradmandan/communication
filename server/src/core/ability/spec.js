@@ -4,7 +4,7 @@ const ability = require('.');
 
 describe('core/ability', function abilitySuite() {
 
-    it('Should allow do one thing', function canOne() {
+    it('Should allow do one thing', () => {
 
         const roles = ['go-shopping', 'have-dinner', 'read-book'];
         const indeed = 'have-dinner';
@@ -12,7 +12,7 @@ describe('core/ability', function abilitySuite() {
         expect(ability.can(roles)(indeed)).to.be.true;
     });
 
-    it('Should allow do multiple thing', function canMultiple() {
+    it('Should allow do multiple thing', () => {
 
         const roles = ['go-shopping', 'have-dinner', 'read-book'];
         const indeed = ['have-dinner', 'go-shopping'];
