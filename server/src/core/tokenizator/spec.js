@@ -1,6 +1,6 @@
 const {describe} = require('mocha');
 const {expect} = require('chai');
-const {sign, verify} = require('./index');
+const {sign, verify} = require('.');
 
 describe('core/tokenizator', () => {
 
