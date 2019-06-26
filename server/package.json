@@ -5,7 +5,9 @@
   "license": "UNLICENSED",
   "scripts": {
     "start": "export $(cat .env | xargs) && nodemon src/index.js",
-    "test": "./node_modules/.bin/mocha  ./src/**/*.tests.js"
+    "test": "yarn run test:u && echo '> now integration tests' && yarn run test:i",
+    "test:u": "mocha ./src/**/*.spec.js",
+    "test:i": "export $(cat .env | xargs) && mocha ./test/**/*.spec.js"
   },
   "dependencies": {
     "@hapi/boom": "^7.4.2",
