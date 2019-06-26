@@ -1,5 +1,5 @@
 const Boom = require('@hapi/boom');
-const permission = require('../services/permissions');
+const permission = require('../../services/permissions');
 
 /**
  * How able to do that
@@ -29,7 +29,7 @@ module.exports.can = roleProvider => {
 
         let isAble = false;
         if (Array.isArray(able)) {
-            isAble = availableRoles.some(role => able.some(role));
+            isAble = availableRoles.some(role => able.some(indeed => indeed === role));
         } else {
             isAble = availableRoles.some(role => role === able);
         }
