@@ -17,18 +17,18 @@ describe('core/tokenizator', () => {
         sub: 'some subject'
     };
 
-    it('Should sign payload', function shouldSign() {
+    it('Should sign payload', () => {
 
-            return sign(payload)
+            sign(payload)
                 .then((x) =>
                     expect(x).to.not.null
                 );
         }
     );
 
-    it('Should verify token', function shouldVerify() {
+    it('Should verify token', () => {
 
-            return sign(payload)
+            sign(payload)
                 .then(verify)
                 .then((x) =>
                     expect(x).to.keys({...payload, ...jwtMeta})
