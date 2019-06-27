@@ -44,7 +44,7 @@ Dashboard.propTypes = {
 function mapStateToProps(state) {
     return {
         issues: state.issues.get('list'),
-        isLoading: state.requests.get(requestTypes.ISSUE),
+        isLoading: state.requests.get(requestTypes.LOAD_ISSUE_LIST),
     }
 }
 

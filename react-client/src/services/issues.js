@@ -1,11 +1,12 @@
 import {getApi, postApi} from '../utils/fetch';
 import * as actions from '../actions/issues';
+import {LOAD_ISSUE_LIST} from "../constants/request.types";
 
 export const reloadIssues = () => (dispatch, getState) => {
 
     getApi({
         url: '/issues',
-        title: 'reload-issues',
+        title: LOAD_ISSUE_LIST,
         dispatches: [actions.reload],
         dispatch, getState
     });

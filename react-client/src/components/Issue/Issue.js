@@ -84,7 +84,7 @@ Issue.defaultProps = {
 function mapStateToProps(state) {
     return {
         current: state.issues.get('current'),
-        isLoading: state.requests.get(requestTypes.ISSUE),
+        isLoading: state.requests.get(requestTypes.LOAD_ISSUE_LIST),
         currentUser: state.users.getIn(['session', 'user']),
     }
 }
