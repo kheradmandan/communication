@@ -1,7 +1,7 @@
 const manifest = {
     server: {
-        host: (process.env._COMMUNICATION_PORT) ? '0.0.0.0' : 'localhost',
-        port: (process.env._COMMUNICATION_PORT || 8081),
+        host: process.env._COMMUNICATION_HOST || 'localhost',
+        port: process.env._COMMUNICATION_PORT || 8081,
         routes: {
             cors: true,
             validate: {
