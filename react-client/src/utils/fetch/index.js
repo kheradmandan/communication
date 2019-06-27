@@ -1,5 +1,5 @@
-import API from '../API';
 import {remoteUrl} from '../remote-utils';
+import {remoteApiEngine} from '../remote-api-engine';
 import {apiErrorHandler} from '../../services/messages';
 import {checkRequestProgress} from '../checkRequestProgress';
 
@@ -16,7 +16,7 @@ import {checkRequestProgress} from '../checkRequestProgress';
  */
 
 /**
- * Make a HTTP GET request to specified api
+ * Make a HTTP GET request to specified remoteApiEngine
  * @param {Options} options
  */
 export function getApi(options) {
@@ -24,7 +24,7 @@ export function getApi(options) {
 }
 
 /**
- * Make a HTTP POST request to specified api
+ * Make a HTTP POST request to specified remoteApiEngine
  * @param {Options} options
  */
 export function postApi(options) {
@@ -32,8 +32,8 @@ export function postApi(options) {
 }
 
 // helpers
-const produceGetCall = ({url}) => API.get(remoteUrl(url));
-const producePostCall = ({url, data}) => API.post(remoteUrl(url), data);
+const produceGetCall = ({url}) => remoteApiEngine.get(remoteUrl(url));
+const producePostCall = ({url, data}) => remoteApiEngine.post(remoteUrl(url), data);
 
 // make request
 const fetchApi = apiCall => ({title, dispatches = [], dispatch, getState, onSuccess, onFailure}) => {

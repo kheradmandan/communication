@@ -1,6 +1,6 @@
 import {postApi} from "../utils/fetch";
-import API from "../utils/API";
-import * as userActions from "../actions/users";
+import * as actions from "../actions/users";
+import {setAuthorization} from "../utils/remote-api-engine";
 import {AUTHENTICATE_USER} from "../constants/request.types";
 
 export const auth = (email, password) => (dispatch, getState) => {
@@ -9,14 +9,14 @@ export const auth = (email, password) => (dispatch, getState) => {
         data: {email, password},
         url: '/users/auth',
         title: AUTHENTICATE_USER,
-        dispatches: [userActions.authSuccess],
+        dispatches: [actions.authSuccess],
         dispatch, getState,
         onSuccess: data => {
-            API.defaults.headers['authorization'] = data.token;
+            setAuthorization(data);
             localStorage.setItem('auth', JSON.stringify(data));
         },
         onFailure: () => {
-            dispatch(userActions.authFailure('Authentication failed.'));
+            dispatch(actions.authFailure('Authentication failed.'));
         }
     });
 };
@@ -30,7 +30,7 @@ export const loadPrevSession = () => (dispatch, getState) => {
 
     const data = JSON.parse(localStorage.getItem('auth'));
     if (data && data.user && data.user._id && data.token) {
-        dispatch(userActions.authSuccess(data));
-        API.defaults.headers['authorization'] = data.token;
+        dispatch(actions.authSuccess(data));
+        setAuthorization(data);
     }
 };
