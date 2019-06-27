@@ -1,9 +1,9 @@
 import {describe} from 'mocha';
 import {expect} from 'chai';
-import reducer from './index';
+import reducer from '.';
 import * as messageActions from '../../actions/messages';
 
-describe('Messages Reducer', () => {
+describe('reducers/messages', () => {
 
     const someMessages = [
         {
@@ -24,8 +24,10 @@ describe('Messages Reducer', () => {
     ];
 
     it('Should add proper message type', () => {
+
         someMessages.forEach(predicate => {
             const state = reducer(undefined, predicate.actions(predicate.message));
+
             expect(state.count()).to.be.equals(1);
             expect(state.get(0).get('id')).to.be.greaterThan(0);
             expect(state.get(0).get('type')).to.be.equals(predicate.type);
@@ -34,10 +36,11 @@ describe('Messages Reducer', () => {
     });
 
     it('Should remove specified message', () => {
+
         const state = someMessages
             .reduce((prevState, predicate) =>
                     reducer(prevState, predicate.actions(predicate.message))
-                , state);
+                , undefined);
 
         expect(state.count()).to.greaterThan(2);
         expect(state.count()).to.equals(someMessages.length);
@@ -56,7 +59,7 @@ describe('Messages Reducer', () => {
         let state = someMessages
             .reduce((prevState, predicate) =>
                     reducer(prevState, predicate.actions(predicate.message))
-                , state);
+                , undefined);
 
         expect(state.count()).to.greaterThan(2);
         expect(state.count()).to.equals(someMessages.length);
@@ -69,7 +72,7 @@ describe('Messages Reducer', () => {
         let state = someMessages
             .reduce((prevState, predicate) =>
                     reducer(prevState, predicate.actions(predicate.message))
-                , state);
+                , undefined);
 
         state = someMessages
             .reduce((prevState, predicate) =>
