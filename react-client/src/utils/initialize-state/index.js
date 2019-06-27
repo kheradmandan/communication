@@ -1,7 +1,14 @@
-export default function (dispatch, getState) {
+import * as permissionService from '../../services/permissions';
+import {setAuthorization} from "../remote-api-engine";
+
+export default function initializeState(dispatch, getState) {
 
     const session = getState().users.get('session');
-    const currentUser = session.get('user');
 
+    // tuning headers for remote request
+    setAuthorization(session.get('token'));
+
+    // load  permissions
+    permissionService.getAvailablePermissions()(dispatch, getState);
 
 }
