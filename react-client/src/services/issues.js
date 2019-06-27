@@ -1,6 +1,6 @@
 import {getApi, postApi} from '../utils/fetch';
 import * as actions from '../actions/issues';
-import {LOAD_ISSUE_LIST} from "../constants/request.types";
+import {ADD_COMMENT, CHANGE_ASSIGNEE, LOAD_ISSUE_DETAILS, LOAD_ISSUE_LIST} from "../constants/request.types";
 
 export const reloadIssues = () => (dispatch, getState) => {
 
@@ -17,7 +17,7 @@ export const getIssueDetails = (id) => (dispatch, getState) => {
 
     getApi({
         url: `/issues/${id}`,
-        title: 'get-issue-details',
+        title: LOAD_ISSUE_DETAILS,
         dispatches: [actions.currentIssue],
         dispatch, getState
     });
@@ -27,9 +27,9 @@ export const getIssueDetails = (id) => (dispatch, getState) => {
 export const addComment = (issueId, context) => (dispatch, getState) => {
 
     postApi({
-        data: {context},
         url: `/issues/${issueId}/comments`,
-        title: 'add-comment-to-issue',
+        data: {context},
+        title: ADD_COMMENT,
         dispatches: [actions.expireCurrentIssue],
         dispatch, getState
     });
@@ -39,10 +39,10 @@ export const addComment = (issueId, context) => (dispatch, getState) => {
 export const changeAssignee = (issueId, userId, title) => (dispatch, getState) => {
 
     postApi({
-        data: {user: userId, title},
         url: `/issues/${issueId}/assignees`,
-        title: 'change-assignee',
-        dispatches:[actions.assigneeHasChanged],
+        data: {user: userId, title},
+        title: CHANGE_ASSIGNEE,
+        dispatches: [actions.assigneeHasChanged],
         dispatch, getState
     });
 
