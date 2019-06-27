@@ -1,18 +1,18 @@
 import {describe} from 'mocha';
 import {expect} from 'chai';
 import reducer from '.';
-import * as issueActions from "../../actions/issues";
+import * as actions from "../../actions/issues";
 
 describe('reducers/requests', () => {
 
     it('Should reload issue list', () => {
 
         const payload = [1, 2, '3', {four: 5}];
-        const state = reducer(undefined, issueActions.reload(payload));
+        const state = reducer(undefined, actions.reload(payload));
         expect(state.get('list').toJS()).to.deep.equal(payload);
 
         const payloadToReplace = ['Well', 'hello'];
-        const nextState = reducer(state, issueActions.reload(payloadToReplace));
+        const nextState = reducer(state, actions.reload(payloadToReplace));
         expect(nextState.get('list').toJS()).to.deep.equal(payloadToReplace);
     });
 
@@ -26,26 +26,44 @@ describe('reducers/requests', () => {
             [1 / 0]
         ];
         const state = payloads.reduce((state, payload) =>
-                reducer(state, issueActions.append(payload))
+                reducer(state, actions.append(payload))
             , undefined);
         expect(state.get('list').toJS()).to.deep.equal(payloads.reduce((state, x) => state.concat(x), []));
     });
 
-    it('Should handle Objects too', () => {
+    it('Should handle one objects instead of list', () => {
 
         const payload = {i: 'am', an: 'object'};
-        const state = reducer(undefined, issueActions.reload(payload));
+        const state = reducer(undefined, actions.reload(payload));
         expect(state.get('list').toJS()).to.deep.equal([payload]);
 
-        const nextState = reducer(state, issueActions.append(payload));
+        const nextState = reducer(state, actions.append(payload));
         expect(nextState.get('list').toJS()).to.deep.equal([payload, payload]);
     });
 
     it('Should set current issue details', () => {
 
         const payload = {uuid: 'some issue uuid', title: 'title', sequence: 10};
-        const state = reducer(undefined, issueActions.setCurrentIssueDetails(payload));
+        const state = reducer(undefined, actions.currentIssue(payload));
         expect(state.get('current').toJS()).to.deep.equal(payload);
+    });
+
+    it('Should change assignee', () => {
+
+        const payload = {_id: 'some issue uuid', title: 'title', sequence: 10};
+        const state_1 = reducer(undefined, actions.currentIssue(payload));
+        const state = reducer(state_1, actions.assigneeHasChanged());
+
+        expect(state.get('current').toJS()).to.deep.equal({_id: payload._id, reloadRequired: true});
+    });
+
+    it('Should expire current issue details', () => {
+
+        const payload = {_id: 'some issue uuid', title: 'title', sequence: 10};
+        const state_1 = reducer(undefined, actions.currentIssue(payload));
+        const state = reducer(state_1, actions.expireCurrentIssue());
+
+        expect(state.get('current').toJS()).to.deep.equal({_id: payload._id, reloadRequired: true});
     });
 
 });
