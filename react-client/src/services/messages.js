@@ -1,28 +1,28 @@
-import * as messageActions from "../actions/messages";
+import * as actions from "../actions/messages";
 
 export const addMessage = (message, type = 'info') => (dispatch) => {
     switch (type) {
         case 'error':
-            dispatch(messageActions.error(message));
+            dispatch(actions.error(message));
             break;
         case 'warn':
-            dispatch(messageActions.warn(message));
+            dispatch(actions.warn(message));
             break;
         default:
-            dispatch(messageActions.info(message));
+            dispatch(actions.info(message));
             break;
     }
 };
 
 export const removeMessage = (id) => (dispatch) => {
-    dispatch(messageActions.remove(id));
+    dispatch(actions.remove(id));
 };
 export const removeMessageByType = (messageType) => (dispatch) => {
-    dispatch(messageActions.removeType(messageType));
+    dispatch(actions.removeType(messageType));
 };
 
 export const clearMessages = () => (dispatch) => {
-    dispatch(messageActions.clear());
+    dispatch(actions.clear());
 };
 
 export const apiErrorHandler = (dispatch, getState) => error => {
