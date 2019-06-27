@@ -1,11 +1,12 @@
 import {describe} from 'mocha';
 import {expect} from 'chai';
-import reducer from './index';
+import reducer from '.';
 import * as issueActions from "../../actions/issues";
 
-describe('Request Reducer', () => {
+describe('reducers/requests', () => {
 
     it('Should reload issue list', () => {
+
         const payload = [1, 2, '3', {four: 5}];
         const state = reducer(undefined, issueActions.reload(payload));
         expect(state.get('list').toJS()).to.deep.equal(payload);
@@ -16,6 +17,7 @@ describe('Request Reducer', () => {
     });
 
     it('Should append to issue list', () => {
+
         const payloads = [
             [1, 2, '3', {four: 5}],
             [6, 7, '8', {nine: 10, eleven: {twelve: 13}}],
@@ -30,6 +32,7 @@ describe('Request Reducer', () => {
     });
 
     it('Should handle Objects too', () => {
+
         const payload = {i: 'am', an: 'object'};
         const state = reducer(undefined, issueActions.reload(payload));
         expect(state.get('list').toJS()).to.deep.equal([payload]);
@@ -39,6 +42,7 @@ describe('Request Reducer', () => {
     });
 
     it('Should set current issue details', () => {
+
         const payload = {uuid: 'some issue uuid', title: 'title', sequence: 10};
         const state = reducer(undefined, issueActions.setCurrentIssueDetails(payload));
         expect(state.get('current').toJS()).to.deep.equal(payload);
