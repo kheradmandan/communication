@@ -1,7 +1,7 @@
 import {postApi} from "../utils/fetch";
 import * as actions from "../actions/users";
-import {setAuthorization} from "../utils/remote-api-engine";
 import {AUTHENTICATE_USER} from "../constants/request.types";
+import initializeState from "../utils/initialize-state";
 
 export const auth = (email, password) => (dispatch, getState) => {
 
@@ -12,7 +12,7 @@ export const auth = (email, password) => (dispatch, getState) => {
         dispatches: [actions.authSuccess],
         dispatch, getState,
         onSuccess: data => {
-            setAuthorization(data);
+            initializeState(dispatch, getState);
             localStorage.setItem('auth', JSON.stringify(data));
         },
         onFailure: () => {
@@ -23,7 +23,7 @@ export const auth = (email, password) => (dispatch, getState) => {
 
 export const loadPrevSession = () => (dispatch, getState) => {
 
-    const isSignedIn = getState().users.get('session').get('isSignedIn');
+    const isSignedIn = getState().users.getIn(['session', 'isSignedIn']);
     if (isSignedIn) {
         return; // sign in already
     }
@@ -31,6 +31,6 @@ export const loadPrevSession = () => (dispatch, getState) => {
     const data = JSON.parse(localStorage.getItem('auth'));
     if (data && data.user && data.user._id && data.token) {
         dispatch(actions.authSuccess(data));
-        setAuthorization(data);
+        initializeState(dispatch, getState);
     }
 };
