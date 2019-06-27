@@ -1,32 +1,36 @@
-import * as issueConstants from '../constants/issues';
+import * as constants from '../constants/issues';
 
 const wrapper = (payload) => !(payload instanceof Array) ? [payload] : payload;
 
 export function reload(payload) {
     return {
-        type: issueConstants.RELOAD,
+        type: constants.RELOAD,
         payload: wrapper(payload)
     }
 }
 
 export function append(payload) {
     return {
-        type: issueConstants.APPEND,
+        type: constants.APPEND,
         payload: wrapper(payload)
     }
 }
 
-export function setCurrentIssueDetails(payload) {
+export function currentIssue(payload) {
     return {
-        type: issueConstants.CURRENT_ISSUE_DETAILS,
+        type: constants.CURRENT_ISSUE,
         payload: payload
     }
 }
 
-export function assigneeHasChanged(issueId, assginee) {
+export function expireCurrentIssue() {
     return {
-        type: issueConstants.ASSIGNEE_HAS_CHANGED,
-        payload: assginee,
-        issueId,
+        type: constants.EXPIRE_CURRENT_ISSUE,
+    }
+}
+
+export function assigneeHasChanged() {
+    return {
+        type: constants.ASSIGNEE_HAS_CHANGED
     }
 }
