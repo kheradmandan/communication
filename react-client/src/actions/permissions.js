@@ -7,3 +7,10 @@ export function setPermissionForEra(eraId, payload) {
         payload
     }
 }
+
+export function setAvailablePermissions(payload) {
+    return {
+        type: permissionConstants.AVAILABLE_PERMISSIONS,
+        payload
+    }
+}
