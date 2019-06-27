@@ -1,23 +1,24 @@
-import API from "../utils/API";
-import {remoteUrl} from "../utils/remote-utils";
-import {checkRequestProgress} from "../utils/checkRequestProgress";
-import {apiErrorHandler} from "./messages";
-import * as requestTypes from "../constants/request.types";
-import * as permissionActions from "../actions/permissions";
+import {getApi} from '../utils/fetch';
+import * as actions from '../actions/permissions';
 
 export const getPermissionForEra = (eraId) => (dispatch, getState) => {
 
-    const status = checkRequestProgress(requestTypes.PERMISSION)(dispatch, getState);
-    if (status.alreadyInProgress) {
-        return;
-    }
+    getApi({
+        url: `/permissions/eras/${eraId}`,
+        title: 'get-permission-for-specified-era-only',
+        dispatches: [data => actions.forSpecifiedEra(eraId, data)],
+        dispatch, getState
+    });
 
-    const url = remoteUrl(`/permissions/eras/${eraId}`);
-    API
-        .get(url)
-        .then(({data}) => {
-            dispatch(permissionActions.setPermissionForEra(eraId, data));
-        })
-        .catch(apiErrorHandler(dispatch, getState))
-        .finally(status.unset())
+};
+
+export const getAvailablePermissions = () => (dispatch, getState) => {
+
+    getApi({
+        url: `/permissions/eras/available`,
+        title: 'get-available-permissions',
+        dispatches: [actions.available],
+        dispatch, getState
+    });
+
 };
