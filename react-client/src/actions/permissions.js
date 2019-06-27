@@ -1,16 +1,16 @@
-import * as permissionConstants from "../constants/permissions";
+import * as constants from "../constants/permissions";
 
-export function setPermissionForEra(eraId, payload) {
+export function forSpecifiedEra(eraId, payload) {
     return {
-        type: permissionConstants.GET_PERMISSION_FOR_ERA,
+        type: constants.SPECIFIED_ERA_ONLY,
         _id: eraId,
         payload
     }
 }
 
-export function setAvailablePermissions(payload) {
+export function available(payload) {
     return {
-        type: permissionConstants.AVAILABLE_PERMISSIONS,
+        type: constants.AVAILABLE,
         payload
     }
 }

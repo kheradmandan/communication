@@ -18,7 +18,7 @@ export function append(payload) {
 
 export function setCurrentIssueDetails(payload) {
     return {
-        type: issueConstants.GET_CURRENT_ISSUE_DETAILS,
+        type: issueConstants.CURRENT_ISSUE_DETAILS,
         payload: payload
     }
 }

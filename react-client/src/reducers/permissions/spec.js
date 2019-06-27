@@ -10,7 +10,7 @@ describe('reducers/permissions', () => {
         const eraId = 'an-era-id';
         const payload = {_id: eraId, permission: {}};
 
-        const state = reducer(undefined, permissionActions.setPermissionForEra(eraId, payload));
+        const state = reducer(undefined, permissionActions.forSpecifiedEra(eraId, payload));
         expect(state.get(eraId).toJS()).to.deep.equal(payload);
     });
 
@@ -26,7 +26,7 @@ describe('reducers/permissions', () => {
         const expectedState = {};
         payload.forEach(p => expectedState[p._id] = p);
 
-        const state = reducer(undefined, permissionActions.setAvailablePermissions(payload));
+        const state = reducer(undefined, permissionActions.available(payload));
         expect(state.toJS()).to.deep.equal(expectedState);
     });
 
