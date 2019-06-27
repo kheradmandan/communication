@@ -71,7 +71,7 @@ SignIn.propTypes = {
 function mapStateToProps(state) {
     return {
         cause: state.users.get('session').get('cause'),
-        isLoading: state.requests.get(requestTypes.AUTH),
+        isLoading: state.requests.get(requestTypes.AUTHENTICATE_USER),
         isSignedIn: state.users.get('session').get('isSignedIn'),
     }
 }

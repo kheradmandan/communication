@@ -1,13 +1,14 @@
 import {postApi} from "../utils/fetch";
 import API from "../utils/API";
 import * as userActions from "../actions/users";
+import {AUTHENTICATE_USER} from "../constants/request.types";
 
 export const auth = (email, password) => (dispatch, getState) => {
 
     postApi({
         data: {email, password},
         url: '/users/auth',
-        title: 'authenticate-user',
+        title: AUTHENTICATE_USER,
         dispatches: [userActions.authSuccess],
         dispatch, getState,
         onSuccess: data => {
