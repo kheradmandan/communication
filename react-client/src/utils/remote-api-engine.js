@@ -6,6 +6,6 @@ export const remoteApiEngine = axios.create({
     responseType: 'json'
 });
 
-export function setAuthorization({token}) {
+export function setAuthorization(token) {
     remoteApiEngine.defaults.headers['authorization'] = token
 }
