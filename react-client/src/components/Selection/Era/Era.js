@@ -14,13 +14,19 @@ class EraSelection extends React.Component {
     };
 
     render() {
-        const {permissions, value} = this.props;
-        const options = permissions.mapKeys((_id, era) => ({id: _id, value: _id, text: _id}));
+        const {permissions, defaultValue} = this.props;
+
+        const options = [];
+        permissions.mapKeys((_id, era) => options.push({
+            id: _id,
+            value: _id,
+            text: `${era.getIn(['origin', 'title'])}/${era.get('title')}`
+        }));
 
         return <Dropdown
             openOnFocus
-            selection clearable
-            value={value}
+            selection clearable search
+            defaultValue={defaultValue}
             options={options}
             onChange={this.handleChange}
             placeholder='دوره'
@@ -29,14 +35,14 @@ class EraSelection extends React.Component {
 }
 
 EraSelection.proptTypes = {
-    value: propTypes.string,
     onChange: propTypes.func,
     permissions: propTypes.instanceOf(Map).isRequired,
+    defaultValue: propTypes.string,
 };
 
 EraSelection.defaultProps = {
-    value: '',
     permissions: Map(),
+    defaultValue: '',
 };
 
 function mapStateToProps(state) {
