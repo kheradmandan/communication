@@ -20,9 +20,9 @@ class RealmSelection extends React.Component {
 
         const options = [];
         realms.forEach(realm => options.push({
-            id: realm.getIn(['realm', '_id']),
-            value: realm.getIn(['realm', '_id']),
-            text: realm.getIn(['realm', 'title'])
+            id: realm.get('_id'),
+            value: realm.get('_id'),
+            text: realm.get('title')
         }));
 
         return <Dropdown
