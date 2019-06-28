@@ -8,20 +8,16 @@ import {
 
 class ChangeAssignee extends React.Component {
 
-    state = {user: '', title: ''};
-
     handleUserChange = user => {
-        this.setState({user});
-        this.props.onChange(this.state);
+        this.props.onChange('user', user);
     };
     handleTitleChange = (e, {value}) => {
-        this.setState({title: value});
-        this.props.onChange(this.state);
+        this.props.onChange('title', value);
     };
 
     render() {
-        const {era} = this.props;
-        const key = findKey(this.state.title, assigneeTitlesOptions);
+        const {era, title} = this.props;
+        const key = findKey(title, assigneeTitlesOptions);
 
         return <Segment>
             <Dropdown
