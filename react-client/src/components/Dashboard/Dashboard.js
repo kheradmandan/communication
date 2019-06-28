@@ -2,12 +2,15 @@ import React from 'react'
 import propTypes from 'prop-types'
 import {List} from "immutable";
 import {connect} from "react-redux";
-import {Button, Segment} from "semantic-ui-react";
 import Messages from '../Message';
 import IssueList from "../IssueList/IssueList";
-import IssueDialog from '../IssueDialog';
+import AddDialog from '../Issue/AddDialog';
 import * as issueActions from '../../services/issues';
 import * as requestTypes from "../../constants/request.types";
+import {
+    Button,
+    Segment
+} from "semantic-ui-react";
 
 class Dashboard extends React.Component {
 
@@ -26,10 +29,7 @@ class Dashboard extends React.Component {
             <Segment>
                 <Button circular primary icon='refresh'
                         onClick={reloadIssues} loading={isLoading}/>
-
-                <Button circular positive icon='add' content='افزودن'/>
-                <IssueDialog/>
-
+                <AddDialog/>
                 <IssueList issues={issues}/>
             </Segment>
         </div>)
