@@ -17,7 +17,7 @@ module.exports.mongo = {
             }
         },
         statuses: ['draft', 'open', 'closed', 'removed', 'waiting'],
-        priorities: ['low', 'normal', 'high', 'panic'],
+        priorities: [0, 1, 2, 3],
     },
     user: {
         name: {

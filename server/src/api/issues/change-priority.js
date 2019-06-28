@@ -22,7 +22,7 @@ module.exports = async function (server, option) {
 
 const validate = {
     payload: Joi.object({
-        id: Joi.string().valid(CONSTANTS.mongo.issue.priorities).required()
+        id: Joi.number().valid(CONSTANTS.mongo.issue.priorities).required()
     }),
     params: Joi.object({
         id: CONSTANTS.joi.objectId(Joi).required()

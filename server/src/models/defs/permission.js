@@ -17,7 +17,7 @@ const PermissionSchema = new mongoose.Schema({
         required: true,
         ref: 'Realm'
     }],
-    priorities: [String],
+    priorities: [Number],
 });
 
 module.exports = PermissionSchema;

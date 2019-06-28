@@ -34,7 +34,7 @@ const IssueSchema = new mongoose.Schema({
     }],
     priorities: [{
         id: {
-            type: String,
+            type: Number,
             required: true,
             enum: CONSTANTS.priorities
         },

@@ -33,7 +33,7 @@ const validate = {
             .required(),
         realm: Joi.number().required(),
         status: Joi.string().empty('').default('draft').valid(CONSTANTS.mongo.issue.statuses),
-        priority: Joi.string().empty('').default('normal').valid(CONSTANTS.mongo.issue.priorities),
+        priority: Joi.number().default(1).valid(CONSTANTS.mongo.issue.priorities),
     })
 };
 
