@@ -4,7 +4,6 @@ import {List} from "immutable";
 import {connect} from "react-redux";
 import Messages from '../Message';
 import IssueList from "../IssueList/IssueList";
-import AddDialog from '../Issue/AddDialog';
 import * as issueActions from '../../services/issues';
 import * as requestTypes from "../../constants/request.types";
 import {
@@ -22,7 +21,6 @@ class Dashboard extends React.Component {
             <Segment>
                 <Button circular primary icon='refresh'
                         onClick={reloadIssues} loading={isLoading}/>
-                <AddDialog/>
                 <IssueList issues={issues}/>
             </Segment>
         </div>)

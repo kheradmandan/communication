@@ -1,15 +1,18 @@
 import React from 'react';
 import propTypes from 'prop-types';
 import {connect} from 'react-redux';
+import {Map} from 'immutable';
+import EraSelection from '../Selection/Era';
+import RealmSelection from '../Selection/Realm';
+import PrioritySelection from '../Selection/Priority';
 import * as services from '../../services/issues';
+import * as requestTypes from '../../constants/request.types';
 import {
     Button,
     Container, Form, Input, Message, TextArea
 } from 'semantic-ui-react';
-import EraSelection from '../Selection/Era';
-import RealmSelection from '../Selection/Realm';
-import PrioritySelection from '../Selection/Priority';
-import * as requestTypes from '../../constants/request.types';
+import ChangeAssignee from '../Issue/ChangeAssignee/ChangeAssginee';
+import {Redirect} from 'react-router';
 
 export class AddNewIssue extends React.Component {
 
@@ -19,6 +22,12 @@ export class AddNewIssue extends React.Component {
 
     handleEraChange = era => {
         this.setState({era});
+        if (this.state.errors) this.validateNewIssue();
+    };
+    handleUserChange = (name, value) => {
+        const user = this.state.user || {};
+        user[name] = value;
+        this.setState({user});
         if (this.state.errors) this.validateNewIssue();
     };
     handleRealmChange = realm => {
@@ -52,6 +61,9 @@ export class AddNewIssue extends React.Component {
         if (!issue.priority && issue.priority !== 0) {
             errors = {...errors, priority: true}
         }
+        if (!issue.user || !issue.user.user || !issue.user.title) {
+            errors = {...errors, user: true}
+        }
         this.setState({errors});
         return !errors
     };
@@ -64,9 +76,21 @@ export class AddNewIssue extends React.Component {
     };
 
     render() {
-        const {isAddingIssue, draft} = this.props;
-        const {era, title, context} = this.state;
+        const {isAddingIssue, isChangingAssignee, draft} = this.props;
+        const {era, title, context, user} = this.state;
         const errors = this.state.errors || {};
+
+        const isSaveOk = draft.get('Ok') || false;
+        if (isSaveOk) {
+            const issueId = draft.get('_id');
+            const userId = this.state.user.user;
+            const title = this.state.user.title;
+            if (issueId && userId && title && !isChangingAssignee) {
+                this.props.changeAssignee(issueId, userId, title);
+            }
+            this.props.updateDraft();// reset drafts
+            return <Redirect to={`/issue/${issueId}`}/> // redirect to view details
+        }
 
         return <Container>
             <Message attached color='teal'
@@ -126,6 +150,13 @@ export class AddNewIssue extends React.Component {
                         era={era}
                         onChange={this.handlePriorityChange}
                     />
+                    <Form.Field
+                        control={ChangeAssignee}
+                        error={errors.user}
+                        era={era}
+                        {...user}
+                        onChange={this.handleUserChange}
+                    />
                 </Form.Group>
                 <Form.Group>
                     <Button type='submit' icon='save'
@@ -142,9 +173,16 @@ export class AddNewIssue extends React.Component {
 AddNewIssue.propTypes = {
     addIssue: propTypes.func.isRequired,
     updateDraft: propTypes.func.isRequired,
+    changeAssignee: propTypes.func.isRequired,
     draft: propTypes.instanceOf(Map),
     isAddingIssue: propTypes.bool,
     isChangingAssignee: propTypes.bool,
+};
+
+AddNewIssue.defaultProps = {
+    draft: Map(),
+    isAddingIssue: false,
+    isChangingAssignee: false,
 };
 
 function mapStateToProps(state) {

@@ -11,6 +11,7 @@ import {
     Icon
 } from 'semantic-ui-react';
 import TextareaAutoSize from 'react-textarea-autosize';
+import ChangeAssignee from '../ChangeAssignee/ChangeAssginee';
 
 export default class AddComment extends React.Component {
 
@@ -49,7 +50,7 @@ export default class AddComment extends React.Component {
 
     render() {
         const {context, assigneeId, title} = this.state;
-        const {issue} = this.props;
+        const {issue,isChangeAssignee} = this.props;
         const iconName = findKey(assigneeId && title, assigneeTitlesOptions).icon;
 
         return <Form>
@@ -60,6 +61,7 @@ export default class AddComment extends React.Component {
             />
 
             <Ability can='change-issue-assignee' permissions={issue.get('permissions')}>
+                <ChangeAssignee era={issue.getIn(['era'])} issue={issue.get('_id')} loading={isChangeAssignee} onChange={null}/>
                 <Selection.User onChange={this.handleUserChange}/>
             </Ability>
             <Button.Group>
