@@ -24,7 +24,7 @@ module.exports = async function (server, option) {
 const validate = {
     payload: Joi.object({
         user: CONSTANTS.joi.objectId(Joi).required(),
-        title: Joi.string().default(null)
+        title: Joi.string().empty('')
             .min(CONSTANTS.mongo.issue.assignee.title.minLength)
             .max(CONSTANTS.mongo.issue.assignee.title.maxLength),
     }),
