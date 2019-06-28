@@ -8,20 +8,14 @@ const PermissionSchema = new mongoose.Schema({
     },
     roles: [String],
     connections: [{ /* People who can get assignee*/
-        _id: false,
-        user: {
-            type: mongoose.ObjectId,
-            required: true,
-            ref: 'User'
-        }
+        type: mongoose.ObjectId,
+        required: true,
+        ref: 'User'
     }],
     realms: [{ /* Realms that can set*/
-        _id: false,
-        realm: {
-            type: Number,
-            required: true,
-            ref: 'Realm'
-        }
+        type: Number,
+        required: true,
+        ref: 'Realm'
     }],
 });
 

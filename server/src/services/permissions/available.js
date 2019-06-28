@@ -39,13 +39,13 @@ module.exports = async function (userId, eraId = null) {
     // populate
     results = await User
         .populate(results, {
-            path: 'permission.connections.user',
+            path: 'permission.connections',
             select: 'name'
         });
 
     results = await Realm
         .populate(results, {
-            path: 'permission.realms.realm',
+            path: 'permission.realms',
             select: 'title'
         });
 
