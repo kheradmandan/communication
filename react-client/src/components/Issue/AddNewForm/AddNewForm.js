@@ -6,94 +6,83 @@ import PrioritySelection from '../../Selection/Priority';
 import {
     Form,
     Input,
-    Label,
+    TextArea,
 } from 'semantic-ui-react';
-import TextareaAutoSize from 'react-textarea-autosize';
 
 class AddNewForm extends React.Component {
 
-    state = {
-        era: '',
-        realm: null,
-        priority: null,
-        title: '',
-        context: '',
-    };
-
-    handleEraChange = (era) => {
-        this.setState({era, realm: null, priority: null, assignee: null});
-        this.props.onAdd(this.state);
-    };
-    handleRealmChange = (realm) => {
-        this.setState({realm});
-        this.props.onAdd(this.state);
-    };
-    handleTitleChange = (e, {value}) => {
-        this.setState({title: value});
-        this.props.onAdd(this.state);
-    };
-    handleContextChange = (e, {value}) => {
-        this.setState({context: value});
-        this.props.onAdd(this.state);
-    };
-    handlePriorityChange = (priority) => {
-        this.setState({priority});
-        this.props.onAdd(this.state);
-    };
-
-    handleSaveButton = () => {
-        const {onAdd} = this.props;
-        onAdd && onAdd(this.state);
-    };
+    handleEraChange = era => this.props.onChange('era', era);
+    handleRealmChange = realm => this.props.onChange('realm', realm);
+    handleTitleChange = (e, {value}) => this.props.onChange('title', value);
+    handleContextChange = (e, {value}) => this.props.onChange('context', value);
+    handlePriorityChange = priority => this.props.onChange('priority', priority);
 
     render() {
-        const {era, title, context} = this.state;
-        const {loading} = this.props;
+        const {era, title, context, err, loading} = this.props;
 
         return <Form loading={loading}>
-            <Form.Field>
-                <Label>عنوان*</Label>
-                <Input
-                    fluid
-                    placeholder="عنوان مختصر*"
-                    icon="bug"
-                    value={title}
-                    onChange={this.handleTitleChange}
-                />
-            </Form.Field>
-            <Form.Field>
-                <Label>شرح</Label>
-                <TextareaAutoSize
-                    value={context}
-                    onChange={this.handleContextChange}
-                    placeholder="بحث"
-                />
-            </Form.Field>
+            <Form.Field
+                control={Input}
+                error={err.title}
+                required
+                fluid
+                icon="bug"
+                label="عنوان"
+                placeholder="عنوان مختصر"
+                value={title}
+                onChange={this.handleTitleChange}
+            />
+            <Form.Field
+                control={TextArea}
+                error={err.context}
+                label="شرح"
+                placeholder="بحث"
+                value={context}
+                useCacheForDOMMeasurements
+                onChange={this.handleContextChange}
+            />
             <Form.Group>
-                <Form.Field>
-                    <Label>محل</Label>
-                    <EraSelection defaultValue={era} onChange={this.handleEraChange}/>
-                </Form.Field>
-                <Form.Field>
-                    <Label>بخش</Label>
-                    <RealmSelection era={era} onChange={this.handleRealmChange}/>
-                </Form.Field>
-                <Form.Field>
-                    <Label>تقدم</Label>
-                    <PrioritySelection era={era} onChange={this.handlePriorityChange}/>
-                </Form.Field>
+                <Form.Field
+                    control={EraSelection}
+                    error={err.era}
+                    required
+                    label="محل"
+                    defaultValue={era}
+                    onChange={this.handleEraChange}
+                />
+                <Form.Field
+                    control={RealmSelection}
+                    error={err.realm}
+                    required
+                    label="بخش"
+                    era={era}
+                    onChange={this.handleRealmChange}
+                />
+                <Form.Field
+                    control={PrioritySelection}
+                    error={err.priority}
+                    required
+                    label="تقدم"
+                    era={era}
+                    onChange={this.handlePriorityChange}
+                />
             </Form.Group>
         </Form>
     }
 }
 
 AddNewForm.propTypes = {
-    onAdd: propTypes.func.isRequired,
+    onChange: propTypes.func.isRequired,
     loading: propTypes.bool,
+    era: propTypes.string.isRequired,
+    title: propTypes.string,
+    context: propTypes.string,
 };
 
 AddNewForm.defaultProps = {
     loading: false,
+    title: '',
+    context: '',
 };
 
 export default AddNewForm;
