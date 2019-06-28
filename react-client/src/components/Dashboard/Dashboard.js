@@ -14,13 +14,6 @@ import {
 
 class Dashboard extends React.Component {
 
-    componentDidMount() {
-        const {issues, reloadIssues} = this.props;
-        if (issues.count() === 0) {
-            reloadIssues();
-        }
-    }
-
     render() {
         const {issues, reloadIssues, isLoading} = this.props;
 
