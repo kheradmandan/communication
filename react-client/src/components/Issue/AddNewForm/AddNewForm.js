@@ -38,9 +38,9 @@ class AddNewForm extends React.Component {
 
     render() {
         const {era, title, context} = this.state;
-        const {isLoading} = this.props;
+        const {loading} = this.props;
 
-        return <Form loading={isLoading}>
+        return <Form loading={loading}>
             <Form.Field>
                 <Label>عنوان*</Label>
                 <Input
@@ -90,11 +90,11 @@ class AddNewForm extends React.Component {
 AddNewForm.propTypes = {
     onAdd: propTypes.func.isRequired,
     onCancel: propTypes.func.isRequired,
-    isLoading: propTypes.bool,
+    loading: propTypes.bool,
 };
 
 AddNewForm.defaultProps = {
-    isLoading: false,
+    loading: false,
 };
 
 export default AddNewForm;
