@@ -66,7 +66,7 @@ const handler = async function (request, h) {
 
     // make sure all date are same
     const currentDate = new Date();
-    const created = (id = userInstance._id) => ({by: id, at: currentDate});
+    const created = {by: userInstance._id, at: currentDate};
 
     const sequence = await eraInstance.getNextSequence();
 
@@ -76,17 +76,17 @@ const handler = async function (request, h) {
         realm,
         era,
         sequence,
-        statuses: [{id: status, created: created()}],
-        priorities: [{id: priority, created: created()}],
-        assignees: [{user, created: created()}],
-        created: created(),
+        statuses: [{id: status, created}],
+        priorities: [{id: priority, created}],
+        assignees: [{user, created}],
+        created,
     });
 
     // add comment if exists
     if (context) {
         issue.comments.unshift({
             context,
-            created: created(),
+            created,
         });
     }
 
