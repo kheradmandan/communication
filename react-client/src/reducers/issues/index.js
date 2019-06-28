@@ -3,6 +3,7 @@ import {
     APPEND,
     RELOAD,
     CURRENT_ISSUE,
+    DRAFT_ISSUE,
     EXPIRE_CURRENT_ISSUE,
     ASSIGNEE_HAS_CHANGED,
 } from '../../constants/issues';
@@ -21,6 +22,9 @@ export default function (state = initState, action) {
 
         case CURRENT_ISSUE:
             return state.set('current', fromJS(action.payload));
+
+        case DRAFT_ISSUE:
+            return state.set('draft', fromJS(action.payload));
 
         case ASSIGNEE_HAS_CHANGED:
         case EXPIRE_CURRENT_ISSUE:

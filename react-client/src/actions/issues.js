@@ -34,3 +34,10 @@ export function assigneeHasChanged() {
         type: constants.ASSIGNEE_HAS_CHANGED
     }
 }
+
+export function draftIssue(payload) {
+    return {
+        type: constants.DRAFT_ISSUE,
+        payload
+    }
+}
