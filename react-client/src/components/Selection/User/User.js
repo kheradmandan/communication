@@ -1,10 +1,10 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import propTypes from 'prop-types';
-import {List, Map} from "immutable";
-import {Dropdown} from "semantic-ui-react";
-import * as permissionService from '../../../services/permissions'
-import {avatarUrl} from "../../../utils/remote-utils";
+import {Dropdown} from 'semantic-ui-react';
+import {List, Map} from 'immutable';
+import {avatarUrl} from '../../../utils/remote-utils';
+import * as services from '../../../services/permissions';
 
 class UserSelection extends React.Component {
 
@@ -31,18 +31,18 @@ class UserSelection extends React.Component {
             connections = permissionInEra.getIn(['permission', 'connections']) || List();
         }
 
-        let mappedOptions = [];
-        connections.forEach(x => mappedOptions.push({
-            key: x.getIn(['user', '_id']),
-            value: x.getIn(['user', '_id']),
-            text: x.getIn(['user', 'name', 'first']) + ' ' + x.getIn(['user', 'name', 'last']),
-            image: {avatar: true, src: avatarUrl(x.getIn(['user', '_id']))},
+        let options = [];
+        connections.forEach(user => options.push({
+            key: user.get('_id'),
+            value: user.get('_id'),
+            text: user.getIn(['name', 'first']) + ' ' + user.getIn(['name', 'last']),
+            image: {avatar: true, src: avatarUrl(user.get('_id'))},
         }));
 
         return <Dropdown
             openOnFocus
             selection clearable
-            options={mappedOptions}
+            options={options}
             onChange={this.handleChange}
             placeholder='گیرنده'
         />
@@ -69,4 +69,4 @@ function mapStateToProps(state) {
     }
 }
 
-export default connect(mapStateToProps, permissionService)(UserSelection);
+export default connect(mapStateToProps, services)(UserSelection);
