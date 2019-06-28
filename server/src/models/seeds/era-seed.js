@@ -42,15 +42,15 @@ module.exports = async function originSeed(mongoose) {
                     roles: ['add-issue', 'view-issue', 'add-comment'],
                     connections: [{user: '5cf80118b2b7b13c6dfe9f01'}, {user: '5cf80118b2b7b13c6dfe9f02'},],
                     realms: [
-                        {realm: 1}, {realm: 2}, {realm: 3}, {realm: 4}, {realm: 5}, {realm: 6},
-                        {realm: 7}, {realm: 8}, {realm: 9}, {realm: 10}, {realm: 11}
+                        {realm: 1}, {realm: 4}, {realm: 5}, {realm: 6},
+                        {realm: 7}, {realm: 8}, {realm: 9}, {realm: 11}
                     ]
                 }, {
                     user: '5cf80118b2b7b13c6dfe9f01',
                     roles: ['view-issue'],
                     connections: [{user: '5cf80118b2b7b13c6dfe9f00'}],
                     realms: [
-                        {realm: 1}, {realm: 2}, {realm: 3}, {realm: 4}, {realm: 5}, {realm: 6},
+                        {realm: 1}, {realm: 4}, {realm: 5}, {realm: 6},
                     ]
                 },
             ]
