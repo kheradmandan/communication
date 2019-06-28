@@ -23,7 +23,7 @@ class EraSelection extends React.Component {
             value={value}
             options={options}
             onChange={this.handleChange}
-            placeholder='گیرنده'
+            placeholder='دوره'
         />
     }
 }
