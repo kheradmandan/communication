@@ -14,16 +14,19 @@ module.exports = async function originSeed(mongoose) {
                     user: '5cf80118b2b7b13c6dfe9f00',
                     roles: ['add-issue', 'view-issue', 'add-comment'],
                     realms: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
+                    priorities: ['low', 'normal', 'high', 'panic'],
                     connections: ['5cf80118b2b7b13c6dfe9f01', '5cf80118b2b7b13c6dfe9f02'],
                 }, {
                     user: '5cf80118b2b7b13c6dfe9f01',
                     roles: ['add-issue', 'view-issue', 'add-comment'],
                     realms: [1, 2, 3, 4, 5, 6],
+                    priorities: ['low', 'normal', 'high'],
                     connections: ['5cf80118b2b7b13c6dfe9f00'],
                 }, {
                     user: '5cf80118b2b7b13c6dfe9f02',
                     roles: ['add-issue', 'view-issue', 'add-comment'],
                     realms: [1, 2, 3],
+                    priorities: ['low', 'normal'],
                     connections: ['5cf80118b2b7b13c6dfe9f01'],
                 },]
         },
@@ -34,11 +37,13 @@ module.exports = async function originSeed(mongoose) {
                     user: '5cf80118b2b7b13c6dfe9f00',
                     roles: ['add-issue', 'view-issue', 'add-comment'],
                     realms: [1, 4, 5, 6, 7, 8, 9, 11],
+                    priorities: ['low', 'normal', 'panic'],
                     connections: ['5cf80118b2b7b13c6dfe9f01', '5cf80118b2b7b13c6dfe9f02'],
                 }, {
                     user: '5cf80118b2b7b13c6dfe9f01',
                     roles: ['view-issue'],
                     realms: [1, 4, 5, 6],
+                    priorities: ['normal', 'high', 'panic'],
                     connections: ['5cf80118b2b7b13c6dfe9f00'],
                 },
             ]
