@@ -1,10 +1,16 @@
 import React from 'react';
 import {Map} from 'immutable';
 import propTypes from 'prop-types';
-import {Form, Button, TextArea, Dropdown, Icon} from "semantic-ui-react";
-import Ability from "../../Ability";
-import Selection from "../../Selection";
-import {assigneeTitlesOptions, findKey} from "../../../utils/combo-items";
+import Ability from '../../Ability';
+import Selection from '../../Selection';
+import {assigneeTitlesOptions, findKey} from '../../../utils/combo-items';
+import {
+    Form,
+    Button,
+    Dropdown,
+    Icon
+} from 'semantic-ui-react';
+import TextareaAutoSize from 'react-textarea-autosize';
 
 export default class AddComment extends React.Component {
 
@@ -47,7 +53,12 @@ export default class AddComment extends React.Component {
         const iconName = findKey(assigneeId && title, assigneeTitlesOptions).icon;
 
         return <Form>
-            <TextArea value={context} onChange={this.handleTextChange}/>
+            <TextareaAutoSize maxLength={2048}
+                              value={context}
+                              useCacheForDOMMeasurements
+                              onChange={this.handleTextChange}
+            />
+
             <Ability can='change-issue-assignee' permissions={issue.get('permissions')}>
                 <Selection.User onChange={this.handleUserChange}/>
             </Ability>
