@@ -5,6 +5,8 @@ import EraSelection from '../Selection/Era';
 import UserSelection from '../Selection/User';
 import RealmSelection from '../Selection/Realm';
 import PrioritySelection from '../Selection/Priority';
+import * as services from '../../services/issues';
+import * as requestTypes from '../../constants/request.types';
 
 class IssueDialog extends React.Component {
 
@@ -25,18 +27,20 @@ class IssueDialog extends React.Component {
     handleAssigneeChange = (assignee) => this.setState({assignee});
 
     handleSaveButton = () => {
-
+        const {addIssue} = this.props;
+        addIssue(this.state);
     };
 
     render() {
         const {era, title, context} = this.state;
+        const {isLoading} = this.props;
 
         return (<Modal trigger={<Button>Add new </Button>} centered={false}>
                 <Modal.Header>
                     بازکردن مبحث جدید
                 </Modal.Header>
                 <Modal.Content>
-                    <Form>
+                    <Form loading={isLoading}>
                         <Form.Field>
                             <Label>عنوان*</Label>
                             <Input
@@ -76,7 +80,7 @@ class IssueDialog extends React.Component {
                         </Form.Group>
                         <Form.Group>
                             <Form.Field>
-                                <Button primary>
+                                <Button primary onClick={this.handleSaveButton}>
                                     ذخیره
                                 </Button>
                                 <Button secondary>
@@ -92,7 +96,9 @@ class IssueDialog extends React.Component {
 }
 
 function mapStateToProps(state) {
-    return {}
+    return {
+        isLoading: state.requests.get(requestTypes.ADD_ISSUE),
+    }
 }
 
-export default connect(mapStateToProps)(IssueDialog);
+export default connect(mapStateToProps, services)(IssueDialog);

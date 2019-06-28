@@ -5,7 +5,7 @@ import {connect} from "react-redux";
 import {Button, Segment} from "semantic-ui-react";
 import Messages from '../Message';
 import IssueList from "../IssueList/IssueList";
-// import IssueDialog from '../IssueDialog';
+import IssueDialog from '../IssueDialog';
 import * as issueActions from '../../services/issues';
 import * as requestTypes from "../../constants/request.types";
 
@@ -28,7 +28,7 @@ class Dashboard extends React.Component {
                         onClick={reloadIssues} loading={isLoading}/>
 
                 <Button circular positive icon='add' content='افزودن'/>
-                {/*<IssueDialog/>*/}
+                <IssueDialog/>
 
                 <IssueList issues={issues}/>
             </Segment>
@@ -48,4 +48,4 @@ function mapStateToProps(state) {
     }
 }
 
-export default connect(mapStateToProps,  issueActions)(Dashboard);
+export default connect(mapStateToProps, issueActions)(Dashboard);
