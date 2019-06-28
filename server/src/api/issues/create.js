@@ -31,6 +31,9 @@ const validate = {
             .min(CONSTANTS.mongo.issue.title.minLength)
             .max(CONSTANTS.mongo.issue.title.maxLength)
             .required(),
+        context: Joi.string()
+            .min(CONSTANTS.mongo.issue.comment.context.minLength)
+            .max(CONSTANTS.mongo.issue.comment.context.maxLength),
         realm: Joi.number().required(),
         status: Joi.string().empty('').default('draft').valid(CONSTANTS.mongo.issue.statuses),
         priority: Joi.number().default(1).valid(CONSTANTS.mongo.issue.priorities),
@@ -47,6 +50,7 @@ const handler = async function (request, h) {
         status,
         realm,
         title,
+        context,
     } = request.payload;
 
     // insurance
@@ -77,7 +81,16 @@ const handler = async function (request, h) {
         assignees: [{user, created: created()}],
         created: created(),
     });
-    await issue.save();
 
+    // add comment if exists
+    if (context) {
+        issue.comments.unshift({
+            context,
+            created: created(),
+        });
+    }
+
+    // save
+    await issue.save();
     return issue;
 };
