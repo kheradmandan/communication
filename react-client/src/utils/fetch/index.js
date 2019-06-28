@@ -50,7 +50,7 @@ const fetchApi = apiCall => ({title, dispatches = [], dispatch, getState, onSucc
             onSuccess && onSuccess(data)
         })
         .catch(err => {
-            apiErrorHandler(dispatch, getState);
+            apiErrorHandler(dispatch, getState)(err);
             onFailure && onFailure(err);
         })
         .finally(status.unset());
