@@ -54,11 +54,11 @@ export const changeAssignee = (issueId, userId, title) => (dispatch, getState) =
 
 };
 
-export const addIssue = ({era, realm, priority, assignee, title, context}) => (dispatch, getState) => {
+export const addIssue = ({era, realm, priority, title, context}) => (dispatch, getState) => {
 
     postApi({
-        url: `/issues/`,
-        data: {era, realm, priority, assignee, title, context},
+        url: `/issues`,
+        data: {era, realm, priority, title, context},
         title: ADD_ISSUE,
         dispatches: [],
         dispatch, getState
