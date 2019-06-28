@@ -4,7 +4,6 @@ import EraSelection from '../../Selection/Era';
 import RealmSelection from '../../Selection/Realm';
 import PrioritySelection from '../../Selection/Priority';
 import {
-    Button,
     Form,
     Input,
     Label,
@@ -21,19 +20,30 @@ class AddNewForm extends React.Component {
         context: '',
     };
 
-    handleEraChange = (era) => this.setState({era, realm: null, priority: null, assignee: null});
-    handleRealmChange = (realm) => this.setState({realm});
-    handleTitleChange = (e, {value}) => this.setState({title: value});
-    handleContextChange = (e, {value}) => this.setState({context: value});
-    handlePriorityChange = (priority) => this.setState({priority});
+    handleEraChange = (era) => {
+        this.setState({era, realm: null, priority: null, assignee: null});
+        this.props.onAdd(this.state);
+    };
+    handleRealmChange = (realm) => {
+        this.setState({realm});
+        this.props.onAdd(this.state);
+    };
+    handleTitleChange = (e, {value}) => {
+        this.setState({title: value});
+        this.props.onAdd(this.state);
+    };
+    handleContextChange = (e, {value}) => {
+        this.setState({context: value});
+        this.props.onAdd(this.state);
+    };
+    handlePriorityChange = (priority) => {
+        this.setState({priority});
+        this.props.onAdd(this.state);
+    };
 
     handleSaveButton = () => {
         const {onAdd} = this.props;
         onAdd && onAdd(this.state);
-    };
-    handleCancelButton = () => {
-        const {onCancel} = this.props;
-        onCancel && onCancel();
     };
 
     render() {
@@ -73,23 +83,12 @@ class AddNewForm extends React.Component {
                     <PrioritySelection era={era} onChange={this.handlePriorityChange}/>
                 </Form.Field>
             </Form.Group>
-            <Form.Group>
-                <Form.Field>
-                    <Button primary onClick={this.handleSaveButton}>
-                        ذخیره
-                    </Button>
-                    <Button secondary onClick={this.handleCancelButton}>
-                        انصراف
-                    </Button>
-                </Form.Field>
-            </Form.Group>
         </Form>
     }
 }
 
 AddNewForm.propTypes = {
     onAdd: propTypes.func.isRequired,
-    onCancel: propTypes.func.isRequired,
     loading: propTypes.bool,
 };
 
