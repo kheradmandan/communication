@@ -1,6 +1,12 @@
 import {getApi, postApi} from '../utils/fetch';
 import * as actions from '../actions/issues';
-import {ADD_COMMENT, CHANGE_ASSIGNEE, LOAD_ISSUE_DETAILS, LOAD_ISSUE_LIST} from "../constants/request.types";
+import {
+    ADD_ISSUE,
+    ADD_COMMENT,
+    CHANGE_ASSIGNEE,
+    LOAD_ISSUE_DETAILS,
+    LOAD_ISSUE_LIST
+} from '../constants/request.types';
 
 export const reloadIssues = () => (dispatch, getState) => {
 
@@ -43,6 +49,18 @@ export const changeAssignee = (issueId, userId, title) => (dispatch, getState) =
         data: {user: userId, title},
         title: CHANGE_ASSIGNEE,
         dispatches: [actions.assigneeHasChanged],
+        dispatch, getState
+    });
+
+};
+
+export const addIssue = ({era, realm, priority, assignee, title, context}) => (dispatch, getState) => {
+
+    postApi({
+        url: `/issues/`,
+        data: {era, realm, priority, assignee, title, context},
+        title: ADD_ISSUE,
+        dispatches: [],
         dispatch, getState
     });
 
