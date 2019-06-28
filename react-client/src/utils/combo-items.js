@@ -12,6 +12,17 @@ export const assigneeTitlesOptions = [
 ];
 
 /**
+ * Priority titles
+ * @type {*[]}
+ */
+export const priorityOptions = [
+    {key: '0', value: 0, icon: 'meh', text: 'کم'},
+    {key: '1', value: 1, icon: 'idea', text: 'طبیعی'},
+    {key: '2', value: 2, icon: 'gripfire', text: 'زیاد'},
+    {key: '3', value: 3, icon: 'broken chain', text: 'بحرانی'},
+];
+
+/**
  * Explore in options to find corresponding key
  * @param value
  * @param options
