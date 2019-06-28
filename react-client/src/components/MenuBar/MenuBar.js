@@ -1,5 +1,6 @@
 import React from 'react';
 import {Menu, Input} from "semantic-ui-react";
+import {Link} from 'react-router-dom';
 
 export default class MenuBar extends React.Component {
     state = {activeItem: 'کارتابل'};
@@ -12,7 +13,12 @@ export default class MenuBar extends React.Component {
         const activeItem = this.state.activeItem;
         return <div>
             <Menu pointing>
-                <Menu.Item name='کارتابل' active={activeItem === 'کارتابل'} onClick={this.handleItemClick}/>
+                <Menu.Item active={activeItem === 'کارتابل'} onClick={this.handleItemClick}>
+                    <Link to='/'>کارتابل</Link>
+                </Menu.Item>
+                <Menu.Item active={activeItem === 'افزودن بحث'} onClick={this.handleItemClick}>
+                    <Link to='/issue/new'>افزودن بحث</Link>
+                </Menu.Item>
                 <Menu.Item
                     name='گزارشات'
                     active={activeItem === 'گزارشات'}
