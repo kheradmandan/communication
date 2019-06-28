@@ -9,6 +9,7 @@ import Issue from "./components/Issue";
 import * as userActions from "./services/users";
 import './App.css';
 import MenuBar from "./components/MenuBar/MenuBar";
+import AddNewIssue from './components/AddNewIssue';
 
 class App extends React.Component {
     componentDidMount() {
@@ -21,6 +22,7 @@ class App extends React.Component {
             return (<div>
                 <MenuBar/>
                 <Switch>
+                    <Route path='/issue/new' component={AddNewIssue}/>
                     <Route path='/issue/:id?' component={Issue}/>
                     <Route exact path='/' component={Dashboard}/>
                 </Switch>
