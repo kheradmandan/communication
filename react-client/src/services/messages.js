@@ -26,7 +26,11 @@ export const clearMessages = () => (dispatch) => {
 };
 
 export const apiErrorHandler = (dispatch, getState) => error => {
+    console.info(' apiErrorHandler %o', error);
+    if (error.response && error.response.data && error.response.data.error === 'Unauthorized') {
+        localStorage.clear();
+        window.location.href = '/';
+    }
     const {config} = error;
-    console.log(' apiErrorHandler %o', error);
     addMessage(error.message + '\n' + config.url, 'error')(dispatch);
 };
