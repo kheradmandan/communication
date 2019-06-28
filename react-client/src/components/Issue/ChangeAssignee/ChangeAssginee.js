@@ -1,25 +1,24 @@
 import React from 'react';
 import propTypes from 'prop-types';
 import UserSelection from '../../Selection/User';
-import {Button, Dropdown, Segment} from 'semantic-ui-react';
+import {Dropdown, Segment} from 'semantic-ui-react';
 import {assigneeTitlesOptions} from '../../../utils/combo-items';
 
 class ChangeAssignee extends React.Component {
 
     state = {user: '', title: ''};
 
-    handleUserChange = user => this.setState({user});
-    handleTitleChange = (e, {value}) => this.setState({title: value});
-    handChangeButton = () => {
-        const {issue} = this.props;
-        const {user, title} = this.state;
-
-        this.props.onChange(issue, user, title);
+    handleUserChange = user => {
+        this.setState({user});
+        this.props.onChange( this.state);
+    };
+    handleTitleChange = (e, {value}) => {
+        this.setState({title: value});
+        this.props.onChange(this.state);
     };
 
     render() {
-        const {era, onCancel, loading} = this.props;
-        const {user} = this.state;
+        const {era, loading} = this.props;
 
         return <Segment loading={loading}>
             <UserSelection era={era} onChange={this.handleUserChange}/>
@@ -30,12 +29,6 @@ class ChangeAssignee extends React.Component {
                 options={assigneeTitlesOptions}
                 onChange={this.handleTitleChange}
             />
-            <Button primary onClick={this.handChangeButton} enabled={user}>
-                ذخیره
-            </Button>
-            <Button secondary onClick={onCancel}>
-                انصراف
-            </Button>
         </Segment>
     }
 }
