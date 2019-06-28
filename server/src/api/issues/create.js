@@ -35,7 +35,7 @@ const validate = {
             .min(CONSTANTS.mongo.issue.comment.context.minLength)
             .max(CONSTANTS.mongo.issue.comment.context.maxLength),
         realm: Joi.number().required(),
-        status: Joi.string().empty('').default('draft').valid(CONSTANTS.mongo.issue.statuses),
+        status: Joi.string().empty('').default('open').valid(CONSTANTS.mongo.issue.statuses),
         priority: Joi.number().default(1).valid(CONSTANTS.mongo.issue.priorities),
     })
 };
@@ -92,5 +92,5 @@ const handler = async function (request, h) {
 
     // save
     await issue.save();
-    return {Ok: true, _id: issue._id, era: issue.era};
+    return {Ok: true, _id: issue._id, era: issue.era, sequence: issue.sequence};
 };
