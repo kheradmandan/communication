@@ -31,7 +31,7 @@ const validate = {
             .min(CONSTANTS.mongo.issue.title.minLength)
             .max(CONSTANTS.mongo.issue.title.maxLength)
             .required(),
-        context: Joi.string()
+        context: Joi.string().empty('')
             .min(CONSTANTS.mongo.issue.comment.context.minLength)
             .max(CONSTANTS.mongo.issue.comment.context.maxLength),
         realm: Joi.number().required(),
