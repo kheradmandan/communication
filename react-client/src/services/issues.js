@@ -54,13 +54,18 @@ export const changeAssignee = (issueId, userId, title) => (dispatch, getState) =
 
 };
 
+export const updateDraft = payload => dispatch => {
+
+    dispatch(actions.draftIssue(payload))
+};
+
 export const addIssue = ({era, realm, priority, title, context}) => (dispatch, getState) => {
 
     postApi({
         url: `/issues`,
         data: {era, realm, priority, title, context},
         title: ADD_ISSUE,
-        dispatches: [],
+        dispatches: [actions.draftIssue],
         dispatch, getState
     });
 
