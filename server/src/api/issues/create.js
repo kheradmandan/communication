@@ -92,5 +92,5 @@ const handler = async function (request, h) {
 
     // save
     await issue.save();
-    return issue;
+    return {Ok: true, _id: issue._id};
 };
