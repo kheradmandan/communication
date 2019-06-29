@@ -29,9 +29,8 @@ export const priorityOptions = [
 export const statusOptions = [
     {key: 'draft', value: 'draft', icon: 'firstdraft', text: 'پیش نویس'},
     {key: 'open', value: 'open', icon: 'envelope open outline', text: 'باز'},
-    {key: 'closed', value: 'closed', icon: 'window close outline', text: 'بسته'},
+    {key: 'closed', value: 'closed', icon: 'archive', text: 'بسته'},
     {key: 'removed', value: 'removed', icon: 'remove from calendar', text: 'حذف شده'},
-    {key: 'waiting', value: 'waiting', icon: 'globe', text: 'در انتظار'},
 ];
 
 /**
