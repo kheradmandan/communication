@@ -5,7 +5,7 @@ import {
     ADD_COMMENT,
     CHANGE_ASSIGNEE,
     LOAD_ISSUE_DETAILS,
-    LOAD_ISSUE_LIST
+    LOAD_ISSUE_LIST, CHANGE_ISSUE_STATUS
 } from '../constants/request.types';
 
 export const reloadIssues =
@@ -57,4 +57,13 @@ export const addIssue =
             data: {era, realm, priority, title, context},
             title: ADD_ISSUE,
             dispatches: [actions.draftIssue],
+        });
+
+export const changeStatus =
+    (issueId, status) =>
+        postApi({
+            url: `issues/${issueId}/statuses`,
+            data: {status},
+            title: CHANGE_ISSUE_STATUS,
+            dispatches: [actions.expireCurrentIssue],
         });
