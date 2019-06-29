@@ -22,7 +22,7 @@ module.exports = async function (server, option) {
 
 const validate = {
     payload: Joi.object({
-        id: Joi.string().valid(CONSTANTS.mongo.issue.statuses.filter(x => x !== 'draft')).required()
+        status: Joi.string().valid(CONSTANTS.mongo.issue.statuses.filter(x => x !== 'draft')).required()
     }),
     params: Joi.object({
         id: CONSTANTS.joi.objectId(Joi).required()
@@ -32,7 +32,7 @@ const validate = {
 const handler = async function (request) {
     const userId = request.auth.credentials._id;
     const issueId = request.params.id;
-    const {id: statusId} = request.payload;
+    const {status} = request.payload;
 
     // check issue
     const issue = await Issue.findById(issueId).exec();
@@ -42,12 +42,12 @@ const handler = async function (request) {
 
     // do not change
     const lastStatus = issue.statuses[0];
-    if (lastStatus.id === statusId) {
+    if (lastStatus.id === status) {
         return lastStatus;
     }
 
     // save at first position
-    issue.changeStatus(statusId, userId);
+    issue.changeStatus(status, userId);
     await issue.save();
 
     return issue.statuses[0];
