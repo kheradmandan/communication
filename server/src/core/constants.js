@@ -16,7 +16,7 @@ module.exports.mongo = {
                 maxLength: 2048,
             }
         },
-        statuses: ['draft', 'open', 'closed', 'removed', 'waiting'],
+        statuses: ['draft', 'open', 'closed', 'removed'],
         priorities: [0, 1, 2, 3],
     },
     user: {

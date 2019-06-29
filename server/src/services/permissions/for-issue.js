@@ -39,7 +39,6 @@ function getDefaultOwnerRoles() {
         'view-issue',
         'change-issue-priority',
         'change-issue-assignee',
-        'archive-issue',
         'remove-issue',
         'close-issue',
         'add-comment-to-issue',
