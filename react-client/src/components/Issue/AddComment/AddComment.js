@@ -15,11 +15,13 @@ export default class AddComment extends React.Component {
     state = {
         context: '',
         assignee: {user: '', title: 'ارجاع'},
+        isContextValid: false,
         isAssigneeValid: false,
     };
 
     handleTextChange = (e, {value}) => {
-        this.setState({context: value});
+        const isContextValid = (value && value.length >= 3);
+        this.setState({context: value, isContextValid});
     };
 
     handleAssigneeChange = (name, value) => {
@@ -33,15 +35,11 @@ export default class AddComment extends React.Component {
 
     handleSubmit = (e) => {
         e.preventDefault();
-        const {context, assignee, isAssigneeValid} = this.state;
-        const {issue, onAddComment, onChangeAssignee} = this.props;
+        const {isContextValid, isAssigneeValid} = this.state;
+        const {onAddCommentAndChangeAssignee} = this.props;
 
-        if (context && context.length > 0) {
-            onAddComment(issue.get('_id'), context)
-        }
-
-        if (isAssigneeValid) {
-            onChangeAssignee(issue.get('_id'), assignee.user, assignee.title);
+        if (isContextValid || isAssigneeValid) {
+            onAddCommentAndChangeAssignee(this.state);
         }
     };
 
@@ -76,7 +74,6 @@ export default class AddComment extends React.Component {
 AddComment.propTypes = {
     issue: propTypes.instanceOf(Map).isRequired,
     loading: propTypes.bool,
-    onAddComment: propTypes.func.isRequired,
-    onChangeAssignee: propTypes.func.isRequired,
+    onAddCommentAndChangeAssignee: propTypes.func.isRequired,
 };
 

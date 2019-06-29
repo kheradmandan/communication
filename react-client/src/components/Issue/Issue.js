@@ -23,16 +23,25 @@ class Issue extends React.Component {
         this.props.getIssueDetails(id);
     }
 
-    handleAddComment = (...args) => {
-        const {addComment, getIssueDetails, current} = this.props;
-        addComment(...args);
-        getIssueDetails(current.get('_id'));
-    };
+    handleInsertCommentAndAssignee = (state) => {
+        const {addComment, changeAssignee, getIssueDetails, current} = this.props;
+        const {context, assignee, isAssigneeValid, isContextValid} = state;
+        const issueId = current.get('_id');
 
-    handleChangeAssignee = (...args) => {
-        const {changeAssignee, getIssueDetails, current} = this.props;
-        changeAssignee(...args);
-        getIssueDetails(current.get('_id'));
+        if (isContextValid && !isAssigneeValid) {
+            addComment(issueId, context)
+                .then(() => getIssueDetails(issueId));
+        }
+        if (!isContextValid && isAssigneeValid) {
+            changeAssignee(issueId, assignee.user, assignee.title)
+                .then(() => getIssueDetails(issueId));
+        }
+
+        if (isContextValid && isAssigneeValid) {
+            addComment(issueId, context)
+                .then(() => changeAssignee(issueId, assignee.user, assignee.title))
+                .then(() => getIssueDetails(issueId));
+        }
     };
 
     render() {
@@ -69,8 +78,7 @@ class Issue extends React.Component {
                         {
                             menuItem: {key: 'feed', icon: 'feed', content: 'یادداشت ها'},
                             render: () => <Tab.Pane><Feed issue={current}
-                                                          onAddComment={this.handleAddComment}
-                                                          onChangeAssignee={this.handleChangeAssignee}/></Tab.Pane>
+                                                          onAddCommentAndChangeAssignee={this.handleInsertCommentAndAssignee}/></Tab.Pane>
                         }, {
                             menuItem: {key: 'attachments', icon: 'attach', content: 'پیوست ها'},
                             render: () => <Tab.Pane>Attachments goes here </Tab.Pane>
