@@ -12,7 +12,7 @@ module.exports = async function getPermissionsForIssue(userId, issueId) {
     // fetch issue
     const issue = await Issue.findById(issueId);
     if (!issue) {
-        throw new Error('Issue Not Found');
+        return [];
     }
     const relation = issue.getRelation(userId);
 
