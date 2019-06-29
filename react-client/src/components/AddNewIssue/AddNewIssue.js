@@ -1,9 +1,11 @@
 import React from 'react';
 import propTypes from 'prop-types';
 import {connect} from 'react-redux';
+import {Redirect} from 'react-router';
 import {Map} from 'immutable';
 import EraSelection from '../Selection/Era';
 import RealmSelection from '../Selection/Realm';
+import ChangeAssignee from '../Issue/ChangeAssignee';
 import PrioritySelection from '../Selection/Priority';
 import * as services from '../../services/issues';
 import * as requestTypes from '../../constants/request.types';
@@ -11,8 +13,6 @@ import {
     Button,
     Container, Form, Input, Message, TextArea
 } from 'semantic-ui-react';
-import ChangeAssignee from '../Issue/ChangeAssignee/ChangeAssginee';
-import {Redirect} from 'react-router';
 
 export class AddNewIssue extends React.Component {
 
