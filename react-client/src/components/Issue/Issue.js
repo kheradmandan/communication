@@ -48,6 +48,20 @@ class Issue extends React.Component {
         }
     };
 
+    handleCloseButtonClick = () => {
+        const {changeStatus, getIssueDetails, current} = this.props;
+        const issueId = current.get('_id');
+        changeStatus(issueId, 'closed')
+            .then(() => getIssueDetails(issueId));
+    };
+
+    handleRemoveButtonClick = () => {
+        const {changeStatus, getIssueDetails, current} = this.props;
+        const issueId = current.get('_id');
+        changeStatus(issueId, 'remove')
+            .then(() => getIssueDetails(issueId));
+    };
+
     render() {
         const {current, loading} = this.props;
 
@@ -75,7 +89,9 @@ class Issue extends React.Component {
         }
 
         return <Container>
-            <Header issue={current}/>
+            <Header issue={current} loading={loading}
+                    onCloseIssue={this.handleCloseButtonClick}
+                    onRemoveIssue={this.handleRemoveButtonClick}/>
             <Segment>
                 <Tab
                     panes={[

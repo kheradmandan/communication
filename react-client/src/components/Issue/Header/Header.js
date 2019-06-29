@@ -1,5 +1,6 @@
 import React from 'react';
 import propTypes from 'prop-types';
+import {Map} from 'immutable';
 import User from '../../User';
 import Ability from '../../Ability';
 import LocaleDate from '../../LocaleDate';
@@ -13,11 +14,12 @@ import {
 } from 'semantic-ui-react';
 
 class Header extends React.Component {
+
     render() {
-        const {issue, loading} = this.props;
+        const {issue, loading, onCloseIssue, onRemoveIssue} = this.props;
         if (loading) return <p> Issue loading</p>;
 
-        return (<Segment>
+        return (<Segment loading={loading}>
             <Input
                 fluid
                 icon='bug'
@@ -48,7 +50,8 @@ class Header extends React.Component {
                     buttons={[{
                         content: 'بسته شود؟',
                         exp: 'مبحث به آرشیو منتقل خواهد شد',
-                        color: 'blue'
+                        color: 'blue',
+                        onClick: onCloseIssue,
                     }]}
                 />
 
@@ -60,7 +63,8 @@ class Header extends React.Component {
                     buttons={[{
                         content: 'حذف شود؟',
                         exp: 'مبحث برای همیشه از دسترس خارج خواهد شد',
-                        color: 'red'
+                        color: 'red',
+                        onClick: onRemoveIssue,
                     }]}
                 />
             </Ability>
@@ -69,12 +73,15 @@ class Header extends React.Component {
 }
 
 Header.propTypes = {
-    readOnly: propTypes.bool,
-    issue: propTypes.object.isRequired,
+    loading: propTypes.bool,
+    issue: propTypes.instanceOf(Map).isRequired,
+    onCloseIssue: propTypes.func.isRequired,
+    onRemoveIssue: propTypes.func.isRequired,
 };
 
 Header.defaultProps = {
-    readOnly: false,
+    loading: false,
+    issue: Map(),
 };
 
 export default Header;
