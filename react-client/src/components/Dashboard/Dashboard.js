@@ -2,7 +2,6 @@ import React from 'react'
 import propTypes from 'prop-types'
 import {List} from "immutable";
 import {connect} from "react-redux";
-import Messages from '../Message';
 import IssueList from "../IssueList/IssueList";
 import * as issueActions from '../../services/issues';
 import * as requestTypes from "../../constants/request.types";
@@ -17,7 +16,6 @@ class Dashboard extends React.Component {
         const {issues, reloadIssues, isLoading} = this.props;
 
         return (<div>
-            <Messages/>
             <Segment>
                 <Button circular primary icon='refresh'
                         onClick={reloadIssues} loading={isLoading}/>

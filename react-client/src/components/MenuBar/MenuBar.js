@@ -1,6 +1,7 @@
 import React from 'react';
 import {Menu, Input} from "semantic-ui-react";
 import {Link} from 'react-router-dom';
+import Messages from '../Message';
 
 export default class MenuBar extends React.Component {
     state = {activeItem: 'کارتابل'};
@@ -12,6 +13,7 @@ export default class MenuBar extends React.Component {
     render() {
         const activeItem = this.state.activeItem;
         return <div>
+            <Messages/>
             <Menu pointing>
                 <Menu.Item active={activeItem === 'کارتابل'} onClick={this.handleItemClick}>
                     <Link to='/'>کارتابل</Link>
