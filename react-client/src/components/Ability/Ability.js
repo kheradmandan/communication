@@ -6,13 +6,13 @@ import propTypes from "prop-types";
 class Ability extends React.Component {
 
     render() {
-        const {current, permissions, can, children} = this.props;
+        const {current, permissions, can, children, elseControl} = this.props;
         const roles = permissions || current.get('permissions') || List();
 
         if (roles.some(x => x === can)) {
             return children;
         }
-        return null;
+        return elseControl;
     }
 }
 
@@ -20,12 +20,14 @@ Ability.propTypes = {
     can: propTypes.string.isRequired,
     current: propTypes.instanceOf(Map),
     permissions: propTypes.instanceOf(List),
+    elseControl: propTypes.object,
 };
 
 Ability.defaultProps = {
     can: null,
     current: Map(),
     permissions: null,
+    elseControl: null,
 };
 
 function mapStateToProps(state) {
