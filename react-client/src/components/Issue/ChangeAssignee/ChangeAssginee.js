@@ -16,7 +16,7 @@ class ChangeAssignee extends React.Component {
     };
 
     render() {
-        const {era, title} = this.props;
+        const {era, title, control} = this.props;
         const key = findKey(title, assigneeTitlesOptions);
 
         return <Segment>
@@ -29,6 +29,7 @@ class ChangeAssignee extends React.Component {
                 onChange={this.handleTitleChange}
             />
             <UserSelection era={era} onChange={this.handleUserChange}/>
+            {control}
         </Segment>
     }
 }
