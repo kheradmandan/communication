@@ -2,12 +2,18 @@ import React from 'react';
 import {connect} from "react-redux";
 import propTypes from 'prop-types';
 import {List} from "immutable";
-import {Message} from "semantic-ui-react";
-import * as messageActions from '../../services/messages';
+import * as actions from '../../services/messages';
+import {
+    Button,
+    Header, Icon,
+    Message,
+    Modal,
+} from "semantic-ui-react";
 
 class Messages extends React.Component {
+
     render() {
-        const {messages, removeMessageByType} = this.props;
+        const {messages, removeMessageByType, clearMessages} = this.props;
         if (!messages || 0 === messages.count()) {
             return null;
         }
@@ -24,12 +30,29 @@ class Messages extends React.Component {
                         removeMessageByType={removeMessageByType}
                     />
                 ));
-        return <div>{messageItems}</div>
+
+        return <Modal open={messageItems.length} basic size='small'>
+            <Header icon='browser' content='پیام ها'/>
+            <Modal.Content>
+                {messageItems}
+            </Modal.Content>
+            <Modal.Actions>
+                <Button icon inverted
+                        color='green'
+                        content='Home'
+                        onClick={clearMessages}>
+                    <Icon name='checkmark'/>
+                    بستن
+                </Button>
+
+            </Modal.Actions>
+        </Modal>
     }
 }
 
 Messages.propTypes = {
     messages: propTypes.object,
+    clearMessages: propTypes.func.isRequired,
     removeMessage: propTypes.func.isRequired,
     removeMessageByType: propTypes.func.isRequired,
 };
@@ -44,7 +67,7 @@ function mapStateToProps(state) {
     }
 }
 
-export default connect(mapStateToProps, messageActions)(Messages);
+export default connect(mapStateToProps, actions)(Messages);
 
 
 function OneMessage({type, list, removeMessageByType}) {
