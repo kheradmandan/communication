@@ -12,7 +12,7 @@ const Era = require('../../models/era');
 module.exports = async function (userId, eraId = null) {
 
     const matchClause = eraId ?
-        {$match: {_id: ObjectId(eraId)}} : // for one era
+        {$match: {'permissions.user': ObjectId(userId), _id: ObjectId(eraId)}} : // for one era
         {$match: {'permissions.user': ObjectId(userId)}}; // in all eras
 
     let results = await Era
