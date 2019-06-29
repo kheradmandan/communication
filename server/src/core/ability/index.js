@@ -48,9 +48,9 @@ module.exports.can = roleProvider => {
  * @returns {function([string],boolean=true): boolean}
  */
 
-module.exports.canDoOnIssue = (userId, issueId) => (able, throwOnFail = true) => {
-
-    return module.exports.can(permission.getRolesForIssue(userId, issueId))(able, throwOnFail);
+module.exports.canDoOnIssue = async (userId, issueId) => {
+    const permissions = await permission.getRolesForIssue(userId, issueId);
+    return module.exports.can(permissions);
 };
 
 /**
@@ -60,7 +60,7 @@ module.exports.canDoOnIssue = (userId, issueId) => (able, throwOnFail = true) =>
  * @returns {function([string],boolean=true): boolean}
  */
 
-module.exports.canDoInEra = (userId, eraId) => (able, throwOnFail = true) => {
-
-    return module.exports.can(permission.getRolesInEra(userId, eraId))(able, throwOnFail);
+module.exports.canDoInEra = async (userId, eraId) => {
+    const permissions = await permission.getRolesInEra(userId, eraId);
+    return module.exports.can(permissions);
 };
