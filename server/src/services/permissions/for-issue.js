@@ -36,6 +36,7 @@ module.exports = async function getPermissionsForIssue(userId, issueId) {
 // Just hard code!
 function getDefaultOwnerRoles() {
     return [
+        'view-issue',
         'change-issue-priority',
         'change-issue-assignee',
         'archive-issue',
@@ -48,6 +49,7 @@ function getDefaultOwnerRoles() {
 
 function getDefaultAssigneeRoles() {
     return [
+        'view-issue',
         'change-issue-priority',
         'change-issue-assignee',
         'add-comment-to-issue',
