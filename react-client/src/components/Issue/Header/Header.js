@@ -1,9 +1,16 @@
 import React from 'react';
 import propTypes from 'prop-types';
-
-import {Segment, Label, Input} from "semantic-ui-react";
-import LocaleDate from "../../LocaleDate";
-import User from "../../User";
+import User from '../../User';
+import Ability from '../../Ability';
+import LocaleDate from '../../LocaleDate';
+import YesOrNoButton from '../../YesOrNoButton';
+import {findKey, statusOptions} from '../../../utils/combo-items';
+import {
+    Segment,
+    Label,
+    Input,
+    Button,
+} from 'semantic-ui-react';
 
 class Header extends React.Component {
     render() {
@@ -34,6 +41,29 @@ class Header extends React.Component {
             <Label pointing>
                 <p>{issue.getIn(['realm', 'title'])}</p>
             </Label>
+
+            <Ability can='close-issue'>
+                <YesOrNoButton
+                    trigger={<Button icon={findKey('closed', statusOptions).icon} positive content='بستن مبحث'/>}
+                    buttons={[{
+                        content: 'بسته شود؟',
+                        exp: 'مبحث به آرشیو منتقل خواهد شد',
+                        color: 'blue'
+                    }]}
+                />
+
+            </Ability>
+            <Ability can='remove-issue'>
+                <YesOrNoButton
+                    trigger={
+                        <Button icon={findKey('removed', statusOptions).icon} color={'yellow'} content='حذف مبحث'/>}
+                    buttons={[{
+                        content: 'حذف شود؟',
+                        exp: 'مبحث برای همیشه از دسترس خارج خواهد شد',
+                        color: 'red'
+                    }]}
+                />
+            </Ability>
         </Segment>)
     }
 }
