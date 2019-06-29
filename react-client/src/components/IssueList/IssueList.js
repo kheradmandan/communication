@@ -84,14 +84,14 @@ class IssueList extends React.Component {
                               icon='sort alphabet'
                               column={column} direction={direction}
                               onSortClick={this.handleSortClick}
-                              content="ایجاد کننده"
+                              content="ارجاع دهنده"
                     />
                     <MyHeader name='created.at'
                               path={['created', 'at']}
                               icon='sort alphabet'
                               column={column} direction={direction}
                               onSortClick={this.handleSortClick}
-                              content="زمان"
+                              content="زمان ارجاع"
                     />
                     <MyHeader name='priority.id'
                               path={['priority', 'id']}
