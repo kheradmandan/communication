@@ -28,15 +28,19 @@ class Issue extends React.Component {
         const {context, assignee, isAssigneeValid, isContextValid} = state;
         const issueId = current.get('_id');
 
+        // Just comment add
         if (isContextValid && !isAssigneeValid) {
             addComment(issueId, context)
                 .then(() => getIssueDetails(issueId));
         }
+
+        // Just assignee change
         if (!isContextValid && isAssigneeValid) {
             changeAssignee(issueId, assignee.user, assignee.title)
                 .then(() => getIssueDetails(issueId));
         }
 
+        // Both add comment and change assignee in a chain
         if (isContextValid && isAssigneeValid) {
             addComment(issueId, context)
                 .then(() => changeAssignee(issueId, assignee.user, assignee.title))
