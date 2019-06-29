@@ -56,16 +56,22 @@ const fetchApi = apiCall => ({title, dispatches = [], onSuccess, onFailure}) => 
         return;
     }
 
-    return apiCall
-        .then(response => {
-            const {data} = response;
-            dispatches.forEach(action => dispatch(action(data)));
-            onSuccess && onSuccess(data)
-        })
-        .catch(err => {
-            apiErrorHandler(dispatch, getState)(err);
-            onFailure && onFailure(err);
-        })
-        .finally(status.unset());
+    return new Promise(function (resolve, reject) {
+        apiCall
+            .then(response => {
+                const {data} = response;
+                dispatches.forEach(action => dispatch(action(data)));
+                onSuccess && onSuccess(data);
+                return data;
+            })
+            .then(resolve)
+            .catch(err => {
+                apiErrorHandler(dispatch, getState)(err);
+                onFailure && onFailure(err);
+                throw err;
+            })
+            .catch(reject)
+            .finally(status.unset());
+    });
 };
 
