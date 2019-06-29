@@ -11,6 +11,6 @@ module.exports = async function seed(mongoose) {
         // await userSeed(mongoose);
         // await originSeed(mongoose);
         //  await realmSeed(mongoose);
-        // await eraSeed(mongoose);
+        await eraSeed(mongoose);
     }
 };

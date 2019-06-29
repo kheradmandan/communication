@@ -24,7 +24,7 @@ module.exports = async function originSeed(mongoose) {
                     connections: ['5cf80118b2b7b13c6dfe9f00'],
                 }, {
                     user: '5cf80118b2b7b13c6dfe9f02',
-                    roles: ['add-issue', 'view-issue', 'add-comment'],
+                    roles: ['add-issue'],
                     realms: [1, 2, 3],
                     priorities: [0, 1],
                     connections: ['5cf80118b2b7b13c6dfe9f01'],
