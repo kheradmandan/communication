@@ -2,58 +2,75 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {Map} from 'immutable';
 import propTypes from 'prop-types';
-import {Segment, Tab, Container} from 'semantic-ui-react';
-import * as issueActions from '../../services/issues';
-import * as requestTypes from '../../constants/request.types';
 import History from './History';
 import Header from './Header';
 import Feed from './Feed';
+import * as actions from '../../services/issues';
+import * as requestTypes from '../../constants/request.types';
+import {
+    Container,
+    Segment,
+    Message,
+    Icon,
+    Tab,
+} from 'semantic-ui-react';
 
 class Issue extends React.Component {
     state = {loadedId: '', isLoadRequiredTried: false};
 
     componentDidMount() {
-        this.fetchDetails(this.props);
+        const id = this.props.match.params.id;
+        this.props.getIssueDetails(id);
     }
 
-    componentWillUpdate(nextProps, nextState, nextContext) {
-        this.fetchDetails(nextProps);
-    }
+    handleAddComment = (...args) => {
+        const {addComment, getIssueDetails, current} = this.props;
+        addComment(...args);
+        getIssueDetails(current.get('_id'));
+    };
 
-    fetchDetails = (props) => {
-        const isLoadRequired = this.props.current.get('reloadRequired');
-        const {loadedId, isLoadRequiredTried} = this.state;
-
-        const id = props.match.params.id;
-        if (id !== loadedId || (isLoadRequired && !isLoadRequiredTried)) {
-            this.setState({loadedId: id, isLoadRequiredTried: isLoadRequired});
-            this.props.getIssueDetails(id);
-        }
+    handleChangeAssignee = (...args) => {
+        const {changeAssignee, getIssueDetails, current} = this.props;
+        changeAssignee(...args);
+        getIssueDetails(current.get('_id'));
     };
 
     render() {
-        const {current, currentUser, isLoading, addComment, changeAssignee} = this.props;
+        const {current, loading} = this.props;
 
-        if (!current || !current.get('assignees')) {
-            this.fetchDetails(this.props);
-            return <Segment loading/>
+        if (loading) {
+            return <Message>
+                <Icon name='circle notched' loading/>
+                <Message.Header>
+                    باز آوری
+                </Message.Header>
+                <Message.Header>
+                    لطفا کمی منتظر بمانید..
+                </Message.Header>
+            </Message>
         }
-
-        let activeAssignee = current.get('assignees').first();
-        if (!activeAssignee || activeAssignee.getIn(['user', '_id']) !== currentUser.get('_id')) {
-            activeAssignee = null;
+        if (!current || !current.get('assignees')) {
+            return <Message>
+                <Icon name='circle notched'/>
+                <Message.Header>
+                    باز آوری
+                </Message.Header>
+                <Message.Header>
+                    باز آوری انجام نشد.
+                </Message.Header>
+            </Message>
         }
 
         return <Container>
-            <Header issue={current} loading={isLoading}/>
-            <Segment loading={isLoading}>
+            <Header issue={current}/>
+            <Segment>
                 <Tab
                     panes={[
                         {
                             menuItem: {key: 'feed', icon: 'feed', content: 'یادداشت ها'},
                             render: () => <Tab.Pane><Feed issue={current}
-                                                          onAddComment={addComment}
-                                                          onChangeAssignee={changeAssignee}/></Tab.Pane>
+                                                          onAddComment={this.handleAddComment}
+                                                          onChangeAssignee={this.handleChangeAssignee}/></Tab.Pane>
                         }, {
                             menuItem: {key: 'attachments', icon: 'attach', content: 'پیوست ها'},
                             render: () => <Tab.Pane>Attachments goes here </Tab.Pane>
@@ -69,14 +86,14 @@ class Issue extends React.Component {
 }
 
 Issue.propTypes = {
-    isLoading: propTypes.bool,
+    loading: propTypes.bool,
     current: propTypes.instanceOf(Map),
     addComment: propTypes.func.isRequired,
     getIssueDetails: propTypes.func.isRequired,
 };
 
 Issue.defaultProps = {
-    isLoading: false,
+    loading: false,
     current: Map(),
     currentUser: Map(),
 };
@@ -84,9 +101,9 @@ Issue.defaultProps = {
 function mapStateToProps(state) {
     return {
         current: state.issues.get('current'),
-        isLoading: state.requests.get(requestTypes.LOAD_ISSUE_LIST),
+        loading: state.requests.get(requestTypes.LOAD_ISSUE_DETAILS),
         currentUser: state.users.getIn(['session', 'user']),
     }
 }
 
-export default connect(mapStateToProps, issueActions)(Issue);
+export default connect(mapStateToProps, actions)(Issue);
