@@ -5,32 +5,43 @@ import {connect} from 'react-redux';
 import IssueList from './IssueList';
 import * as issueActions from '../../services/issues';
 import * as requestTypes from '../../constants/request.types';
+import {queryOptions, statusOptions} from '../../utils/combo-items';
 import {
-    Button, Dropdown,
+    Button,
+    Dropdown,
     Segment
 } from "semantic-ui-react";
-import {queryOptions} from '../../utils/combo-items';
 
 class Dashboard extends React.Component {
 
-    state = {query: ['created', 'assignee']};
+    state = {
+        types: ['created', 'assignee'],
+        statuses: ['open'],
+    };
 
-    handleQueryChanged = (e, {value}) => {
-        this.setState({query: value});
+    handleTypeChanged = (e, {value}) => {
+        this.setState({types: value});
+    };
+
+    handleStatusesChanged = (e, {value}) => {
+        this.setState({statuses: value});
     };
 
     handleRefreshButton = () => {
         const {reloadIssues} = this.props;
-        const {query} = this.state;
-        if (query.length > 0) {
-            reloadIssues({types: JSON.stringify(query)});
+        const {types, statuses} = this.state;
+        if (types.length > 0) {
+            reloadIssues({
+                types: JSON.stringify(types),
+                statuses: JSON.stringify(statuses),
+            });
         }
     };
 
     render() {
         const {issues, isLoading} = this.props;
-        const {query} = this.state;
-        const refreshButtonDisabled = !(query.length);
+        const {types, statuses} = this.state;
+        const refreshButtonDisabled = !(types.length);
 
         return (<div>
             <Segment>
@@ -40,10 +51,15 @@ class Dashboard extends React.Component {
                         onClick={this.handleRefreshButton}
                 />
 
-                <Dropdown placeholder='State' multiple selection
+                <Dropdown placeholder='Relative' multiple selection
                           options={queryOptions}
-                          value={query}
-                          onChange={this.handleQueryChanged}
+                          value={types}
+                          onChange={this.handleTypeChanged}
+                />
+                <Dropdown placeholder='State' multiple selection
+                          options={statusOptions}
+                          value={statuses}
+                          onChange={this.handleStatusesChanged}
                 />
             </Segment>
             <IssueList issues={issues}/>

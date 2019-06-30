@@ -1,7 +1,7 @@
 const Joi = require('@hapi/joi');
 const Boom = require('@hapi/boom');
 const Issue = require('../../models/issue');
-const CONSTANTS = require('../../core/constants').query.issue;
+const CONSTANTS = require('../../core/constants');
 
 /**
  * Controller and Validator for [GET issues] route.
@@ -23,29 +23,28 @@ module.exports = async function (server, options) {
 const validate = {
     query: Joi.object({
         limit: Joi.number().default(10).max(100),
-        types: Joi.array().items(Joi.string().valid(CONSTANTS.getIssueList)).required(),
+        types: Joi.array().items(Joi.string().valid(CONSTANTS.query.issue.getIssueList)).required(),
+        statuses: Joi.array().items(Joi.string().valid(CONSTANTS.mongo.issue.statuses)),
     })
 };
 
 const handler = async function (request) {
     const currentUser = request.auth.credentials;
-    const {limit, types} = request.query;
+    const {limit, types, statuses} = request.query;
 
+    let status = statuses.length > 0 ? statuses : ['open'];
     let criteria = [];
     types.forEach(type => {
         //['created', 'assignee', 'assigned', 'permitted'],
         switch (type) {
-            case 'draft':
-                criteria.push({'created.by': currentUser._id, 'statuses.0.id': 'draft'});
-                break;
             case 'created':
-                criteria.push({'created.by': currentUser._id, 'statuses.0.id': {$ne: 'draft'}});
+                criteria.push({'created.by': currentUser._id, 'statuses.0.id': {$in: statuses}});
                 break;
             case 'assignee':
-                criteria.push({'assignees.0.user': currentUser._id});
+                criteria.push({'assignees.0.user': currentUser._id, 'statuses.0.id': {$in: statuses}});
                 break;
             case 'assigned':
-                criteria.push({'assignees.user': currentUser._id});
+                criteria.push({'assignees.user': currentUser._id, 'statuses.0.id': {$in: statuses}});
                 break;
             case 'permitted':
                 //::TODO search by ability

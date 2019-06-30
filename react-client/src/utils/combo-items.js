@@ -39,9 +39,9 @@ export const statusOptions = [
  */
 export const queryOptions = [
     {key: 'created', value: 'created', icon: 'edit', text: 'ایجادی'},
-    {key: 'assignee', value: 'assignee', icon: 'external alternate', text: 'ارجاع'},
-    {key: 'assigned', value: 'assigned', icon: 'external square alternate', text: 'ارجاع گذشته'},
-    {key: 'permitted', value: 'permitted', icon: 'grav', text: 'مجوزدار'},
+    {key: 'assignee', value: 'assignee', icon: 'external alternate', text: 'ارجاعی'},
+    {key: 'assigned', value: 'assigned', icon: 'external square alternate', text: 'ارجاع در گذشته'},
+    {key: 'permitted', value: 'permitted', icon: 'grav', text: 'مجوز دار'},
 ];
 
 /**
