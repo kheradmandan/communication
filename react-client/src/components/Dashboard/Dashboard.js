@@ -1,10 +1,10 @@
 import React from 'react'
 import propTypes from 'prop-types'
-import {List} from "immutable";
-import {connect} from "react-redux";
-import IssueList from "../IssueList/IssueList";
+import {List} from 'immutable';
+import {connect} from 'react-redux';
+import IssueList from './IssueList';
 import * as issueActions from '../../services/issues';
-import * as requestTypes from "../../constants/request.types";
+import * as requestTypes from '../../constants/request.types';
 import {
     Button,
     Segment

@@ -2,8 +2,8 @@ import React from 'react';
 import propTypes from 'prop-types';
 import {List} from 'immutable';
 import {Link} from 'react-router-dom';
-import User from '../User';
-import LocaleDate from '../LocaleDate';
+import User from '../../User';
+import LocaleDate from '../../LocaleDate';
 import {
     Button, Table
 } from 'semantic-ui-react';
