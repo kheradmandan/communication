@@ -34,6 +34,17 @@ export const statusOptions = [
 ];
 
 /**
+ * Query titles
+ * @type {*[]}
+ */
+export const queryOptions = [
+    {key: 'created', value: 'created', icon: 'edit', text: 'ایجادی'},
+    {key: 'assignee', value: 'assignee', icon: 'external alternate', text: 'ارجاع'},
+    {key: 'assigned', value: 'assigned', icon: 'external square alternate', text: 'ارجاع گذشته'},
+    {key: 'permitted', value: 'permitted', icon: 'grav', text: 'مجوزدار'},
+];
+
+/**
  * Explore in options to find corresponding key
  * @param value
  * @param options
