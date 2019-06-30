@@ -16,10 +16,10 @@ export const assigneeTitlesOptions = [
  * @type {*[]}
  */
 export const priorityOptions = [
-    {key: '0', value: 0, icon: 'meh', text: 'کم'},
-    {key: '1', value: 1, icon: 'idea', text: 'طبیعی'},
-    {key: '2', value: 2, icon: 'gripfire', text: 'زیاد'},
-    {key: '3', value: 3, icon: 'broken chain', text: 'بحرانی'},
+    {key: '0', value: 0, icon: 'meh', text: 'کم', color: 'gray'},
+    {key: '1', value: 1, icon: 'tree', text: 'طبیعی', color: 'green', cellStyle: {positive: true}},
+    {key: '2', value: 2, icon: 'gripfire', text: 'زیاد', color: 'yellow', cellStyle: {warning: true}},
+    {key: '3', value: 3, icon: 'broken chain', text: 'بحرانی', color: 'red', cellStyle: {negative: true}},
 ];
 
 /**
@@ -27,10 +27,38 @@ export const priorityOptions = [
  * @type {*[]}
  */
 export const statusOptions = [
-    {key: 'draft', value: 'draft', icon: 'firstdraft', text: 'پیش نویس'},
-    {key: 'open', value: 'open', icon: 'envelope open outline', text: 'باز'},
-    {key: 'closed', value: 'closed', icon: 'archive', text: 'بسته'},
-    {key: 'removed', value: 'removed', icon: 'remove from calendar', text: 'حذف شده'},
+    {
+        key: 'draft',
+        value: 'draft',
+        icon: 'firstdraft',
+        text: 'پیش نویس',
+        color: 'gray',
+        cellStyle: {}
+    },
+    {
+        key: 'open',
+        value: 'open',
+        icon: 'envelope open outline',
+        text: 'باز',
+        color: 'green',
+        cellStyle: {warning: true}
+    },
+    {
+        key: 'closed',
+        value: 'closed',
+        icon: 'archive',
+        text: 'بسته',
+        color: 'blue',
+        cellStyle: {positive: true}
+    },
+    {
+        key: 'removed',
+        value: 'removed',
+        icon: 'remove from calendar',
+        text: 'حذف شده',
+        color: 'yellow',
+        cellStyle: {negative: true}
+    },
 ];
 
 /**

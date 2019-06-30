@@ -5,8 +5,9 @@ import {Link} from 'react-router-dom';
 import User from '../../User';
 import LocaleDate from '../../LocaleDate';
 import {
-    Button, Table
+    Button, Icon, Table
 } from 'semantic-ui-react';
+import {findKey, priorityOptions, statusOptions} from '../../../utils/combo-items';
 
 class IssueList extends React.Component {
     state = {
@@ -40,7 +41,7 @@ class IssueList extends React.Component {
         const {issues} = this.props;
         const orderedIssues = data != null ? data : issues;
 
-        return (<Table compact celled definition selectable color='red' sortable>
+        return (<Table compact celled selectable color='red' sortable>
             <Table.Header>
                 <Table.Row>
                     <MyHeader name='sequence'
@@ -111,20 +112,31 @@ class IssueList extends React.Component {
             </Table.Header>
             <Table.Body>
                 {
-                    orderedIssues.map(issue => (
-                        <Table.Row key={issue._id}>
-                            <Table.Cell textAlign='center'>{issue.get('sequence')} </Table.Cell>
-                            <Table.Cell><Link
-                                to={`/issue/${issue.get('_id')}/${issue.get('sequence')}/${issue.getIn(['era', 'origin', 'title'])}/${issue.getIn(['era', 'title'])}`}> {issue.get('title')} </Link></Table.Cell>
-                            <Table.Cell>{issue.getIn(['realm', 'title'])} </Table.Cell>
-                            <Table.Cell>{issue.getIn(['era', 'origin', 'title'])} </Table.Cell>
-                            <Table.Cell>{issue.getIn(['era', 'title'])} </Table.Cell>
-                            <Table.Cell><User source={issue.getIn(['assignees', 0, 'created', 'by'])}/> </Table.Cell>
-                            <Table.Cell><LocaleDate timestamp={issue.getIn(['assignees', 0, 'created', 'at'])}
-                                                    relative={true}/></Table.Cell>
-                            <Table.Cell>{issue.get('priorities').first().get('id')} </Table.Cell>
-                            <Table.Cell>{issue.get('statuses').first().get('id')} </Table.Cell>
-                        </Table.Row>))
+                    orderedIssues.map(issue => {
+                        const statueOption = findKey(issue.get('statuses').first().get('id'), statusOptions);
+                        const priorityOption = findKey(issue.get('priorities').first().get('id'), priorityOptions);
+                        return (
+                            <Table.Row key={issue._id}>
+                                <Table.Cell textAlign='center'>{issue.get('sequence')} </Table.Cell>
+                                <Table.Cell><Link
+                                    to={`/issue/${issue.get('_id')}/${issue.get('sequence')}/${issue.getIn(['era', 'origin', 'title'])}/${issue.getIn(['era', 'title'])}`}> {issue.get('title')} </Link></Table.Cell>
+                                <Table.Cell>{issue.getIn(['realm', 'title'])} </Table.Cell>
+                                <Table.Cell>{issue.getIn(['era', 'origin', 'title'])} </Table.Cell>
+                                <Table.Cell>{issue.getIn(['era', 'title'])} </Table.Cell>
+                                <Table.Cell><User source={issue.getIn(['assignees', 0, 'created', 'by'])}/>
+                                </Table.Cell>
+                                <Table.Cell><LocaleDate timestamp={issue.getIn(['assignees', 0, 'created', 'at'])}
+                                                        relative={true}/></Table.Cell>
+                                <Table.Cell {...priorityOption.cellStyle}>
+                                    <Icon name={priorityOption.icon}/>
+                                    {priorityOption.text}
+                                </Table.Cell>
+                                <Table.Cell {...statueOption.cellStyle}>
+                                    <Icon name={statueOption.icon}/>
+                                    {statueOption.text}
+                                </Table.Cell>
+                            </Table.Row>);
+                    })
                 }
             </Table.Body>
         </Table>)
