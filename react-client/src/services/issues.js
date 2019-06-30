@@ -9,9 +9,10 @@ import {
 } from '../constants/request.types';
 
 export const reloadIssues =
-    () =>
+    (query) =>
         getApi({
             url: '/issues',
+            params: query,
             title: LOAD_ISSUE_LIST,
             dispatches: [actions.reload],
         });

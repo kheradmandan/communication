@@ -19,17 +19,32 @@ class Dashboard extends React.Component {
         this.setState({query: value});
     };
 
+    handleRefreshButton = () => {
+        const {reloadIssues} = this.props;
+        const {query} = this.state;
+        if (query.length > 0) {
+            reloadIssues({query});
+        }
+    };
+
     render() {
-        const {issues, reloadIssues, isLoading} = this.props;
+        const {issues, isLoading} = this.props;
         const {query} = this.state;
         const refreshButtonDisabled = !(query.length);
 
         return (<div>
             <Segment>
-                <Button circular primary icon='refresh' onClick={reloadIssues} loading={isLoading}
-                        disabled={refreshButtonDisabled}/>
-                <Dropdown options={queryOptions} value={query} onChange={this.handleQueryChanged} placeholder='State'
-                          multiple selection/>
+                <Button circular primary icon='refresh'
+                        loading={isLoading}
+                        disabled={refreshButtonDisabled}
+                        onClick={this.handleRefreshButton}
+                />
+
+                <Dropdown placeholder='State' multiple selection
+                          options={queryOptions}
+                          value={query}
+                          onChange={this.handleQueryChanged}
+                />
             </Segment>
             <IssueList issues={issues}/>
         </div>)
