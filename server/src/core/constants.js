@@ -40,6 +40,12 @@ module.exports.mongo = {
     }
 };
 
+module.exports.query = {
+    issue: {
+        getIssueList: ['created', 'assignee', 'assigned', 'permitted'],
+    }
+};
+
 module.exports.joi = {
     objectId: (Joi) => Joi.string().regex(/^[0-9a-fA-F]{24}$/, 'ObjectId')
 };
