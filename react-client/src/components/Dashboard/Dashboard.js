@@ -23,7 +23,7 @@ class Dashboard extends React.Component {
         const {reloadIssues} = this.props;
         const {query} = this.state;
         if (query.length > 0) {
-            reloadIssues({query});
+            reloadIssues({types: JSON.stringify(query)});
         }
     };
 

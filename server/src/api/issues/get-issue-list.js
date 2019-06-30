@@ -23,14 +23,13 @@ module.exports = async function (server, options) {
 const validate = {
     query: Joi.object({
         limit: Joi.number().default(10).max(100),
-        'type[]': Joi.array().items(Joi.string().valid(CONSTANTS.getIssueList)).required(),
+        types: Joi.array().items(Joi.string().valid(CONSTANTS.getIssueList)).required(),
     })
 };
 
 const handler = async function (request) {
     const currentUser = request.auth.credentials;
-    const {limit} = request.query;
-    const types = request.query['type[]'] || ['assignee'];
+    const {limit, types} = request.query;
 
     let criteria = [];
     types.forEach(type => {
