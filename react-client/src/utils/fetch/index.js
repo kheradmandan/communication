@@ -9,6 +9,7 @@ import {checkRequestProgress} from '../checkRequestProgress';
  * @property {String} title log purposes and prevent multiple calls
  * @property {Array.<function.<Object>>} dispatches
  * @property {Object|undefined} data payload to send [in post requests]
+ * @property {Object|undefined} params query to send [in get requests]
  * @property {function|undefined} onSuccess extra actions on success
  * @property {function|undefined} onFailure extra actions on failure
  */
@@ -39,7 +40,7 @@ export function postApi(options) {
 }
 
 // helpers
-const produceGetCall = ({url}) => remoteApiEngine.get(remoteUrl(url));
+const produceGetCall = ({url, params}) => remoteApiEngine.get(remoteUrl(url), {params});
 const producePostCall = ({url, data}) => remoteApiEngine.post(remoteUrl(url), data);
 
 /**
