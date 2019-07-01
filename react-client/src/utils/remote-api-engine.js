@@ -3,7 +3,8 @@ import {remoteBaseUrl} from "./remote-utils";
 
 export const remoteApiEngine = axios.create({
     baseURL: remoteBaseUrl,
-    responseType: 'json'
+    responseType: 'json',
+    headers: {'Access-Control-Allow-Origin': '*'}
 });
 
 export function setAuthorization(token) {
